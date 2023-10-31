@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { isNavOpen, closeNav } = useNav();
+
 useBackdrop(closeNav);
 </script>
 
@@ -10,7 +11,7 @@ useBackdrop(closeNav);
       <Hamburger />
       <div
         :class="isNavOpen ? ['translate-x-[0rem]'] : ['-translate-x-[50rem]']"
-        class="absolute z-50 top-0 rounded-r-2xl sm:rounded-r-none left-0 sm:relative w-10/12 nav-list-div min-h-screen sm:min-h-full flex-grow bg-white py-4 sm:py-0 sm:flex sm:items-center sm:translate-x-0 sm:ml-4 sm:w-auto transition ease-in-out"
+        class="list-div absolute z-50 top-0 rounded-r-2xl sm:rounded-r-none left-0 sm:relative w-10/12 nav-list-div min-h-screen sm:min-h-full flex-grow bg-white py-4 sm:py-0 sm:flex sm:items-center sm:translate-x-0 sm:ml-4 sm:w-auto transition ease-in-out"
       >
         <NavList />
       </div>
