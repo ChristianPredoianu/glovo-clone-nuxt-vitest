@@ -5,7 +5,7 @@ import { mountSuspended } from 'nuxt-vitest/utils';
 import Backdrop from '@/components/ui/Backdrop.vue';
 
 describe('Backdrop', () => {
-  it('should close the backdrop when it is clicked', async () => {
+  it('should be closed', async () => {
     const wrapper = mount(Backdrop);
 
     const backdrop = wrapper.find('div');
