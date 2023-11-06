@@ -2,7 +2,6 @@
 
 <template>
   <div>
-    <Backdrop />
     <AppHeader />
     <NuxtPage />
   </div>
