@@ -1,12 +1,22 @@
-import { it, expect, vi } from 'vitest';
-
+import { it, describe, expect, vi } from 'vitest';
 import { mountSuspended } from 'nuxt-vitest/utils';
-import AppHeader from '@/components/header/AppHeader.vue';
+import { shallowMount } from '@vue/test-utils';
+import Hamburger from '@/components/header/Hamburger.vue';
 
-import { useNav } from '@/composables/useNav';
+describe('Hamburger', () => {
+  it('should toggle navigation menu on hamburger button click', async () => {
+    const wrapper = await mountSuspended(Hamburger);
+    /*  const wrapper = shallowMount(Hamburger); */
 
-const { openNav, closeNav } = useNav();
+    /*  const spy = vi.spyOn(useNav, 'openNav'); */
+    const spy = vi.spyOn(wrapper.vm, 'openNavigation');
+    /* const mock = vi.fn().mockImplementation(openNav); */
+    /* const spy = vi.spyOn(wrapper.vm, 'openNavigation'); */
 
-it('should toggle navigation menu on hamburger button click', async () => {
-  const wrapper = await mountSuspended(AppHeader);
+    const btn = wrapper.find('button');
+    await btn.trigger('click');
+    await wrapper.vm.openNavigation();
+
+    expect(spy).toHaveBeenCalled();
+  });
 });
