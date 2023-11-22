@@ -5,6 +5,7 @@ const { openBackdrop } = useBackdrop();
 function openNavigation() {
   openNav();
   openBackdrop();
+  console.log('open');
 }
 </script>
 
