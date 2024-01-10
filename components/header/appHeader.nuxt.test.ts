@@ -1,22 +1,14 @@
-import { it, expect, vi } from 'vitest';
-
-import { mountSuspended } from 'nuxt-vitest/utils';
+import { describe, it, expect } from 'vitest';
+import { mount } from '@vue/test-utils';
 import AppHeader from '@/components/header/AppHeader.vue';
+import Hamburger from '@/components/header/Hamburger.vue';
 
-it('should close the navigation when the backdrop is clicked', async () => {
-  const wrapper = await mountSuspended(AppHeader);
+describe('AppHeader', () => {
+  it('should show nav list', async () => {
+    const appHeaderWrapper = mount(AppHeader);
 
-  /*   const hamburger = wrapper.findComponent({ name: 'Hamburger' });
-  const listDiv = wrapper.find('.list-div');
+    const navListDiv = appHeaderWrapper.find('#nav-list-div');
 
-  expect(listDiv.classes()).toContain('closed');
-  const test = hamburger.find('button');
-
-  await test.trigger('click');
-
-  expect(listDiv.classes()).toContain('opened');
-
-  await test.trigger('click');
-
-  expect(listDiv.classes()).toContain('closed'); */
+    expect(navListDiv.classes()).toContain('-translate-x-[50rem]');
+  });
 });
