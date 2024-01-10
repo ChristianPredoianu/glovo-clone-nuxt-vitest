@@ -4,7 +4,7 @@ import Hamburger from '@/components/header/Hamburger.vue';
 import AppHeader from '@/components/header/AppHeader.vue';
 
 describe('Hamburger', () => {
-  it('should toggle navigation menu on hamburger button click', async () => {
+  it('should open navigation menu on hamburger button click', async () => {
     const hamburgerWrapper = mount(Hamburger);
     const appHeaderWrapper = mount(AppHeader);
 
