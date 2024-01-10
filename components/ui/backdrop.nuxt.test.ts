@@ -1,3 +1,4 @@
+import { nextTick } from 'vue';
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Backdrop from '@/components/ui/Backdrop.vue';
@@ -13,7 +14,7 @@ describe('Backdrop', () => {
     expect(backdrop.exists()).toBe(false);
   });
 
-  it('should be opened', async () => {
+  it('should be opened when clicking hamburger', async () => {
     const hamburger = hamburgerWrapper.find('button');
 
     await hamburger.trigger('click');
@@ -21,5 +22,13 @@ describe('Backdrop', () => {
     const backdrop = backdropWrapper.find('div');
 
     expect(backdrop.classes()).toContain('w-full');
+  });
+
+  it('should be closed when clicking backdrop', async () => {
+    const backdrop = backdropWrapper.find('div');
+
+    await backdrop.trigger('click');
+
+    expect(backdrop.exists()).toBe(false);
   });
 });
