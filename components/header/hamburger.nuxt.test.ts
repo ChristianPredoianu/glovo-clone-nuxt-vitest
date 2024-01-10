@@ -10,8 +10,8 @@ describe('Hamburger', () => {
 
     const navListDiv = appHeaderWrapper.find('#test');
 
-    const btn = hamburgerWrapper.find('button');
-    await btn.trigger('click');
+    const hamburger = hamburgerWrapper.find('button');
+    await hamburger.trigger('click');
 
     expect(navListDiv.classes()).toContain('translate-x-[0rem]');
   });
