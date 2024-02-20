@@ -1,7 +1,20 @@
 <script setup lang="ts">
 const { isNavOpen, closeNav } = useNav();
 
-useBackdrop(closeNav);
+const { closeBackdrop } = useBackdrop(closeNav);
+
+function closeNavOnResize() {
+  closeNav();
+  closeBackdrop();
+}
+
+onMounted(() => {
+  window.addEventListener('resize', closeNavOnResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', closeNavOnResize);
+});
 </script>
 
 <template>
@@ -10,7 +23,6 @@ useBackdrop(closeNav);
       <Logo />
       <Backdrop />
       <Hamburger />
-
       <div
         id="nav-list-div"
         :class="isNavOpen ? ['translate-x-[0rem]'] : ['-translate-x-[50rem]']"
