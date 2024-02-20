@@ -1,33 +1,21 @@
 <script setup lang="ts">
+import { navLinks } from '@/data/navLinks';
+
 const { screenWidth } = useScreenWidth();
 </script>
 <template>
-  <ul class="text-sm flex flex-col gap-4 sm:flex-row bg-red-500">
-    <div class="flex items-center justify-between">
-      <li class="block sm:inline-block text-teal-lighter hover:text-white mr-4">Home</li>
-      <font-awesome-icon :icon="['fas', 'arrow-left']" v-if="screenWidth < 640" />
-    </div>
-    <div class="flex items-center justify-between">
-      <li class="block sm:inline-block text-teal-lighter hover:text-white mr-4">
-        Search
+  <ul class="text-sm flex flex-col gap-4 sm:flex-row">
+    <div
+      class="flex items-center justify-between"
+      v-for="navLink in navLinks"
+      key="title"
+    >
+      <li
+        class="block sm:inline-block text-teal-lighter hover:text-white cursor-pointer sm:mr-4"
+      >
+        {{ navLink.title }}
       </li>
-      <font-awesome-icon :icon="['fas', 'arrow-left']" v-if="screenWidth < 640" />
-    </div>
-    <div class="flex items-center justify-between">
-      <li class="block sm:inline-block text-teal-lighter hover:text-white mr-4">Cart</li>
-      <font-awesome-icon :icon="['fas', 'arrow-left']" v-if="screenWidth < 640" />
-    </div>
-    <div class="flex items-center justify-between">
-      <li class="block sm:inline-block text-teal-lighter hover:text-white mr-4">
-        My Orders
-      </li>
-      <font-awesome-icon :icon="['fas', 'arrow-left']" v-if="screenWidth < 640" />
-    </div>
-    <div class="flex items-center justify-between">
-      <li class="block sm:inline-block text-teal-lighter hover:text-white mr-4">
-        My Account
-      </li>
-      <font-awesome-icon :icon="['fas', 'arrow-left']" v-if="screenWidth < 640" />
+      <font-awesome-icon :icon="navLink.icon" v-if="screenWidth < 640" />
     </div>
   </ul>
 </template>
