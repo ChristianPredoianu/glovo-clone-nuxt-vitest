@@ -1,18 +1,24 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 
 export function useScreenWidth() {
-  const screenWidth = ref<number>(window.innerWidth);
+  const screenWidth = useState<boolean | number>('screenWidth', () =>
+    process.client ? window.innerWidth : 0
+  );
 
   function changeWidth() {
     screenWidth.value = window.innerWidth;
   }
 
   onMounted(() => {
-    window.addEventListener('resize', changeWidth);
+    if (process.client) {
+      window.addEventListener('resize', changeWidth);
+    }
   });
 
   onUnmounted(() => {
-    window.removeEventListener('resize', changeWidth);
+    if (process.client) {
+      window.removeEventListener('resize', changeWidth);
+    }
   });
 
   return { screenWidth } as const;
