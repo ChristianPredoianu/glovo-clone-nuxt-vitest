@@ -9,5 +9,5 @@ export function useNav() {
     isNavOpen.value = false;
   }
 
-  return { isNavOpen, openNav, closeNav };
+  return { isNavOpen, openNav, closeNav } as const;
 }
