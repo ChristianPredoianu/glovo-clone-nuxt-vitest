@@ -8,7 +8,7 @@ describe('Hamburger', () => {
     const hamburgerWrapper = mount(Hamburger);
     const appHeaderWrapper = mount(AppHeader);
 
-    const navListDiv = appHeaderWrapper.find('#test');
+    const navListDiv = appHeaderWrapper.find('#nav-list-div');
 
     const hamburger = hamburgerWrapper.find('button');
     await hamburger.trigger('click');
