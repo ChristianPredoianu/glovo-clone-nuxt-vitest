@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { isNavOpen, closeNav } = useNav();
-
 const { closeBackdrop } = useBackdrop(closeNav);
 
 function closeNavOnResize() {
