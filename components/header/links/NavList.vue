@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { navLinks } from '@/data/navLinks.ts';
-console.log(navLinks);
 </script>
 
 <template>
