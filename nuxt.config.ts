@@ -19,5 +19,6 @@ export default defineNuxtConfig({
     { path: '@/components/header', extensions: ['vue'] },
     { path: '@/components/header/links', extensions: ['vue'] },
     { path: '@/components/ui', extensions: ['vue'] },
+    { path: '@/components/forms', extensions: ['vue'] },
   ],
 });
