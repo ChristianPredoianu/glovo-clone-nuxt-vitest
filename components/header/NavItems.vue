@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { screenWidth, setInitialWidth } = useScreenWidth();
+const { screenWidth } = useScreenWidth();
 const { closeNav } = useNav();
 const { closeBackdrop } = useBackdrop(closeNav);
 </script>
