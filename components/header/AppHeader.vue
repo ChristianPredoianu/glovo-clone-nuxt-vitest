@@ -1,16 +1,12 @@
 <script setup lang="ts">
 const { isNavOpen, closeNav } = useNav();
 const { closeBackdrop } = useBackdrop(closeNav);
-const { screenWidth, setInitialWidth } = useScreenWidth();
+const { screenWidth } = useScreenWidth();
 
 function closeNavOnResize() {
   closeNav();
   closeBackdrop();
 }
-
-onMounted(() => {
-  console.log(screenWidth.value);
-});
 
 onMounted(() => {
   window.addEventListener('resize', closeNavOnResize);
@@ -22,7 +18,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <header class="relative bg-yellow-300" v-if="screenWidth">
+  <header class="relative bg-yellow-400" v-if="screenWidth">
     <nav class="flex items-center justify-between flex-wrap container mx-auto p-4">
       <Logo />
       <Backdrop />
