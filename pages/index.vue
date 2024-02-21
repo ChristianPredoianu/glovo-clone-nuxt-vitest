@@ -11,6 +11,9 @@
       <div class="bg-yellow-400 text-center">
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
         <p class="mt-2 font-medium md:font-xl">Groceries, shops, pharmacies, anything!</p>
+        <div class="input-container relative mt-8">
+          <AdressForm />
+        </div>
       </div>
     </div>
   </section>
