@@ -4,6 +4,8 @@ const inputRef = useState<string>('inputRef', () => '');
 const locationIconRef = ref<HTMLInputElement | null>(null);
 const locationTextRef = ref<HTMLSpanElement | null>(null);
 
+const emit = defineEmits(['inputRefEmit']);
+
 function handleInputElements() {
   if (inputRef) {
     inputRef.valueOf.length > 20;
@@ -15,6 +17,12 @@ function handleInputElements() {
       locationTextRef.value?.classList.remove('md:hidden');
     }
   }
+}
+
+function handleOnChange() {
+  handleInputElements();
+  console.log(inputRef.value);
+  emit('inputRefEmit', inputRef.value);
 }
 </script>
 
@@ -28,7 +36,7 @@ function handleInputElements() {
       placeholder="What's your address?"
       class="py-3 px-12 w-full rounded-md"
       v-model="inputRef"
-      @input="handleInputElements"
+      @input="handleOnChange"
     />
     <span class="location-icon hidden md:block" ref="locationIconRef">
       <font-awesome-icon
