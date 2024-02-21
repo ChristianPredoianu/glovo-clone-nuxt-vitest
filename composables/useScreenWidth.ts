@@ -9,9 +9,16 @@ export function useScreenWidth() {
     screenWidth.value = window.innerWidth;
   }
 
+  function setInitialWidth() {
+    if (process.client) {
+      screenWidth.value = window.innerWidth;
+    }
+  }
+
   onMounted(() => {
     if (process.client) {
       window.addEventListener('resize', changeWidth);
+      setInitialWidth();
     }
   });
 
@@ -21,5 +28,5 @@ export function useScreenWidth() {
     }
   });
 
-  return { screenWidth } as const;
+  return { screenWidth, setInitialWidth } as const;
 }
