@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import type { ILocationsData } from '@/interfaces/locations.interface';
+const runtimeConfig = useRuntimeConfig();
 
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
-const locationsData: Ref<ILocationsData[]> = useState<ILocationsData[]>(
-  'locationsData',
-  () => []
-);
+const locationsData = useState<ILocationsData[]>('locationsData', () => []);
 
 function handleEmit(searchQuery: string) {
   emittedInputRef.value = searchQuery;
 }
-
+console.log(runtimeConfig.public.API_KEY);
 watch(emittedInputRef, async (newVal) => {
-  const response = await useFetch(
-    `https://api.locationiq.com/v1/autocomplete?key=pk.a75cdfe1cc307b34218d8021f4122dc6&q=${newVal}&limit=5`
+  const response = await useFetch<ILocationsData[]>(
+    `${runtimeConfig.public.API_KEY}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${newVal}&limit=5`
   );
-  if (response.data !== undefined) locationsData.value = response.data;
+  if (response.data !== undefined) {
+    locationsData.value = response.data.value as ILocationsData[];
+  }
 });
 </script>
 
