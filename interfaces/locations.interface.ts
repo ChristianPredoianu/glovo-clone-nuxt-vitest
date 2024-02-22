@@ -1,4 +1,4 @@
 export interface ILocationsData {
-  id: number;
+  place_id: number;
   display_name: string;
 }
