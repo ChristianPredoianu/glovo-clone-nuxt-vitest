@@ -1,5 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    public: {
+      API_KEY: process.env.NUXT_API_KEY,
+      API_LOCATIONS_BASEURL: process.env.NUXT_API_LOCATIONS_BASEURL,
+    },
+  },
+
   devtools: { enabled: true },
 
   modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', 'nuxt-vitest'],
