@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import type { ILocationsData } from '@/interfaces/locations.interface';
-const runtimeConfig = useRuntimeConfig();
 
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
 const locationsData = useState<ILocationsData[]>('locationsData', () => []);
 
+const baseUrl = 'https://api.locationiq.com/v1/autocomplete?key=';
+
 function handleEmit(searchQuery: string) {
   emittedInputRef.value = searchQuery;
 }
-console.log(runtimeConfig.public.API_KEY);
+
 watch(emittedInputRef, async (newVal) => {
   const response = await useFetch<ILocationsData[]>(
-    `${runtimeConfig.public.API_KEY}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${newVal}&limit=5`
+    `${baseUrl}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${newVal}&limit=5`
   );
   if (response.data !== undefined) {
     locationsData.value = response.data.value as ILocationsData[];
@@ -44,5 +45,4 @@ watch(emittedInputRef, async (newVal) => {
       d="M0,32L60,48C120,64,240,96,360,106.7C480,117,600,107,720,122.7C840,139,960,181,1080,170.7C1200,160,1320,96,1380,64L1440,32L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
     ></path>
   </svg>
-  <p>{{ locationsData }}</p>
 </template>
