@@ -1,21 +1,19 @@
 <script setup lang="ts">
-import type { ILocationsData } from '@/interfaces/locations.interface';
+import type { ILocationsData, ILocationsOption } from '@/interfaces/locations.interface';
 
 const props = defineProps<{
   locationsData: ILocationsData[];
 }>();
 
 const isOpen = useState<boolean>('isOpen', () => true);
-
-const selectedOption = ref('Select an option');
-const options = ref(['Option 1', 'Option 2', 'Option 3']);
+const selectedOption = useState<string>('selectedOption', () => 'Select an option');
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const selectOption = (option) => {
-  selectedOption.value = option;
+const selectOption = (option: ILocationsOption) => {
+  selectedOption.value = option.display_name;
   isOpen.value = false;
 };
 </script>
