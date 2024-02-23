@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { ILocationsData } from '@/interfaces/locations.interface';
 
+const { fetchData, data } = useApi();
+
 const runtimeConfig = useRuntimeConfig();
 
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
@@ -11,12 +13,10 @@ function handleEmittedSearchQuery(searchQuery: string) {
 }
 
 watch(emittedInputRef, async (newVal) => {
-  const response = await useFetch<ILocationsData[]>(
-    `${runtimeConfig.public.apiBase}${runtimeConfig.apiSecret}=${newVal}&limit=5`
+  await fetchData(
+    `${runtimeConfig.public.apiBase}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${newVal}&limit=5`
   );
-  if (response.data !== null) {
-    locationsData.value = response.data.value as ILocationsData[];
-  }
+  if (data !== null) locationsData.value = data.value as ILocationsData[];
 });
 </script>
 
