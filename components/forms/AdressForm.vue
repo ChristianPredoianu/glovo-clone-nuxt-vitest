@@ -6,6 +6,10 @@ const locationTextRef = ref<HTMLSpanElement | null>(null);
 
 const emit = defineEmits(['inputRefEmit']);
 
+const { latitude, longitude, error, getLocation } = useGeolocation();
+
+console.log(latitude);
+
 function handleInputElements() {
   if (inputRef) {
     inputRef.valueOf.length > 20;
@@ -21,7 +25,6 @@ function handleInputElements() {
 
 function handleOnChange() {
   handleInputElements();
-  console.log(inputRef.value);
   emit('inputRefEmit', inputRef.value);
 }
 </script>
@@ -41,12 +44,14 @@ function handleOnChange() {
     <span class="location-icon hidden md:block" ref="locationIconRef">
       <font-awesome-icon
         :icon="['fas', 'location-arrow']"
-        class="absolute top-2 translate-x-1/2 left-50 bg-slate-200 p-2 rounded-2xl"
+        class="absolute top-2 translate-x-1/2 left-50 bg-slate-200 p-2 rounded-2xl cursor-pointer"
+        @click="getLocation"
       />
     </span>
     <span
-      class="location-text hidden text-sm text-green-600 font-bold md:block location-text absolute top-3.5 translate-x-1/2 right-20"
+      class="location-text hidden text-sm text-green-600 font-bold md:block location-text absolute top-3.5 translate-x-1/2 right-20 cursor-pointer"
       ref="locationTextRef"
+      @click="getLocation"
       >Use current location</span
     >
   </div>
