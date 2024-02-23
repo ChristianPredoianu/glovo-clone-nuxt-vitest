@@ -16,7 +16,7 @@ export function useApi<T>() {
 
       data.value = await response.json();
     } catch (err) {
-      const errorMessage = (err as Error).message; // Casting 'err' to 'Error'
+      const errorMessage = (err as Error).message;
       console.error('Error fetching data:', errorMessage);
       error.value = errorMessage;
     } finally {
