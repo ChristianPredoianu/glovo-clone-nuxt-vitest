@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import type { ILocationsData } from '@/interfaces/locations.interface';
 
+const runtimeConfig = useRuntimeConfig();
+
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
 const locationsData = useState<ILocationsData[]>('locationsData', () => []);
 
-const baseUrl = 'https://api.locationiq.com/v1/autocomplete?key=';
-
-function handleEmit(searchQuery: string) {
+function handleEmittedSearchQuery(searchQuery: string) {
   emittedInputRef.value = searchQuery;
 }
 
 watch(emittedInputRef, async (newVal) => {
   const response = await useFetch<ILocationsData[]>(
-    `${baseUrl}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${newVal}&limit=5`
+    `${runtimeConfig.public.apiBase}${runtimeConfig.apiSecret}=${newVal}&limit=5`
   );
-  if (response.data !== undefined) {
+  if (response.data !== null) {
     locationsData.value = response.data.value as ILocationsData[];
   }
 });
@@ -32,7 +32,7 @@ watch(emittedInputRef, async (newVal) => {
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
         <p class="mt-2 font-medium md:font-xl">Groceries, shops, pharmacies, anything!</p>
         <div class="input-container relative mt-8">
-          <AdressForm @inputRefEmit="handleEmit" />
+          <AdressForm @inputRefEmit="handleEmittedSearchQuery" />
         </div>
         <Dropdown :locationsData="locationsData" />
       </div>
