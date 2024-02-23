@@ -1,9 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   runtimeConfig: {
+    apiSecret: process.env.NUXT_PUBLIC_API_BASE,
     public: {
-      API_KEY: process.env.NUXT_API_KEY,
-      API_LOCATIONS_BASEURL: process.env.NUXT_API_LOCATIONS_BASEURL,
+      apiBase: process.env.NUXT_PUBLIC_API_BASE,
     },
   },
 
@@ -14,9 +14,7 @@ export default defineNuxtConfig({
     // Options
     families: {
       Raleway: {
-        // weights
         wght: [100, 400],
-        // italic
         ital: [100],
       },
     },
