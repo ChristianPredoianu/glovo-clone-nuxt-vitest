@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import type { ILocationsData } from '@/interfaces/locations.interface';
 
-const { fetchData, data } = useApi();
-
-const runtimeConfig = useRuntimeConfig();
-
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
 const locationsData = useState<ILocationsData[]>('locationsData', () => []);
+
+const { fetchData, data } = useApi();
+const runtimeConfig = useRuntimeConfig();
 
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInputRef.value = searchQuery;
