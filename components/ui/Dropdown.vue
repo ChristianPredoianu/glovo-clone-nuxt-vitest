@@ -2,7 +2,7 @@
 import type { ILocationsData, ILocationsOption } from '@/interfaces/locations.interface';
 
 const props = defineProps<{
-  locationsData: ILocationsData[];
+  locationsData: ILocationsData[] | null;
 }>();
 
 const isOpen = useState<boolean>('isOpen', () => true);
