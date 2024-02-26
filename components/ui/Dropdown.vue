@@ -1,11 +1,8 @@
 <script setup lang="ts">
-interface IOptions {
-  place_id: number;
-  display_name: string;
-}
+import type { ILocationOptions } from '@/interfaces/options.interface';
 
 const props = defineProps<{
-  options: { place_id: number; display_name: string }[];
+  options: ILocationOptions[];
 }>();
 
 console.log(props.options);
@@ -19,8 +16,8 @@ const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const selectOption = (option: IOptions) => {
-  selectedOption.value = option.display_name;
+const selectOption = (option: ILocationOptions) => {
+  selectedOption.value = option.text;
   isOpen.value = false;
 };
 </script>
@@ -34,11 +31,11 @@ const selectOption = (option: IOptions) => {
       <ul>
         <li
           v-for="option in props.options"
-          :key="option.place_id"
+          :key="option.id"
           class="py-2 px-4 hover:bg-gray-100 cursor-pointer"
           @click="selectOption(option)"
         >
-          {{ option.display_name }}
+          {{ option.text }}
         </li>
       </ul>
     </div>
