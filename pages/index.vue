@@ -1,19 +1,42 @@
 <script setup lang="ts">
-import type { ILocationOptions } from '@/interfaces/options.interface';
+import type { IDropdownOptions } from '@/interfaces/options.interface';
+import type { ILocationsData } from '@/interfaces/locations.interface';
 
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
+const emittedOptionRef = useState<string>('emmitedOptionRef', () => '');
 
 const runtimeConfig = useRuntimeConfig();
 
-const { data } = await useFetch<ILocationOptions[]>(
+let dropdownOptions: IDropdownOptions[] = [];
+
+const { data } = await useFetch<ILocationsData[]>(
   () =>
     `${runtimeConfig.public.apiBase}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInputRef.value}&limit=5`
 );
 
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInputRef.value = searchQuery;
-  console.log(data.value);
 }
+
+function convertToDropdownOptions(locationsData: ILocationsData[]): IDropdownOptions[] {
+  return locationsData.map((location) => ({
+    id: location.place_id,
+    text: location.display_name,
+  }));
+}
+
+function handleEmmitedOption(option: string) {
+  emittedOptionRef.value = option;
+}
+
+watch(
+  () => data.value,
+  (newValue: ILocationsData[] | null) => {
+    newValue
+      ? (dropdownOptions = convertToDropdownOptions(newValue))
+      : (dropdownOptions = []);
+  }
+);
 </script>
 
 <template>
@@ -30,9 +53,16 @@ function handleEmittedSearchQuery(searchQuery: string) {
         <div class="input-container relative mt-8">
           <AdressForm @inputRefEmit="handleEmittedSearchQuery" />
         </div>
-        <Dropdown v-if="emittedInputRef !== '' && data" :options="data" />
+        <Dropdown
+          v-if="emittedInputRef !== '' && data"
+          :options="dropdownOptions"
+          textKey="text"
+          idKey="id"
+          @emit-option="handleEmmitedOption"
+        />
       </div>
     </div>
+    <p>{{ emittedOptionRef.text }}</p>
   </section>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
     <path
