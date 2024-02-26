@@ -2,21 +2,17 @@
 import type { ILocationsData } from '@/interfaces/locations.interface';
 
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
-const locationsData = useState<ILocationsData[]>('locationsData', () => []);
 
-const { fetchData, data } = useApi();
 const runtimeConfig = useRuntimeConfig();
+
+const { data } = await useFetch<ILocationsData[]>(
+  () =>
+    `${runtimeConfig.public.apiBase}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInputRef.value}&limit=5`
+);
 
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInputRef.value = searchQuery;
 }
-
-watch(emittedInputRef, async (newVal) => {
-  await fetchData(
-    `${runtimeConfig.public.apiBase}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${newVal}&limit=5`
-  );
-  if (data !== null) locationsData.value = data.value as ILocationsData[];
-});
 </script>
 
 <template>
@@ -33,7 +29,7 @@ watch(emittedInputRef, async (newVal) => {
         <div class="input-container relative mt-8">
           <AdressForm @inputRefEmit="handleEmittedSearchQuery" />
         </div>
-        <Dropdown :locationsData="locationsData" />
+        <Dropdown v-if="emittedInputRef !== ''" :locationsData="data" />
       </div>
     </div>
   </section>
