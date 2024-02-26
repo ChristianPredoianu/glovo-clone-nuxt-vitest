@@ -12,6 +12,7 @@ const { data } = await useFetch<ILocationsData[]>(
 
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInputRef.value = searchQuery;
+  console.log(data.value);
 }
 </script>
 
@@ -29,7 +30,7 @@ function handleEmittedSearchQuery(searchQuery: string) {
         <div class="input-container relative mt-8">
           <AdressForm @inputRefEmit="handleEmittedSearchQuery" />
         </div>
-        <Dropdown v-if="emittedInputRef !== ''" :locationsData="data" />
+        <Dropdown v-if="emittedInputRef !== '' && data" :options="data" />
       </div>
     </div>
   </section>
