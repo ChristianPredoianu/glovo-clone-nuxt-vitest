@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { ILocationsData } from '@/interfaces/locations.interface';
+import type { ILocationOptions } from '@/interfaces/options.interface';
 
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
 
 const runtimeConfig = useRuntimeConfig();
 
-const { data } = await useFetch<ILocationsData[]>(
+const { data } = await useFetch<ILocationOptions[]>(
   () =>
     `${runtimeConfig.public.apiBase}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInputRef.value}&limit=5`
 );
