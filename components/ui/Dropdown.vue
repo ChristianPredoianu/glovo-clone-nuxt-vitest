@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { ILocationOptions } from '@/interfaces/options.interface';
+import type { IDropdownOptions } from '@/interfaces/options.interface';
 
 const props = defineProps<{
-  options: ILocationOptions[];
+  options: IDropdownOptions[];
+  idKey: keyof IDropdownOptions;
+  textKey: keyof IDropdownOptions;
 }>();
-
-console.log(props.options);
 
 const isOpen = useState<boolean>('isOpen', () => true);
 const selectedOption = useState<string>('selectedOption', () => 'Select an option');
@@ -16,26 +16,27 @@ const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const selectOption = (option: ILocationOptions) => {
+function selectOption(option: IDropdownOptions) {
   selectedOption.value = option.text;
   isOpen.value = false;
-};
+  emits('emit-option', option);
+}
 </script>
 
 <template>
-  <div class="relative" @click="toggleDropdown">
+  <div class="relative">
     <div
-      v-if="isOpen"
       class="absolute top-full mt-1 w-full bg-white shadow-md rounded-md"
+      v-if="isOpen"
     >
       <ul>
         <li
           v-for="option in props.options"
-          :key="option.id"
+          :key="option[props.idKey]"
           class="py-2 px-4 hover:bg-gray-100 cursor-pointer"
           @click="selectOption(option)"
         >
-          {{ option.text }}
+          {{ option[props.textKey] }}
         </li>
       </ul>
     </div>
