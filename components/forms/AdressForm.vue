@@ -1,12 +1,20 @@
 <script setup lang="ts">
+import type { IDropdownOptions } from '@/interfaces/options.interface';
+
 const inputRef = useState<string>('inputRef', () => '');
+
+const props = defineProps<{
+  options: IDropdownOptions[];
+  idKey: keyof IDropdownOptions;
+  textKey: keyof IDropdownOptions;
+}>();
 
 const locationIconRef = ref<HTMLInputElement | null>(null);
 const locationTextRef = ref<HTMLSpanElement | null>(null);
 
-const emit = defineEmits(['inputRefEmit']);
+const emits = defineEmits(['inputRefEmit', 'emit-option']);
 
-const { latitude, longitude, error, getLocation } = useGeolocation();
+const { latitude, getLocation } = useGeolocation();
 
 console.log(latitude);
 
@@ -23,9 +31,13 @@ function handleInputElements() {
   }
 }
 
+function handleEmmitedOption(option: number) {
+  emits('emit-option', option);
+}
+
 function handleOnChange() {
   handleInputElements();
-  emit('inputRefEmit', inputRef.value);
+  emits('inputRefEmit', inputRef.value);
 }
 </script>
 
@@ -55,4 +67,11 @@ function handleOnChange() {
       >Use current location</span
     >
   </div>
+  <Dropdown
+    v-if="props.options"
+    :options="props.options"
+    textKey="text"
+    idKey="id"
+    @emit-option="handleEmmitedOption"
+  />
 </template>
