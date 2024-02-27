@@ -3,7 +3,9 @@ import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type { ILocationsData } from '@/interfaces/locations.interface';
 
 const emittedInputRef = useState<string>('emmitedInputRef', () => '');
-const emittedOptionRef = useState<string>('emmitedOptionRef', () => '');
+const emittedOptionRef = useState<IDropdownOptions>('emittedOptionRef', () => {
+  return { id: 0, text: '' };
+});
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -25,7 +27,7 @@ function convertToDropdownOptions(locationsData: ILocationsData[]): IDropdownOpt
   }));
 }
 
-function handleEmmitedOption(option: string) {
+function handleEmmitedOption(option: IDropdownOptions) {
   emittedOptionRef.value = option;
 }
 
@@ -54,7 +56,7 @@ watch(
           <AdressForm @inputRefEmit="handleEmittedSearchQuery" />
         </div>
         <Dropdown
-          v-if="emittedInputRef !== '' && data"
+          v-if="data"
           :options="dropdownOptions"
           textKey="text"
           idKey="id"
