@@ -23,6 +23,19 @@ function selectOption(index: number) {
   isOpen.value = false;
   emits('emit-option', option);
 }
+
+//The API sometimes returns two of the same adresses, this creates unique returns
+//so that we don't get duplicate keys when looping through props.options
+const uniqueOptions = computed(() => {
+  const uniqueOptionsMap = new Map(
+    props.options.map((option) => [option[props.idKey], option])
+  );
+  return Array.from(uniqueOptionsMap.values());
+});
+
+onUpdated(() => {
+  isOpen.value = true;
+});
 </script>
 
 <template>
@@ -33,7 +46,7 @@ function selectOption(index: number) {
     >
       <ul>
         <li
-          v-for="(option, index) in props.options"
+          v-for="(option, index) in uniqueOptions"
           :key="option[props.idKey]"
           class="py-2 px-4 hover:bg-gray-100 cursor-pointer"
           :class="{ 'bg-gray-200': index === selectedIndex }"
