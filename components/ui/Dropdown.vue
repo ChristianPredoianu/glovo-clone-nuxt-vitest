@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { IDropdownOptions } from '@/interfaces/options.interface';
 import { useKeyDown } from '@/composables/useKeyDown';
+import type { IDropdownOptions } from '@/interfaces/options.interface';
 
 const props = defineProps<{
   options: IDropdownOptions[];
@@ -9,8 +9,9 @@ const props = defineProps<{
 }>();
 
 const isOpen = useState<boolean>('isOpen', () => true);
+const selIndex = useState<number>('isOpen', () => 0);
 
-const { selectedIndex } = useKeyDown(props.options.length, selectOption);
+const { selectedIndex } = useKeyDown(ref(selIndex.value), selectOption);
 
 const emits = defineEmits(['emit-option']);
 
@@ -21,10 +22,17 @@ const toggleDropdown = () => {
 function selectOption(index: number) {
   const option = props.options[index];
   isOpen.value = false;
-  console.log(isOpen.value);
   emits('emit-option', option);
+  console.log(props.options.length);
 }
 
+watch(
+  () => props.options.length,
+  (newValue: number) => {
+    selIndex.value = newValue;
+    console.log(selIndex.value);
+  }
+);
 //The API sometimes returns two of the same adresses, this creates unique returns
 //so that we don't get duplicate keys when looping through props.options
 const uniqueOptions = computed(() => {
@@ -33,19 +41,11 @@ const uniqueOptions = computed(() => {
   );
   return Array.from(uniqueOptionsMap.values());
 });
-
-onUpdated(() => {
-  isOpen.value = true;
-});
 </script>
 
 <template>
   <div class="relative" @click="toggleDropdown">
-    <div
-      class="absolute top-full mt-1 w-full bg-white shadow-md rounded-md"
-      v-if="isOpen"
-      @click.stop
-    >
+    <div class="absolute top-full mt-1 w-full bg-white shadow-md rounded-md" @click.stop>
       <ul>
         <li
           v-for="(option, index) in uniqueOptions"
