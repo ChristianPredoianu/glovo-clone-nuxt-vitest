@@ -18,6 +18,7 @@ const { data } = await useFetch<ILocationsData[]>(
 
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInputRef.value = searchQuery;
+  console.log(searchQuery);
 }
 
 function convertToDropdownOptions(locationsData: ILocationsData[]): IDropdownOptions[] {
@@ -52,19 +53,25 @@ watch(
       <div class="bg-yellow-400 text-center">
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
         <p class="mt-2 font-medium md:font-xl">Groceries, shops, pharmacies, anything!</p>
-        <div class="input-container relative mt-8">
-          <AdressForm @inputRefEmit="handleEmittedSearchQuery" />
+        <div>
+          <div class="input-container relative mt-8">
+            <AdressForm
+              v-if="data || dropdownOptions"
+              @inputRefEmit="handleEmittedSearchQuery"
+              :options="dropdownOptions"
+              textKey="text"
+              idKey="id"
+              @emit-option="handleEmmitedOption"
+            />
+          </div>
         </div>
-        <Dropdown
-          v-if="data"
-          :options="dropdownOptions"
-          textKey="text"
-          idKey="id"
-          @emit-option="handleEmmitedOption"
-        />
+        <div class="flex items-center justify-center mt-4">
+          <p class="text-xl font-medium">
+            Deliver to: <span class="text-xl font-bold">{{ emittedOptionRef.text }}</span>
+          </p>
+        </div>
       </div>
     </div>
-    <p>{{ emittedOptionRef.text }}</p>
   </section>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
     <path
