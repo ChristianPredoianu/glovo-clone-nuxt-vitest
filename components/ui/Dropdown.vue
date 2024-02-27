@@ -21,6 +21,7 @@ const toggleDropdown = () => {
 function selectOption(index: number) {
   const option = props.options[index];
   isOpen.value = false;
+  console.log(isOpen.value);
   emits('emit-option', option);
 }
 
@@ -43,6 +44,7 @@ onUpdated(() => {
     <div
       class="absolute top-full mt-1 w-full bg-white shadow-md rounded-md"
       v-if="isOpen"
+      @click.stop
     >
       <ul>
         <li
