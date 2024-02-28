@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
+import type { ILocationAdress } from '@/interfaces/locations.interface';
 
 const inputRef = useState<string>('inputRef', () => '');
 
@@ -9,14 +10,21 @@ const props = defineProps<{
   textKey: keyof IDropdownOptions;
 }>();
 
-const emits = defineEmits(['inputRefEmit', 'emit-option']);
+const emits = defineEmits(['inputRefEmit', 'emit-option', 'emit-location']);
+
+let locationAdress: ILocationAdress | null = null;
 
 const locationIconRef = ref<HTMLInputElement | null>(null);
 const locationTextRef = ref<HTMLSpanElement | null>(null);
 
-const { latitude, getLocation } = useGeolocation();
+const { latitude, longitude, getLocation } = useGeolocation();
 
-console.log(latitude);
+const runtimeConfig = useRuntimeConfig();
+
+const { data } = await useFetch<ILocationAdress>(
+  () =>
+    `${runtimeConfig.public.apiReverse}pk.a75cdfe1cc307b34218d8021f4122dc6&lat=${latitude.value}&lon=${longitude.value}&format=json&`
+);
 
 function handleInputElements() {
   if (inputRef) {
@@ -39,11 +47,24 @@ function handleOnChange() {
   handleInputElements();
   emits('inputRefEmit', inputRef.value);
 }
+
+watch(
+  () => data.value,
+  (newValue: ILocationAdress | null) => {
+    if (newValue) {
+      locationAdress = newValue;
+      emits('emit-location', locationAdress.display_name);
+    }
+  }
+);
 </script>
 
 <template>
   <div>
-    <span class="h-full bg-green-500 absolute rounded-l-md top-0 px-3 flex items-center">
+    <span
+      class="h-full bg-green-500 absolute rounded-l-md top-0 px-3 flex items-center cursor-pointer"
+      @click="getLocation"
+    >
       <font-awesome-icon :icon="['fas', 'location']" />
     </span>
     <input
