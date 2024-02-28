@@ -3,6 +3,6 @@ export interface ILocationsData {
   display_name: string;
 }
 
-export interface ILocationsOption {
+export interface ILocationAdress {
   display_name: string;
 }
