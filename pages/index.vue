@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type { ILocationsData } from '@/interfaces/locations.interface';
+import type { ILocationAdress } from '@/interfaces/locations.interface';
 
-const emittedInputRef = useState<string>('emmitedInputRef', () => '');
-const emittedOptionRef = useState<IDropdownOptions>('emittedOptionRef', () => {
+const emittedInput = useState<string>('emmitedInput', () => '');
+const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
   return { id: 0, text: '' };
 });
+const emittedLocation = useState<ILocationAdress>('emittedLocation', () => ({
+  display_name: '',
+}));
 
 const runtimeConfig = useRuntimeConfig();
 
@@ -13,18 +17,22 @@ let dropdownOptions: IDropdownOptions[] = [];
 
 const { data } = await useFetch<ILocationsData[]>(
   () =>
-    `${runtimeConfig.public.apiBase}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInputRef.value}&limit=5`
+    `${runtimeConfig.public.apiAutoconfig}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInput.value}&limit=5`
 );
 
 function handleEmittedSearchQuery(searchQuery: string) {
-  emittedInputRef.value = searchQuery;
-  console.log(searchQuery);
+  emittedInput.value = searchQuery;
 }
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
 
 function handleEmmitedOption(option: IDropdownOptions) {
-  emittedOptionRef.value = option;
+  emittedOption.value = option;
+}
+
+function handleEmmitedLocation(location: ILocationAdress) {
+  emittedLocation.value = location;
+  console.log(location);
 }
 
 watch(
@@ -35,10 +43,17 @@ watch(
       : (dropdownOptions = []);
   }
 );
+
+watch(
+  () => emittedLocation.value.display_name,
+  () => {
+    console.log(emittedLocation.value.display_name);
+  }
+);
 </script>
 
 <template>
-  <section class="bg-yellow-400 text-gray-800">
+  <section class="bg-yellow-400 text-gray-800 min-h-screen md:min-h-min">
     <div
       class="container px-4 pt-28 mx-auto flex flex-col items-center justify-center gap-8 p-10 md:flex-row"
     >
@@ -48,22 +63,26 @@ watch(
       <div class="bg-yellow-400 text-center">
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
         <p class="mt-2 font-medium md:font-xl">Groceries, shops, pharmacies, anything!</p>
-        <div>
-          <div class="input-container relative mt-8">
-            <AdressForm
-              v-if="data || dropdownOptions"
-              @inputRefEmit="handleEmittedSearchQuery"
-              :options="dropdownOptions"
-              textKey="text"
-              idKey="id"
-              @emit-option="handleEmmitedOption"
-            />
-          </div>
-        </div>
-        <div class="flex items-center justify-center mt-4">
-          <p class="text-xl font-medium">
-            Deliver to: <span class="text-xl font-bold">{{ emittedOptionRef.text }}</span>
+        <div class="input-container relative mt-8">
+          <AdressForm
+            v-if="data || dropdownOptions"
+            @inputRefEmit="handleEmittedSearchQuery"
+            :options="dropdownOptions"
+            textKey="text"
+            idKey="id"
+            @emit-option="handleEmmitedOption"
+            @emit-location="handleEmmitedLocation"
+          />
+          <p
+            class="text-sm md:text-xl font-medium mt-4 absolute top-12 left-0"
+            v-if="emittedLocation.display_name !== ''"
+          >
+            Deliver to:
+            <span class="text-sm md:text-xl font-bold">{{
+              emittedLocation.display_name
+            }}</span>
           </p>
+          <span v-else>Loading...</span>
         </div>
       </div>
     </div>
