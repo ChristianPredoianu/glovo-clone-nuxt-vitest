@@ -21,12 +21,7 @@ function handleEmittedSearchQuery(searchQuery: string) {
   console.log(searchQuery);
 }
 
-function convertToDropdownOptions(locationsData: ILocationsData[]): IDropdownOptions[] {
-  return locationsData.map((location) => ({
-    id: location.place_id,
-    text: location.display_name,
-  }));
-}
+const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
 
 function handleEmmitedOption(option: IDropdownOptions) {
   emittedOptionRef.value = option;
