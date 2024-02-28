@@ -9,10 +9,10 @@ const props = defineProps<{
   textKey: keyof IDropdownOptions;
 }>();
 
+const emits = defineEmits(['inputRefEmit', 'emit-option']);
+
 const locationIconRef = ref<HTMLInputElement | null>(null);
 const locationTextRef = ref<HTMLSpanElement | null>(null);
-
-const emits = defineEmits(['inputRefEmit', 'emit-option']);
 
 const { latitude, getLocation } = useGeolocation();
 
