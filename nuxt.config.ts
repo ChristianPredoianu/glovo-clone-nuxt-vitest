@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiSecret: process.env.NUXT_API_SECRET,
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE,
+      apiAutoconfig: process.env.NUXT_PUBLIC_API_AUTOCOMPLETE,
+      apiReverse: process.env.NUXT_PUBLIC_API_REVERSE,
     },
   },
 
