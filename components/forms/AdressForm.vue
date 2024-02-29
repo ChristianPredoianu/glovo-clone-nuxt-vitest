@@ -39,6 +39,15 @@ function handleInputElements() {
   }
 }
 
+function getUserLocation() {
+  getLocation();
+  inputRef.value = '';
+}
+
+function handleClearInput() {
+  inputRef.value = '';
+}
+
 function handleEmmitedOption(option: number) {
   emits('emit-option', option);
 }
@@ -63,7 +72,7 @@ watch(
   <div>
     <span
       class="h-full bg-green-500 absolute rounded-l-md top-0 px-3 flex items-center cursor-pointer"
-      @click="getLocation"
+      @click="getUserLocation"
     >
       <font-awesome-icon :icon="['fas', 'location']" />
     </span>
@@ -73,18 +82,19 @@ watch(
       class="py-3 px-12 w-full rounded-md"
       v-model="inputRef"
       @input="handleOnChange"
+      data-testid="address-input"
     />
     <span class="location-icon hidden md:block" ref="locationIconRef">
       <font-awesome-icon
         :icon="['fas', 'location-arrow']"
         class="absolute top-2 translate-x-1/2 left-50 bg-slate-200 p-2 rounded-2xl cursor-pointer"
-        @click="getLocation"
+        @click="getUserLocation"
       />
     </span>
     <span
       class="location-text hidden text-sm text-green-600 font-bold md:block location-text absolute top-3.5 translate-x-1/2 right-20 cursor-pointer"
       ref="locationTextRef"
-      @click="getLocation"
+      @click="getUserLocation"
       >Use current location</span
     >
   </div>
@@ -94,5 +104,6 @@ watch(
     textKey="text"
     idKey="id"
     @emit-option="handleEmmitedOption"
+    @clear-input="handleClearInput"
   />
 </template>
