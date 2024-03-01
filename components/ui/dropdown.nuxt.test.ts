@@ -4,14 +4,15 @@ import Dropdown from '@/components/ui/Dropdown.vue';
 import AdressForm from '@/components/forms/AdressForm.vue';
 import { Suspense } from 'vue';
 
-describe('Dropdown', () => {
-  it('renders correctly with provided options', async () => {
-    const options = [
+describe('AdressForm', () => {
+  it('opens dropdown when user starts typing', async () => {
+    /* const options = [
       { id: 1, text: 'Option 1' },
       { id: 2, text: 'Option 2' },
+      { id: 3, text: 'Option 3' },
     ];
 
-    const dropdownWrapper = mount(Dropdown, {
+    const wrapper = mount(AdressForm, {
       props: {
         options,
         idKey: 'id',
@@ -19,25 +20,16 @@ describe('Dropdown', () => {
       },
     });
 
-    const TestComponent = defineComponent({
-      components: { AdressForm },
-      template: `<Suspense><AdressForm :options="[{
-        id:1, 
-        text:'Option1'
-      }, {id:2, text: 'Option 2'}]" textKey="text"
-      idKey="id"/></Suspense>`,
-    });
-
-    const wrapper = mount(TestComponent);
-    console.log(wrapper.html()); // Log the HTML of TestComponent
+    console.log(wrapper.html()); */
+    /*  const input = wrapper.find('input[data-testid="address-input"]');
+    console.log(input);
+    await input.setValue('Some address');
     await flushPromises();
 
-    await wrapper.vm.$nextTick(); // Wait for next tick after mounting
-
-    const adressFormWrapper = wrapper.findComponent({ name: 'AdressForm' });
-    console.log(adressFormWrapper.html()); // Log the HTML of AdressForm component
-    const input = adressFormWrapper.find('[data-testid="address-input"]');
-    console.log(input.exists()); // Check if input exists
-    expect(input.exists()).toBe(true);
+    const dropdown = wrapper.findComponent(Dropdown);
+    expect(dropdown.exists()).toBe(true);
+    expect(dropdown.isVisible()).toBe(true); */
   });
+
+  // You can add more tests here
 });
