@@ -63,10 +63,10 @@ watch(
           <Suspense>
             <AdressForm
               v-if="data || dropdownOptions"
-              @inputRefEmit="handleEmittedSearchQuery"
               :options="dropdownOptions"
               textKey="text"
               idKey="id"
+              @inputRefEmit="handleEmittedSearchQuery"
               @emit-option="handleEmmitedOption"
               @emit-location="handleEmmitedLocation"
             />
