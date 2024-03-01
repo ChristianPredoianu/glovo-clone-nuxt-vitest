@@ -82,9 +82,12 @@ watch(
       class="py-3 px-12 w-full rounded-md"
       v-model="inputRef"
       @input="handleOnChange"
-      data-testid="address-input"
     />
-    <span class="location-icon hidden md:block" ref="locationIconRef">
+    <span
+      class="location-icon hidden md:block"
+      ref="locationIconRef"
+      data-testid="address"
+    >
       <font-awesome-icon
         :icon="['fas', 'location-arrow']"
         class="absolute top-2 translate-x-1/2 left-50 bg-slate-200 p-2 rounded-2xl cursor-pointer"
