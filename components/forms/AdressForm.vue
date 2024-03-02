@@ -2,8 +2,6 @@
 import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type { ILocationAdress } from '@/interfaces/locations.interface';
 
-const inputRef = useState<string>('inputRef', () => '');
-
 const props = defineProps<{
   options: IDropdownOptions[];
   idKey: keyof IDropdownOptions;
@@ -13,6 +11,8 @@ const props = defineProps<{
 const emits = defineEmits(['inputRefEmit', 'emit-option', 'emit-location']);
 
 let locationAdress: ILocationAdress | null = null;
+
+const inputRef = useState<string>('inputRef', () => '');
 
 const locationIconRef = ref<HTMLInputElement | null>(null);
 const locationTextRef = ref<HTMLSpanElement | null>(null);
