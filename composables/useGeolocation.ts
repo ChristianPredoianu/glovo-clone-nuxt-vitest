@@ -9,7 +9,6 @@ export default function useGeolocation() {
         (position) => {
           latitude.value = position.coords.latitude;
           longitude.value = position.coords.longitude;
-          console.log(latitude.value, longitude.value);
         },
         (err) => {
           error.value = err.message;
