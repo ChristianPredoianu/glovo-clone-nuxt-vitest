@@ -71,6 +71,7 @@ watch(
               @emit-location="handleEmmitedLocation"
             />
           </Suspense>
+
           <p
             class="text-sm md:text-lg font-medium mt-4 absolute top-12 left-0"
             v-if="emittedOption.text !== '' || emittedLocation !== ''"
