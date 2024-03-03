@@ -11,7 +11,6 @@ export function useKeyDown(
     } else if (event.key === 'ArrowUp') {
       event.preventDefault();
       selectedIndex.value = Math.max(selectedIndex.value - 1, 0);
-      console.log(selectedIndex.value);
     } else if (event.key === 'Enter') {
       event.preventDefault();
       selectedIndex.value !== -1 && callback(selectedIndex.value);
