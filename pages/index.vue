@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type { ILocationsData } from '@/interfaces/locations.interface';
+import { productCategories } from '@/data/productCategoriesData';
 
 const emittedInput = useState<string>('emmitedInput', () => '');
 const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
   return { id: 0, text: '' };
 });
+
 const emittedLocation = useState<string>('emittedLocation', () => '');
 
 const runtimeConfig = useRuntimeConfig();
@@ -58,7 +60,9 @@ watch(
       </div>
       <div class="bg-yellow-400 text-center">
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
-        <p class="mt-2 font-medium md:font-xl">Groceries, shops, pharmacies, anything!</p>
+        <p class="mt-2 font-medium md:font-xl">
+          Groceries, clothing, electronics, anything!
+        </p>
         <div class="input-container relative mt-8">
           <Suspense>
             <AdressForm
@@ -84,7 +88,22 @@ watch(
         </div>
       </div>
     </div>
+    <div class="container mx-auto px-4 mt-10 md:mt-28">
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 lg:px-20 md:grid-cols-4 lg:grid-cols-8 gap-y-4 text-center text-green-900"
+      >
+        <CategoryCard
+          v-for="(productCategory, index) in productCategories"
+          :key="productCategory.text"
+          :index="index"
+          :img="productCategory.img"
+          :text="productCategory.text"
+          :category="productCategory.category"
+        />
+      </div>
+    </div>
   </section>
+
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
     <path
       fill="#facc15"
