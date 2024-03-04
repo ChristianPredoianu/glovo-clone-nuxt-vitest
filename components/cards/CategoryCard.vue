@@ -6,8 +6,6 @@ const props = defineProps<{
   text: string;
 }>();
 
-const emits = defineEmits(['emit-category']);
-
 async function navigateToPage(selectedCategory: object) {
   await navigateTo({
     path: selectedCategory.category,
