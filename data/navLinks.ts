@@ -1,4 +1,4 @@
-import { INavLinks } from '@/interfaces/navLinks.interface';
+import type { INavLinks } from '@/interfaces/navLinks.interface';
 
 export const navLinks: INavLinks[] = [
   { title: 'Home', link: '', icon: ['fas', 'house'] },
