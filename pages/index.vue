@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type { ILocationsData } from '@/interfaces/locations.interface';
+import type { IMeal } from '@/interfaces/meals.interface';
 import { productCategories } from '@/data/productCategoriesData';
 
 const emittedInput = useState<string>('emmitedInput', () => '');
@@ -13,10 +14,17 @@ let dropdownOptions: IDropdownOptions[] = [];
 
 const runtimeConfig = useRuntimeConfig();
 
-const { data } = await useFetch<ILocationsData[]>(
+const { data: locationData } = await useFetch<ILocationsData[]>(
   () =>
     `${runtimeConfig.public.apiAutoconfig}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInput.value}&limit=5`
 );
+
+const { data: mealData } = await useFetch<IMeal>(
+  () =>
+    `https://api.edamam.com/api/recipes/v2?type=public&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`
+);
+
+console.log(mealData.value);
 
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInput.value = searchQuery;
@@ -33,7 +41,7 @@ function handleEmmitedLocation(location: string) {
 }
 
 watch(
-  () => data.value,
+  () => locationData.value,
   (newValue: ILocationsData[] | null) => {
     newValue
       ? (dropdownOptions = convertToDropdownOptions(newValue))
@@ -64,7 +72,7 @@ watch(
         </p>
         <div class="input-container relative mt-8">
           <AdressForm
-            v-if="data || dropdownOptions"
+            v-if="locationData || dropdownOptions"
             :options="dropdownOptions"
             textKey="text"
             idKey="id"
@@ -101,4 +109,23 @@ watch(
     </div>
   </section>
   <Waves />
+
+  <section class="container mx-auto px-4">
+    <div class="flex items-center gap-x-2">
+      <font-awesome-icon :icon="['fas', 'fa-thumbs-up']" />
+      <h2 class="text-xl font-bold">Meals you might like</h2>
+    </div>
+    <div
+      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
+    >
+      <MealCard
+        v-if="mealData"
+        v-for="meal in mealData.hits"
+        :key="meal.recipe.label"
+        :category="meal.recipe.cuisineType[0]"
+        :label="meal.recipe.label"
+        :img="meal.recipe.image"
+      />
+    </div>
+  </section>
 </template>
