@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
-import type { ILocationsData } from '@/interfaces/locations.interface';
+import type { ILocationsData, ILocationAdress } from '@/interfaces/locations.interface';
 import type { IMeal } from '@/interfaces/meals.interface';
 import { productCategories } from '@/data/productCategoriesData';
 
@@ -9,7 +9,9 @@ const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
   return { id: 0, text: '' };
 });
 
-const emittedLocation = useState<string>('emittedLocation', () => '');
+const emittedLocation = useState<ILocationAdress>('emittedLocation', () => {
+  return { address: { road: '', postcode: '', town: '', country: '' } };
+});
 let dropdownOptions: IDropdownOptions[] = [];
 
 const runtimeConfig = useRuntimeConfig();
@@ -34,7 +36,7 @@ function handleEmmitedOption(option: IDropdownOptions) {
   emittedOption.value = option;
 }
 
-function handleEmmitedLocation(location: string) {
+function handleEmmitedLocation(location: ILocationAdress) {
   console.log(location);
   emittedLocation.value = location;
 }
@@ -51,7 +53,7 @@ watch(
 watch(
   () => emittedOption.value,
   (newValue: IDropdownOptions | null) => {
-    if (newValue !== null) emittedLocation.value = '';
+    if (newValue !== null) emittedLocation.value.address.road = '';
   }
 );
 </script>
@@ -82,11 +84,11 @@ watch(
 
           <p
             class="text-sm md:text-lg font-medium mt-4 absolute top-12 left-0"
-            v-if="emittedOption.text !== '' || emittedLocation !== ''"
+            v-if="emittedOption.text !== '' || emittedLocation.address.road !== ''"
           >
             Deliver to:
             <span class="text-sm md:text-lg font-bold">{{
-              emittedLocation !== ''
+              emittedLocation.address.road !== ''
                 ? `${emittedLocation.address.road}, ${emittedLocation.address.town} `
                 : emittedOption.text
             }}</span>
