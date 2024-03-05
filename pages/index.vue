@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
-import type { ILocationsData, ILocationAdress } from '@/interfaces/locations.interface';
+import type { ILocationsData } from '@/interfaces/locations.interface';
 import type { IMeal } from '@/interfaces/meals.interface';
 import { productCategories } from '@/data/productCategoriesData';
 
