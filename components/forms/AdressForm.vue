@@ -63,7 +63,6 @@ watch(
     if (newValue) {
       locationAdress = newValue;
       emits('emit-location', locationAdress);
-      console.log(locationAdress);
     }
   }
 );
