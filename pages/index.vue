@@ -26,11 +26,11 @@ const { data: mealData } = await useFetch<IMeal>(
     `https://api.edamam.com/api/recipes/v2?type=public&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`
 );
 
+const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
+
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInput.value = searchQuery;
 }
-
-const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
 
 function handleEmmitedOption(option: IDropdownOptions) {
   emittedOption.value = option;
@@ -39,6 +39,15 @@ function handleEmmitedOption(option: IDropdownOptions) {
 function handleEmmitedLocation(location: ILocationAdress) {
   console.log(location);
   emittedLocation.value = location;
+}
+
+function checkLocationOutput() {
+  return emittedLocation.value.address.road !== ''
+    ? `${emittedLocation.value.address.road}, 
+                  ${emittedLocation.value.address.postcode}, 
+                  ${emittedLocation.value.address.town}, 
+                  ${emittedLocation.value.address.country}`
+    : emittedOption.value.text;
 }
 
 watch(
@@ -87,11 +96,7 @@ watch(
             v-if="emittedOption.text !== '' || emittedLocation.address.road !== ''"
           >
             Deliver to:
-            <span class="text-sm md:text-lg font-bold">{{
-              emittedLocation.address.road !== ''
-                ? `${emittedLocation.address.road}, ${emittedLocation.address.town} `
-                : emittedOption.text
-            }}</span>
+            <span class="text-sm md:text-lg font-bold">{{ checkLocationOutput() }}</span>
           </p>
         </div>
       </div>
@@ -136,6 +141,15 @@ watch(
         :icon="['fas', 'fa-check']"
         class="text-7xl mx-auto w-full py-20 text-yellow-400"
       />
+      <h3 class="text-xl md:text-3xl font-bold text-center w-full">
+        {{
+          `Popular filters in ${
+            emittedLocation.address.road !== ''
+              ? emittedLocation.address.town
+              : emittedOption.text
+          }`
+        }}
+      </h3>
     </section>
   </div>
 </template>
