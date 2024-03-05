@@ -62,7 +62,7 @@ watch(
   (newValue: ILocationAdress | null) => {
     if (newValue) {
       locationAdress = newValue;
-      emits('emit-location', locationAdress.display_name);
+      emits('emit-location', locationAdress);
     }
   }
 );
