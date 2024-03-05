@@ -16,15 +16,15 @@ async function navigateToPage(selectedCategory: object) {
 
 <template>
   <article
-    class="flex flex-col items-center transform transition-transform duration-300 hover:scale-105 cursor-pointer"
+    class="flex flex-col items-center transform cursor-pointer"
     @click="navigateToPage(props)"
   >
     <img
       :src="props.img"
       :alt="props.text"
-      class="w-20 h-20 rounded-full object-cover hover:scale-105"
+      class="w-20 h-20 rounded-full object-cover shadow-lg transition-transform duration-300 hover:scale-105"
     />
 
-    <h3 class="mt-3 text-center">{{ props.text }}</h3>
+    <h3 class="mt-3 text-center font-semibold">{{ props.text }}</h3>
   </article>
 </template>
