@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { generateRandomPrice } from '@/helpers/randomPrice';
 
-const price = generateRandomPrice();
+const price = useState<string>('useState', () => null);
 
 const props = defineProps<{
   category: string;
   label: string;
   img?: string;
 }>();
+
+onMounted(() => {
+  // Generate the price only on the client side
+  price.value = generateRandomPrice();
+});
 </script>
 
 <template>
