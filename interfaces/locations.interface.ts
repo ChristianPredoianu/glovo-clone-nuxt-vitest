@@ -4,5 +4,10 @@ export interface ILocationsData {
 }
 
 export interface ILocationAdress {
-  display_name: string;
+  address: {
+    road: string;
+    postcode: string;
+    town: string;
+    country: string;
+  };
 }
