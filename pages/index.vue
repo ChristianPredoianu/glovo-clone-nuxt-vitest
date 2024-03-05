@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
-import type { ILocationsData } from '@/interfaces/locations.interface';
+import type { ILocationsData, ILocationAdress } from '@/interfaces/locations.interface';
 import type { IMeal } from '@/interfaces/meals.interface';
 import { productCategories } from '@/data/productCategoriesData';
 
@@ -35,6 +35,7 @@ function handleEmmitedOption(option: IDropdownOptions) {
 }
 
 function handleEmmitedLocation(location: string) {
+  console.log(location);
   emittedLocation.value = location;
 }
 
@@ -85,7 +86,9 @@ watch(
           >
             Deliver to:
             <span class="text-sm md:text-lg font-bold">{{
-              emittedLocation !== '' ? emittedLocation : emittedOption.text
+              emittedLocation !== ''
+                ? `${emittedLocation.address.road}, ${emittedLocation.address.town} `
+                : emittedOption.text
             }}</span>
           </p>
         </div>
@@ -107,23 +110,30 @@ watch(
     </div>
   </section>
   <Waves />
-
-  <section class="container mx-auto px-4">
-    <div class="flex items-center gap-x-2">
-      <font-awesome-icon :icon="['fas', 'fa-thumbs-up']" class="text-yellow-400" />
-      <h2 class="text-xl font-bold">Meals you might like</h2>
-    </div>
-    <div
-      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
-    >
-      <MealCard
-        v-if="mealData"
-        v-for="meal in mealData.hits"
-        :key="meal.recipe.label"
-        :category="meal.recipe.cuisineType[0]"
-        :label="meal.recipe.label"
-        :img="meal.recipe.image"
+  <div class="container mx-auto px-4">
+    <section>
+      <div class="flex items-center gap-x-2">
+        <font-awesome-icon :icon="['fas', 'fa-thumbs-up']" class="text-yellow-400" />
+        <h2 class="text-xl font-bold">Meals you might like</h2>
+      </div>
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
+      >
+        <MealCard
+          v-if="mealData"
+          v-for="meal in mealData.hits"
+          :key="meal.recipe.label"
+          :category="meal.recipe.cuisineType[0]"
+          :label="meal.recipe.label"
+          :img="meal.recipe.image"
+        />
+      </div>
+    </section>
+    <section>
+      <font-awesome-icon
+        :icon="['fas', 'fa-check']"
+        class="text-7xl mx-auto w-full py-20 text-yellow-400"
       />
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
