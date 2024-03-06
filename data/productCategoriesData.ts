@@ -22,3 +22,11 @@ export const productCategories: IProductCategories[] = [
     img: 'womens-clothing.jpg',
   },
 ];
+
+export const dishTypes = [
+  { id: 1, dishType: 'pasta' },
+  { id: 2, dishType: 'pizza' },
+  { id: 3, dishType: 'salad' },
+  { id: 4, dishType: 'sandwiches' },
+  { id: 5, dishType: 'seafood' },
+];
