@@ -23,7 +23,7 @@ const { data: locationData } = await useFetch<ILocationsData[]>(
 
 const { data: mealData } = await useFetch<IMeal>(
   () =>
-    `https://api.edamam.com/api/recipes/v2?type=public&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`
+    `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`
 );
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
@@ -86,7 +86,7 @@ watch(
             :options="dropdownOptions"
             textKey="text"
             idKey="id"
-            @inputRefEmit="handleEmittedSearchQuery"
+            @emit-input="handleEmittedSearchQuery"
             @emit-option="handleEmmitedOption"
             @emit-location="handleEmmitedLocation"
           />
