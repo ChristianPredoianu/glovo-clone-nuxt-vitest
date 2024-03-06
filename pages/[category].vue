@@ -1,15 +1,16 @@
 <script setup lang="ts">
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
-
-const edamamApiEndpoint = `https://api.edamam.com/api/food-database/v2/parser?app_id=9fa9a650&app_key=%20f0b4d7b6407979c8a1a5a8591dd4637b&nutrition-type=cooking&category=${route.params.category}`;
+const edamamApiEndpoint = `${runtimeConfig.public.apiEdamam}
+                            &app_id=e5a7e476
+                            &app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09
+                            &mealType=${route.params.category}&dishType=Main%20course`;
 const fakeStoreEndpoint = `https://fakestoreapi.com/products/category/${route.params.category}`;
 
 const selectedApiEndpoint = computed(() => {
   return route.query.index !== null && +route.query.index >= 0 && +route.query.index < 3;
 });
 
-console.log(typeof route.query.index);
 const { data } = await useFetch(
   () => `${selectedApiEndpoint ? edamamApiEndpoint : fakeStoreEndpoint}`
 );
