@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { generateRandomPrice } from '@/helpers/randomPrice';
 
-const price = useState<string>('useState', () => null);
+const price = ref<string | null>(null);
 
 const props = defineProps<{
   category: string;
