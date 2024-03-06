@@ -8,7 +8,7 @@ const props = defineProps<{
   textKey: keyof IDropdownOptions;
 }>();
 
-const emits = defineEmits(['inputRefEmit', 'emit-option', 'emit-location']);
+const emits = defineEmits(['emit-input', 'emit-option', 'emit-location']);
 
 let locationAdress: ILocationAdress | null = null;
 
@@ -21,9 +21,11 @@ const { latitude, longitude, getLocation } = useGeolocation();
 
 const runtimeConfig = useRuntimeConfig();
 
+console.log(runtimeConfig);
+
 const { data } = await useFetch<ILocationAdress>(
   () =>
-    `${runtimeConfig.public.apiReverse}pk.a75cdfe1cc307b34218d8021f4122dc6&lat=${latitude.value}&lon=${longitude.value}&format=json&`
+    `${runtimeConfig.public.apiReverse}pk.a75cdfe1cc307b34218d8021f4122dc6&q&lat=${latitude.value}&lon=${longitude.value}&format=json&`
 );
 
 function handleInputElements() {
@@ -54,7 +56,7 @@ function handleEmmitedOption(option: number) {
 
 function handleOnChange() {
   handleInputElements();
-  emits('inputRefEmit', inputRef.value);
+  emits('emit-input', inputRef.value);
 }
 
 watch(
