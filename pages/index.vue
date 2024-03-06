@@ -2,7 +2,7 @@
 import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type { ILocationsData, ILocationAdress } from '@/interfaces/locations.interface';
 import type { IMeal } from '@/interfaces/meals.interface';
-import { productCategories } from '@/data/productCategoriesData';
+import { productCategories, dishTypes } from '@/data/productCategoriesData';
 
 const emittedInput = useState<string>('emmitedInput', () => '');
 const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
@@ -37,8 +37,11 @@ function handleEmmitedOption(option: IDropdownOptions) {
 }
 
 function handleEmmitedLocation(location: ILocationAdress) {
-  console.log(location);
   emittedLocation.value = location;
+}
+
+function checkIfLocation() {
+  return emittedOption.value.text !== '' || emittedLocation.value.address.road !== '';
 }
 
 function checkLocationOutput() {
@@ -73,7 +76,11 @@ watch(
       class="container px-4 pt-28 mx-auto flex flex-col items-center justify-center gap-8 p-10 md:flex-row"
     >
       <div class="w-1/2 md:w-1/3">
-        <img src="@/assets/food.png" alt="food" class="md:w-1/2" />
+        <video width="640" height="360" controls>
+          <source src="girl.mov" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <!--  <img src="@/assets/food.png" alt="food" class="md:w-1/2" /> -->
       </div>
       <div class="bg-yellow-400 text-center">
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
@@ -93,7 +100,7 @@ watch(
 
           <p
             class="text-sm md:text-lg font-medium mt-4 absolute top-12 left-0"
-            v-if="emittedOption.text !== '' || emittedLocation.address.road !== ''"
+            v-if="checkIfLocation()"
           >
             Deliver to:
             <span class="text-sm md:text-lg font-bold">{{ checkLocationOutput() }}</span>
@@ -141,15 +148,20 @@ watch(
         :icon="['fas', 'fa-check']"
         class="text-7xl mx-auto w-full py-20 text-yellow-400"
       />
-      <h3 class="text-xl md:text-3xl font-bold text-center w-full">
-        {{
-          `Popular filters in ${
-            emittedLocation.address.road !== ''
-              ? emittedLocation.address.town
-              : emittedOption.text
-          }`
-        }}
-      </h3>
+      <div class="flex justify-center">
+        <h3 class="text-xl md:text-3xl font-bold w-full" v-if="checkIfLocation()">
+          {{
+            `Popular filters in ${
+              emittedLocation.address.road !== ''
+                ? emittedLocation.address.town
+                : emittedOption.text
+            }`
+          }}
+        </h3>
+        <div class="md:w-1/2">
+          <FoodCategoryList :dishTypes="dishTypes" />
+        </div>
+      </div>
     </section>
   </div>
 </template>
