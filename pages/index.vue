@@ -76,11 +76,7 @@ watch(
       class="container px-4 pt-28 mx-auto flex flex-col items-center justify-center gap-8 p-10 md:flex-row"
     >
       <div class="w-1/2 md:w-1/3">
-        <video width="640" height="360" controls>
-          <source src="girl.mov" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <!--  <img src="@/assets/food.png" alt="food" class="md:w-1/2" /> -->
+        <img src="@/assets/food.png" alt="food" class="md:w-1/2" />
       </div>
       <div class="bg-yellow-400 text-center">
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
@@ -148,8 +144,11 @@ watch(
         :icon="['fas', 'fa-check']"
         class="text-7xl mx-auto w-full py-20 text-yellow-400"
       />
-      <div class="flex justify-center">
-        <h3 class="text-xl md:text-3xl font-bold w-full" v-if="checkIfLocation()">
+      <div
+        class="flex flex-col w-full items-center justify-center gap-10 pb-20"
+        v-if="checkIfLocation()"
+      >
+        <h3 class="text-xl md:text-3xl font-bold">
           {{
             `Popular filters in ${
               emittedLocation.address.road !== ''
@@ -162,6 +161,29 @@ watch(
           <FoodCategoryList :dishTypes="dishTypes" />
         </div>
       </div>
+    </section>
+  </div>
+  <div class="container mx-auto px-4">
+    <h3 class="text-center text-4xl font-bold pb-20">Anything delivered</h3>
+    <section class="grid grid-cols-1 md:grid-cols-3 pb-20 gap-4">
+      <InfoCard
+        :icon="'utensils'"
+        :heading="'Your city\'s top restaurants'"
+        :paragraph="'With a great variety of restaurants you can order your favourite food or '"
+        :span="'explore new restaurants nearby!'"
+      />
+      <InfoCard
+        :icon="'truck'"
+        :heading="'Fast delivery'"
+        :paragraph="'Like a flash! Order or send anything in your city and '"
+        :span="'receive it in minutes.'"
+      />
+      <InfoCard
+        :icon="'bowl-food'"
+        :heading="'Groceries delivery & more'"
+        :paragraph="'Find anything you need! From food to electronics and clothing'"
+        :span="' if it\'s in your city order it and receive it.'"
+      />
     </section>
   </div>
 </template>
