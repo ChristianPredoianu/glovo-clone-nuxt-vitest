@@ -21,8 +21,6 @@ const { latitude, longitude, getLocation } = useGeolocation();
 
 const runtimeConfig = useRuntimeConfig();
 
-console.log(runtimeConfig);
-
 const { data } = await useFetch<ILocationAdress>(
   () =>
     `${runtimeConfig.public.apiReverse}pk.a75cdfe1cc307b34218d8021f4122dc6&q&lat=${latitude.value}&lon=${longitude.value}&format=json&`
