@@ -23,9 +23,7 @@ export function useScreenWidth() {
   });
 
   onUnmounted(() => {
-    if (process.client) {
-      window.removeEventListener('resize', changeWidth);
-    }
+    if (process.client) window.removeEventListener('resize', changeWidth);
   });
 
   return { screenWidth, setInitialWidth } as const;
