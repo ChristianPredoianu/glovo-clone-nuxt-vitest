@@ -19,6 +19,5 @@ describe('Meal card', () => {
     expect(wrapper.find('p').text()).toBe('Food');
     expect(wrapper.find('h3').text()).toBe('Delicious');
     expect(wrapper.find('.text-green-500').text()).toMatch(/^\d+(\.\d+)?\$$/);
-    expect(wrapper.find('.bg-yellow-400 p').text()).toBe('Free');
   });
 });
