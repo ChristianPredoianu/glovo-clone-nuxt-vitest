@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import MealCard from '@/components/cards/MealCard.vue';
+import MealCard from '@/components/cards/MealCard/MealCard.vue';
 
 describe('Meal card', () => {
   it('renders correctly with props', async () => {
