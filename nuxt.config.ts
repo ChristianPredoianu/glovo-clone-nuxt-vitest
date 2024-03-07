@@ -1,10 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+console.log(process.env);
 export default defineNuxtConfig({
   runtimeConfig: {
-    apiSecret: process.env.NUXT_API_SECRET,
+    apiSecretLocationReverse: process.env.NUXT_API_KEY_LOCATION_REVERSE,
     public: {
       apiAutoconfig: process.env.NUXT_PUBLIC_API_AUTOCOMPLETE,
       apiReverse: process.env.NUXT_PUBLIC_API_REVERSE,
+      apiEdamam: process.env.NUXT_PUBLIC_API_EDAMAM,
+      apiRestCountries: process.env.NUXT_PUBLIC_API_COUNTRIES,
     },
   },
 
