@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/options.interface';
-import type { ILocationsData, ILocationAdress } from '@/interfaces/locations.interface';
+import type {
+  ILocationsData,
+  ILocationAdress,
+  ICountriesData,
+} from '@/interfaces/locations.interface';
 import type { IMeal } from '@/interfaces/meals.interface';
 import { productCategories, dishTypes } from '@/data/productCategoriesData';
 
@@ -24,6 +28,10 @@ const { data: locationData } = await useFetch<ILocationsData[]>(
 const { data: mealData } = await useFetch<IMeal>(
   () =>
     `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`
+);
+
+const { data: countriesData } = await useFetch<ICountriesData[]>(
+  () => `https://restcountries.com/v3.1/subregion/Northern%20Europe`
 );
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
@@ -71,20 +79,20 @@ watch(
 </script>
 
 <template>
-  <section class="bg-yellow-400 text-gray-800 min-h-screen md:min-h-min">
+  <section class="bg-amber-400 text-gray-800 min-h-screen md:min-h-min">
     <div
       class="container px-4 pt-28 mx-auto flex flex-col items-center justify-center gap-8 p-10 md:flex-row"
     >
       <div class="w-1/2 md:w-1/3">
         <img src="@/assets/food.png" alt="food" class="md:w-1/2" />
       </div>
-      <div class="bg-yellow-400 text-center">
+      <div class="bg-amber-400 text-center">
         <h1 class="text-2xl font-bold md:text-4xl">Food delivery and more</h1>
         <p class="mt-2 font-medium md:font-xl">
           Groceries, clothing, electronics, anything!
         </p>
         <div class="input-container relative mt-8">
-          <AdressForm
+          <AddressForm
             v-if="locationData || dropdownOptions"
             :options="dropdownOptions"
             textKey="text"
@@ -142,7 +150,7 @@ watch(
     <section>
       <font-awesome-icon
         :icon="['fas', 'fa-check']"
-        class="text-7xl mx-auto w-full py-20 text-yellow-400"
+        class="text-7xl mx-auto w-full py-20 text-amber-400"
       />
       <div
         class="flex flex-col w-full items-center justify-center gap-10 pb-20"
@@ -158,32 +166,52 @@ watch(
           }}
         </h3>
         <div class="md:w-1/2">
-          <FoodCategoryList :dishTypes="dishTypes" />
+          <!-- <GenericList :items="dishTypes" /> -->
         </div>
       </div>
     </section>
   </div>
   <div class="container mx-auto px-4">
     <h3 class="text-center text-4xl font-bold pb-20">Anything delivered</h3>
-    <section class="grid grid-cols-1 md:grid-cols-3 pb-20 gap-4">
-      <InfoCard
-        :icon="'utensils'"
-        :heading="'Your city\'s top restaurants'"
-        :paragraph="'With a great variety of restaurants you can order your favourite food or '"
-        :span="'explore new restaurants nearby!'"
-      />
-      <InfoCard
-        :icon="'truck'"
-        :heading="'Fast delivery'"
-        :paragraph="'Like a flash! Order or send anything in your city and '"
-        :span="'receive it in minutes.'"
-      />
-      <InfoCard
-        :icon="'bowl-food'"
-        :heading="'Groceries delivery & more'"
-        :paragraph="'Find anything you need! From food to electronics and clothing'"
-        :span="' if it\'s in your city order it and receive it.'"
-      />
+    <section class="flex flex-col items-center pb-20">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <InfoCard
+          :icon="'utensils'"
+          :heading="'Your city\'s top restaurants'"
+          :paragraph="'With a great variety of restaurants you can order your favourite food or '"
+          :span="'explore new restaurants nearby!'"
+        />
+        <InfoCard
+          :icon="'truck'"
+          :heading="'Fast delivery'"
+          :paragraph="'Like a flash! Order or send anything in your city and '"
+          :span="'receive it in minutes.'"
+        />
+        <InfoCard
+          :icon="'bowl-food'"
+          :heading="'Groceries delivery & more'"
+          :paragraph="'Find anything you need! From food to electronics and clothing'"
+          :span="' if it\'s in your city order it and receive it.'"
+        />
+      </div>
+      <div class="py-20">
+        <CtaBtn>Explore food around you</CtaBtn>
+      </div>
     </section>
   </div>
+  <section class="w-full">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+      <path
+        fill="#fbbf24"
+        fill-opacity="1"
+        d="M0,128L80,133.3C160,139,320,149,480,165.3C640,181,800,203,960,202.7C1120,203,1280,181,1360,170.7L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+      ></path>
+    </svg>
+    <div class="bg-amber-400 w-full">
+      <h3 class="text-center text-4xl font-bold pb-20">Anything delivered</h3>
+    </div>
+    <div>
+      <!-- <GenericList v-if="countriesData" :items="countriesData" field="name.common" /> -->
+    </div>
+  </section>
 </template>
