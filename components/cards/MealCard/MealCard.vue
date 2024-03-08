@@ -37,7 +37,7 @@ onMounted(() => {
 
       <div class="flex flex-wrap items-center justify-between mt-2 py-1">
         <p class="text-green-500">{{ price }}$</p>
-        <div class="flex items-center gap-2 bg-yellow-400 p-1 rounded-md">
+        <div class="flex items-center gap-2 bg-amber-400 p-1 rounded-md">
           <font-awesome-icon :icon="['fas', 'fa-truck']" />
           <p>Free</p>
         </div>
