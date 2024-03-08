@@ -11,3 +11,9 @@ export interface ILocationAdress {
     country: string;
   };
 }
+
+export interface ICountriesData {
+  name: {
+    common: string;
+  };
+}
