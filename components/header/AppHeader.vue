@@ -18,7 +18,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <header class="relative bg-yellow-400" v-if="screenWidth">
+  <header class="relative bg-amber-400" v-if="screenWidth">
     <nav class="flex items-center justify-between flex-wrap container mx-auto p-4">
       <Logo />
       <Backdrop />
