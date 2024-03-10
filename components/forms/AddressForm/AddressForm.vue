@@ -12,7 +12,7 @@ const emits = defineEmits(['emit-input', 'emit-option', 'emit-location']);
 
 let locationAdress: ILocationAdress | null = null;
 
-const inputRef = useState<string>('inputRef', () => '');
+const inputText = useState<string>('inputRef', () => '');
 
 const locationIconRef = ref<HTMLInputElement | null>(null);
 const locationTextRef = ref<HTMLSpanElement | null>(null);
@@ -27,9 +27,9 @@ const { data } = await useFetch<ILocationAdress>(
 );
 
 function handleInputElements() {
-  if (inputRef) {
-    inputRef.valueOf.length > 20;
-    if (inputRef.value.length > 20) {
+  if (inputText) {
+    inputText.valueOf.length > 20;
+    if (inputText.value.length > 20) {
       locationIconRef.value?.classList.add('md:hidden');
       locationTextRef.value?.classList.add('md:hidden');
     } else {
@@ -41,11 +41,11 @@ function handleInputElements() {
 
 function getUserLocation() {
   getLocation();
-  inputRef.value = '';
+  inputText.value = '';
 }
 
 function handleClearInput() {
-  inputRef.value = '';
+  inputText.value = '';
 }
 
 function handleEmmitedOption(option: number) {
@@ -54,7 +54,7 @@ function handleEmmitedOption(option: number) {
 
 function handleOnChange() {
   handleInputElements();
-  emits('emit-input', inputRef.value);
+  emits('emit-input', inputText.value);
 }
 
 watch(
@@ -80,7 +80,7 @@ watch(
       type="text"
       placeholder="What's your address?"
       class="py-3 px-12 w-full rounded-md"
-      v-model="inputRef"
+      v-model="inputText"
       @input="handleOnChange"
     />
     <span
