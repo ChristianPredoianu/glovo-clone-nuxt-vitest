@@ -14,8 +14,6 @@ const selectedApiEndpoint = computed(() => {
 const { data } = await useFetch(
   () => `${selectedApiEndpoint ? edamamApiEndpoint : fakeStoreEndpoint}`
 );
-
-console.log(route.query.index);
 </script>
 
 <template>
