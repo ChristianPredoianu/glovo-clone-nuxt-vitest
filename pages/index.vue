@@ -31,7 +31,7 @@ const { data: mealData } = await useFetch<IMeal>(
 );
 
 const { data: countriesData } = await useFetch<ICountriesData[]>(
-  () => `https://restcountries.com/v3.1/subregion/Northern%20Europe`
+  () => `https://restcountries.com/v3.1/region/europe`
 );
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
@@ -166,7 +166,7 @@ watch(
           }}
         </h3>
         <div class="md:w-1/2">
-          <!-- <GenericList :items="dishTypes" /> -->
+          <GenericList :items="dishTypes" field="dishType" />
         </div>
       </div>
     </section>
@@ -208,10 +208,10 @@ watch(
       ></path>
     </svg>
     <div class="bg-amber-400 w-full">
-      <h3 class="text-center text-4xl font-bold pb-20">Anything delivered</h3>
-    </div>
-    <div>
-      <!-- <GenericList v-if="countriesData" :items="countriesData" field="name.common" /> -->
+      <h3 class="text-center text-4xl font-bold pb-20">Countries where we deliver</h3>
+      <div class="container mx-auto px-4">
+        <GenericList v-if="countriesData" :items="countriesData" field="name.common" />
+      </div>
     </div>
   </section>
 </template>
