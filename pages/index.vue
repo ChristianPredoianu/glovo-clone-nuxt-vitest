@@ -135,7 +135,7 @@ watch(
         <h2 class="text-xl font-bold">Meals you might like</h2>
       </div>
       <div
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
       >
         <MealCard
           v-if="mealData"
@@ -147,7 +147,7 @@ watch(
         />
       </div>
     </section>
-    <section>
+    <section class="container mx-auto px-4 py-10">
       <font-awesome-icon
         :icon="['fas', 'fa-check']"
         class="text-7xl mx-auto w-full py-20 text-amber-400"
@@ -173,7 +173,7 @@ watch(
   </div>
   <div class="container mx-auto px-4">
     <h3 class="text-center text-4xl font-bold pb-20">Anything delivered</h3>
-    <section class="flex flex-col items-center pb-20">
+    <section class="flex flex-col items-center">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InfoCard
           :icon="'utensils'"
@@ -194,7 +194,7 @@ watch(
           :span="' if it\'s in your city order it and receive it.'"
         />
       </div>
-      <div class="py-20">
+      <div class="pt-20">
         <CtaBtn>Explore food around you</CtaBtn>
       </div>
     </section>
@@ -207,7 +207,7 @@ watch(
         d="M0,128L80,133.3C160,139,320,149,480,165.3C640,181,800,203,960,202.7C1120,203,1280,181,1360,170.7L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
       ></path>
     </svg>
-    <div class="bg-amber-400 w-full">
+    <div class="bg-amber-400 w-full pb-20">
       <h3 class="text-center text-4xl font-bold pb-20">Countries where we deliver</h3>
       <div class="container mx-auto px-4">
         <GenericList v-if="countriesData" :items="countriesData" field="name.common" />
