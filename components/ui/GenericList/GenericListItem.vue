@@ -1,10 +1,26 @@
 <script setup lang="ts">
+import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
+
+interface IItem {
+  [key: string]: any;
+}
+
 const props = defineProps<{
   items: Record<string, any>[];
   field: string;
 }>();
 
-console.log(props.field);
+function getItemField(item: IItem, field: string) {
+  const nestedFields = field.split('.'); // Split the field by '.' to handle nested properties
+
+  let value = item;
+
+  for (const nestedField of nestedFields) {
+    if (value === null || value === undefined) return ''; // Handle null or undefined values
+    value = value[nestedField];
+  }
+  return value;
+}
 </script>
 
 <template>
@@ -13,9 +29,6 @@ console.log(props.field);
     v-for="(item, key) in items"
     :key="key"
   >
-    <!-- {{ item[props.field].charAt(0).toUpperCase() + item[props.field].slice(1) }} -->
-    {{ item.name.common }}
-
-    {{ item[props.field] }}
+    {{ capitalizeFirstLetter(getItemField(item, props.field)) }}
   </li>
 </template>
