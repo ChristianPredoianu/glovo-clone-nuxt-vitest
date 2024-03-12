@@ -30,3 +30,23 @@ export const dishTypes = [
   { id: 4, dishType: 'sandwiches' },
   { id: 5, dishType: 'seafood' },
 ];
+
+export const cuisineTypes = [
+  { id: 1, cuisineType: 'American', icon: 'fa-burger' },
+  { id: 2, cuisineType: 'Asian', icon: 'fa-bowl-food' },
+  { id: 3, cuisineType: 'British', icon: 'fa-bowl-rice' },
+  { id: 4, cuisineType: 'Caribbean', icon: 'fa-fish' },
+  { id: 5, cuisineType: 'Central Europe', icon: 'fa-carrot' },
+  { id: 6, cuisineType: 'Chinese', icon: 'fa-egg' },
+  { id: 7, cuisineType: 'Eastern Europe', icon: 'fa-drumstick-bite' },
+  { id: 8, cuisineType: 'French', icon: 'fa-cheese' },
+  { id: 9, cuisineType: 'Indian', icon: 'fa-bone' },
+  { id: 10, cuisineType: 'Italian', icon: 'fa-pizza' },
+  { id: 11, cuisineType: 'Japanese', icon: 'fa-cookie-bite' },
+  { id: 12, cuisineType: 'Kosher', icon: 'fa-plate-wheat' },
+  { id: 13, cuisineType: 'Mediterranean', icon: 'fa-pepper-hot' },
+  { id: 14, cuisineType: 'Mexican', icon: 'fa-cookie' },
+  { id: 15, cuisineType: 'Middle Eastern', icon: 'fa-shrimp' },
+  { id: 16, cuisineType: 'South American', icon: 'fa-lemon' },
+  { id: 17, cuisineType: 'South East Asian', icon: 'fa-utensils' },
+];
