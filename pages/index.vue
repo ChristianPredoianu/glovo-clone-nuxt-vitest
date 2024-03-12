@@ -16,6 +16,7 @@ const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
 const emittedLocation = useState<ILocationAdress>('emittedLocation', () => {
   return { address: { road: '', postcode: '', town: '', country: '' } };
 });
+
 let dropdownOptions: IDropdownOptions[] = [];
 
 const runtimeConfig = useRuntimeConfig();
