@@ -6,7 +6,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <ul class="flex flex-wrap gap-4 justify-around">
+  <ul class="flex flex-wrap gap-2 justify-around">
     <GenericListItem :items="items" :field="props.field" />
   </ul>
 </template>
