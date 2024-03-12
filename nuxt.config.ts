@@ -31,5 +31,7 @@ export default defineNuxtConfig({
     { path: '@/components/forms', extensions: ['vue'] },
     { path: '@/components/cards', extensions: ['vue'] },
     { path: '@/components/buttons', extensions: ['vue'] },
+    { path: '@/components/filters', extensions: ['vue'] },
+    { path: '@/components/modals', extensions: ['vue'] },
   ],
 });
