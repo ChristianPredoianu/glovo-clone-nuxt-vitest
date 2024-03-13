@@ -1,19 +1,19 @@
 <script setup lang="ts">
 const { isNavOpen, closeNav } = useNav();
-const { closeBackdrop } = useBackdrop(closeNav);
+const { closeBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
 
-function closeNavOnResize() {
+function closeModalDialog() {
   closeNav();
   closeBackdrop();
 }
 
 onMounted(() => {
-  window.addEventListener('resize', closeNavOnResize);
+  window.addEventListener('resize', closeModalDialog);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('resize', closeNavOnResize);
+  window.removeEventListener('resize', closeModalDialog);
 });
 </script>
 
@@ -21,7 +21,7 @@ onUnmounted(() => {
   <header class="relative bg-amber-400" v-if="screenWidth">
     <nav class="flex items-center justify-between flex-wrap container mx-auto p-4">
       <Logo />
-      <Backdrop />
+      <Backdrop @closeElement="closeModalDialog" />
       <Hamburger />
       <div
         id="nav-list-div"
