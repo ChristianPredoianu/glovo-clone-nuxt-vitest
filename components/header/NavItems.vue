@@ -3,7 +3,7 @@ const { screenWidth } = useScreenWidth();
 const { closeNav } = useNav();
 const { closeBackdrop } = useBackdrop();
 
-function closeModalDialog() {
+function closeNavigationDialog() {
   closeNav();
   closeBackdrop();
 }
@@ -16,7 +16,7 @@ function closeModalDialog() {
       :icon="['fas', 'arrow-left']"
       size="xl"
       v-if="screenWidth < 640"
-      @click="closeModalDialog"
+      @click="closeNavigationDialog"
     />
     <div class="border-b-2 flex mt-40" v-if="screenWidth < 640">
       <h1
