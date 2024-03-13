@@ -1,7 +1,12 @@
 <script setup lang="ts">
 const { screenWidth } = useScreenWidth();
 const { closeNav } = useNav();
-const { closeBackdrop } = useBackdrop(closeNav);
+const { closeBackdrop } = useBackdrop();
+
+function closeModalDialog() {
+  closeNav();
+  closeBackdrop();
+}
 </script>
 
 <template>
@@ -11,7 +16,7 @@ const { closeBackdrop } = useBackdrop(closeNav);
       :icon="['fas', 'arrow-left']"
       size="xl"
       v-if="screenWidth < 640"
-      @click="closeBackdrop"
+      @click="closeModalDialog"
     />
     <div class="border-b-2 flex mt-40" v-if="screenWidth < 640">
       <h1
