@@ -41,7 +41,7 @@ export const cuisineTypes = [
   { id: 7, cuisineType: 'Eastern Europe', icon: 'fa-drumstick-bite' },
   { id: 8, cuisineType: 'French', icon: 'fa-cheese' },
   { id: 9, cuisineType: 'Indian', icon: 'fa-bone' },
-  { id: 10, cuisineType: 'Italian', icon: 'fa-pizza' },
+  { id: 10, cuisineType: 'Italian', icon: 'fa-pizza-slice' },
   { id: 11, cuisineType: 'Japanese', icon: 'fa-cookie-bite' },
   { id: 12, cuisineType: 'Kosher', icon: 'fa-plate-wheat' },
   { id: 13, cuisineType: 'Mediterranean', icon: 'fa-pepper-hot' },
