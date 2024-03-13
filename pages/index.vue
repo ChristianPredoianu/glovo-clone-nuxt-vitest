@@ -196,7 +196,9 @@ watch(
         />
       </div>
       <div class="pt-20">
-        <CtaBtn>Explore food around you</CtaBtn>
+        <CtaBtn backCol="bg-green-500" textCol="text-gray-100"
+          >Explore food around you</CtaBtn
+        >
       </div>
     </section>
   </div>
