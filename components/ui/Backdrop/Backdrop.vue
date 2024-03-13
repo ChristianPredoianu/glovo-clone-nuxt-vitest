@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const emits = defineEmits(['closeElement']);
 
-const { closeNav } = useNav();
 const { isBackdropOpen, closeBackdrop } = useBackdrop();
 
 function closeBackdropElements() {
