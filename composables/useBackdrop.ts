@@ -1,4 +1,4 @@
-export function useBackdrop(elementToClose?: () => void) {
+export function useBackdrop() {
   const isBackdropOpen = useState<boolean>('isBackdropOpen', () => false);
 
   function openBackdrop() {
@@ -6,7 +6,6 @@ export function useBackdrop(elementToClose?: () => void) {
   }
 
   function closeBackdrop() {
-    if (elementToClose) elementToClose();
     isBackdropOpen.value = false;
   }
 
