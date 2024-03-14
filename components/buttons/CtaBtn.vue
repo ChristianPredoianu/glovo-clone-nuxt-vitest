@@ -14,6 +14,7 @@ const props = defineProps({
     default: undefined,
   },
 });
+
 const emits = defineEmits(['clicked']);
 </script>
 
