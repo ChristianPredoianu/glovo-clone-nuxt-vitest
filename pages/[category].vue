@@ -93,12 +93,16 @@ function handleEmitSelected(selectedCuisineType: string) {
         :img="meal.recipe.image"
       />
     </div>
-
-    <ProductCard
-      v-if="data !== null && !isMealData(data)"
-      v-for="product in data"
-      :key="product.id"
-    />
+    <div
+      class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
+    >
+      <ProductCard
+        v-if="data !== null && !isMealData(data)"
+        v-for="product in data"
+        :key="product.id"
+        :product="product"
+      />
+    </div>
   </div>
   <h1>Products in category: {{ $route.params.category }}</h1>
   <h1>Products in category: {{ $route.query.index }}</h1>
