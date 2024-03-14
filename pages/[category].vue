@@ -83,7 +83,7 @@ function handleEmitSelected(selectedCuisineType: string) {
         :label="meal.recipe.label"
         :img="meal.recipe.image"
       />
-
+      <!--  use template to chack v-if dont use v-if and v-for on the same element -->
       <MealCard
         v-if="filteredData && !pendingFilteredData"
         v-for="(meal, index) in filteredData.hits"
