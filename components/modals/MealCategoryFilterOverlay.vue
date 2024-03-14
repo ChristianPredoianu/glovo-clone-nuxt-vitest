@@ -6,6 +6,9 @@ const emits = defineEmits(['emitSelected']);
 
 const selectedCuisineType = useState<string>('selectedCuisineType', () => '');
 
+const { closeModal } = useModal();
+const { closeBackdrop } = useBackdrop();
+
 function toggleActive(cuisineType: ICuisineType) {
   selectedCuisineType.value === cuisineType.cuisineType
     ? (selectedCuisineType.value = '')
@@ -18,6 +21,8 @@ function isActive(cuisineType: ICuisineType): boolean {
 
 function handleApply() {
   emits('emitSelected', selectedCuisineType.value);
+  closeModal();
+  closeBackdrop();
 }
 </script>
 
