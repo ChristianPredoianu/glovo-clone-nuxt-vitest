@@ -15,7 +15,7 @@ function emitSelected(selectedCuisineType: string) {
 
 <template>
   <main
-    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center z-50 w-full h-full md:h-auto md:w-4/5 bg-white"
+    class="fixed top-0 flex flex-col justify-center items-center z-50 w-full h-full bg-white"
   >
     <Backdrop @closeElement="closeModalDialog" />
     <MealCategoryFilterOverlay @emitSelected="emitSelected" />
