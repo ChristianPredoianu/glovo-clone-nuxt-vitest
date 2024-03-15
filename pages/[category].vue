@@ -28,8 +28,7 @@ const { data, pending } = await useFetch<IMeal | IProduct[]>(() =>
 );
 
 const { data: filteredData, pending: pendingFilteredData } = useFetch<IMeal | null>(
-  edamamApiFilteredEndpoint,
-  {}
+  edamamApiFilteredEndpoint
 );
 
 function isMealData(data: IMeal | IProduct[]): data is IMeal {
@@ -94,7 +93,7 @@ function handleEmitSelected(selectedCuisineType: string) {
       />
     </div>
     <div
-      class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
+      class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
     >
       <ProductCard
         v-if="data !== null && !isMealData(data)"
