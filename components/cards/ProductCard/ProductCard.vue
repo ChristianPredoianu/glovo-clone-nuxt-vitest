@@ -28,5 +28,3 @@ const props = defineProps({
     </div>
   </article>
 </template>
-
-<!-- img, rating, antal rating, namn, category -->
