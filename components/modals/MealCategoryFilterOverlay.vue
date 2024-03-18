@@ -19,6 +19,10 @@ function isActive(cuisineType: ICuisineType): boolean {
   return selectedCuisineType.value === cuisineType.cuisineType;
 }
 
+function handleDelete() {
+  selectedCuisineType.value = '';
+}
+
 function handleApply() {
   emits('emitSelected', selectedCuisineType.value);
   closeModal();
@@ -54,6 +58,7 @@ function handleApply() {
         textCol="text-green-600"
         borderCol="border-green-500"
         borderWidth="border"
+        @click="handleDelete"
         >Delete</CtaBtn
       >
       <CtaBtn backCol="bg-green-600" textCol="text-gray-100" @click="handleApply"
