@@ -8,6 +8,7 @@ const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { isModalOpen, openModal } = useModal();
 const { openBackdrop } = useBackdrop();
+const { screenWidth } = useScreenWidth();
 
 const edamamApiEndpoint = `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&dishType=Main%20course`;
 
@@ -59,7 +60,7 @@ function handleEmitSelected(selectedCuisineType: string) {
       <Teleport to="body">
         <MealCategoryFilterModal v-if="isModalOpen" @emitSelected="handleEmitSelected" />
       </Teleport>
-      <div>
+      <div class="py-5" v-if="screenWidth <= 1024">
         <font-awesome-icon
           :icon="['fas', 'fa-filter']"
           class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer"
@@ -68,41 +69,49 @@ function handleEmitSelected(selectedCuisineType: string) {
         <p class="text-xs text-center">Filter</p>
       </div>
     </section>
-    <div class="flex justify-center w-full">
-      <LoadingSpinner v-if="pending || pendingFilteredData" />
-    </div>
-    <div
-      class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
-    >
-      <MealCard
-        v-if="data !== null && isMealData(data) && emittedCuisineType === '' && !pending"
-        v-for="meal in data.hits"
-        :key="meal.recipe.label"
-        :category="meal.recipe.cuisineType[0]"
-        :label="meal.recipe.label"
-        :img="meal.recipe.image"
-      />
-      <!--  use template to chack v-if dont use v-if and v-for on the same element -->
-      <MealCard
-        v-if="filteredData && !pendingFilteredData"
-        v-for="(meal, index) in filteredData.hits"
-        :key="`meal-${index}`"
-        :category="meal.recipe.cuisineType[0]"
-        :label="meal.recipe.label"
-        :img="meal.recipe.image"
-      />
-    </div>
-    <div
-      class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
-    >
-      <ProductCard
-        v-if="data !== null && !isMealData(data)"
-        v-for="product in data"
-        :key="product.id"
-        :product="product"
-      />
-    </div>
+    <section>
+      <h1 class="text-2xl font-bold md:text-4xl py-5 lg:py-10">
+        {{ $route.params.category }} meals
+      </h1>
+      <div class="flex justify-center w-full">
+        <LoadingSpinner v-if="pending || pendingFilteredData" />
+      </div>
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
+      >
+        <MealCard
+          v-if="
+            data !== null && isMealData(data) && emittedCuisineType === '' && !pending
+          "
+          v-for="meal in data.hits"
+          :key="meal.recipe.label"
+          :category="meal.recipe.cuisineType[0]"
+          :label="meal.recipe.label"
+          :img="meal.recipe.image"
+        />
+        <!--  use template to chack v-if dont use v-if and v-for on the same element -->
+        <MealCard
+          v-if="filteredData && !pendingFilteredData"
+          v-for="(meal, index) in filteredData.hits"
+          :key="`meal-${index}`"
+          :category="meal.recipe.cuisineType[0]"
+          :label="meal.recipe.label"
+          :img="meal.recipe.image"
+        />
+      </div>
+      <div
+        class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
+      >
+        <ProductCard
+          v-if="data !== null && !isMealData(data)"
+          v-for="product in data"
+          :key="product.id"
+          :product="product"
+        />
+      </div>
+    </section>
   </div>
+
   <h1>Products in category: {{ $route.params.category }}</h1>
   <h1>Products in category: {{ $route.query.index }}</h1>
 </template>
