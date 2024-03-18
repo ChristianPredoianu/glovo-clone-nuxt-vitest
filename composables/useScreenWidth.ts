@@ -10,9 +10,7 @@ export function useScreenWidth() {
   }
 
   function setInitialWidth() {
-    if (process.client) {
-      screenWidth.value = window.innerWidth;
-    }
+    if (process.client) screenWidth.value = window.innerWidth;
   }
 
   onMounted(() => {
