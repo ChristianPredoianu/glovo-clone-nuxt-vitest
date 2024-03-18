@@ -2,10 +2,18 @@
 const emits = defineEmits(['emitSelected']);
 
 const { closeModal } = useModal();
+const { screenWidth } = useScreenWidth();
 
 function closeModalDialog() {
   closeModal();
 }
+
+watch(
+  () => screenWidth.value,
+  () => {
+    if (screenWidth.value >= 1024) closeModal();
+  }
+);
 
 function emitSelected(selectedCuisineType: string) {
   emits('emitSelected', selectedCuisineType);
