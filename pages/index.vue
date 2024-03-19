@@ -104,8 +104,8 @@ watch(
           />
 
           <p
-            class="text-sm md:text-lg font-medium mt-4 absolute top-12 left-0"
             v-if="checkIfLocation()"
+            class="text-sm md:text-lg font-medium mt-4 absolute top-12 left-0"
           >
             Deliver to:
             <span class="text-sm md:text-lg font-bold">{{ checkLocationOutput() }}</span>
@@ -136,10 +136,10 @@ watch(
         <h2 class="text-xl font-bold">Meals you might like</h2>
       </div>
       <div
+        v-if="mealData"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
       >
         <MealCard
-          v-if="mealData"
           v-for="meal in mealData.hits"
           :key="meal.recipe.label"
           :category="meal.recipe.cuisineType[0]"
@@ -154,8 +154,8 @@ watch(
         class="text-7xl mx-auto w-full py-20 text-amber-400"
       />
       <div
-        class="flex flex-col w-full items-center justify-center gap-10 pb-20"
         v-if="checkIfLocation()"
+        class="flex flex-col w-full items-center justify-center gap-10 pb-20"
       >
         <h3 class="text-xl md:text-3xl font-bold">
           {{
