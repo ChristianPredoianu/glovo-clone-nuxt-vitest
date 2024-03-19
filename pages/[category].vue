@@ -22,8 +22,6 @@ const selectedApiEndpoint = computed(() => {
   return route.query.index !== null && +route.query.index >= 0 && +route.query.index < 3;
 });
 
-console.log(selectedApiEndpoint.value);
-
 const { data, pending } = await useFetch<IMeal | IProduct[]>(() =>
   selectedApiEndpoint.value ? edamamApiEndpoint : fakeStoreEndpoint
 );
@@ -36,7 +34,6 @@ function isMealData(data: IMeal | IProduct[]): data is IMeal {
   return 'hits' in data;
 }
 
-console.log(data.value);
 function openFilter() {
   openBackdrop();
   openModal();
@@ -49,8 +46,7 @@ function handleEmitSelected(selectedCuisineType: string) {
 /* watch(emittedCuisineType, (newX) => {
   emittedCuisineType.value = newX;
 
-  edamamApiFilteredEndpoint;
-  console.log(filteredData);
+  console.log(filteredData.value);
 }); */
 </script>
 
@@ -60,7 +56,7 @@ function handleEmitSelected(selectedCuisineType: string) {
       <Teleport to="body">
         <MealCategoryFilterModal v-if="isModalOpen" @emitSelected="handleEmitSelected" />
       </Teleport>
-      <div class="py-5" v-if="screenWidth <= 1024">
+      <div v-if="screenWidth <= 1024" class="py-5">
         <font-awesome-icon
           :icon="['fas', 'fa-filter']"
           class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer"
@@ -69,41 +65,50 @@ function handleEmitSelected(selectedCuisineType: string) {
         <p class="text-xs text-center">Filter</p>
       </div>
     </section>
-    <section>
-      <h1 class="text-2xl font-bold md:text-4xl py-5 lg:py-10">
-        {{ $route.params.category }} meals
-      </h1>
-      <div class="flex justify-center w-full">
-        <LoadingSpinner v-if="pending || pendingFilteredData" />
+    <section class="flex justify-between">
+      <div v-if="screenWidth >= 1024" class="mt-20">
+        <MealCategoryFilterList @emitSelected="handleEmitSelected" />
       </div>
-      <div
-        v-if="data !== null && isMealData(data) && emittedCuisineType === '' && !pending"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
-      >
-        <MealCard
-          v-for="meal in data.hits"
-          :key="meal.recipe.label"
-          :category="meal.recipe.cuisineType[0]"
-          :label="meal.recipe.label"
-          :img="meal.recipe.image"
-        />
-        <!--  use template to chack v-if dont use v-if and v-for on the same element -->
+      <div class="w-full lg:w-4/5">
+        <h1 class="text-2xl font-bold md:text-4xl py-5 lg:py-10">
+          {{ $route.params.category }} meals
+        </h1>
+        <div v-if="pending || pendingFilteredData" class="flex justify-center w-full">
+          <LoadingSpinner />
+        </div>
+        <div
+          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-4 2xl:grid-cols-6 gap-y-8 gap-x-8 mt-8"
+        >
+          <template
+            v-if="
+              data !== null && isMealData(data) && emittedCuisineType === '' && !pending
+            "
+          >
+            <MealCard
+              v-for="meal in data.hits"
+              :key="meal.recipe.label"
+              :category="meal.recipe.cuisineType[0]"
+              :label="meal.recipe.label"
+              :img="meal.recipe.image"
+            />
+          </template>
+          <template v-if="filteredData && !pendingFilteredData">
+            <MealCard
+              v-for="(meal, index) in filteredData.hits"
+              :key="`meal-${index}`"
+              :category="meal.recipe.cuisineType[0]"
+              :label="meal.recipe.label"
+              :img="meal.recipe.image"
+            />
+          </template>
+        </div>
 
-        <template v-if="filteredData && !pendingFilteredData">
-          <MealCard
-            v-for="(meal, index) in filteredData.hits"
-            :key="`meal-${index}`"
-            :category="meal.recipe.cuisineType[0]"
-            :label="meal.recipe.label"
-            :img="meal.recipe.image"
-          />
-        </template>
-      </div>
-      <div
-        v-if="data !== null && !isMealData(data)"
-        class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
-      >
-        <ProductCard v-for="product in data" :key="product.id" :product="product" />
+        <div
+          v-if="data !== null && !isMealData(data)"
+          class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
+        >
+          <ProductCard v-for="product in data" :key="product.id" :product="product" />
+        </div>
       </div>
     </section>
   </div>
