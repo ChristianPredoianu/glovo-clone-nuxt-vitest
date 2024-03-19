@@ -77,12 +77,10 @@ function handleEmitSelected(selectedCuisineType: string) {
         <LoadingSpinner v-if="pending || pendingFilteredData" />
       </div>
       <div
+        v-if="data !== null && isMealData(data) && emittedCuisineType === '' && !pending"
         class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
       >
         <MealCard
-          v-if="
-            data !== null && isMealData(data) && emittedCuisineType === '' && !pending
-          "
           v-for="meal in data.hits"
           :key="meal.recipe.label"
           :category="meal.recipe.cuisineType[0]"
@@ -90,24 +88,22 @@ function handleEmitSelected(selectedCuisineType: string) {
           :img="meal.recipe.image"
         />
         <!--  use template to chack v-if dont use v-if and v-for on the same element -->
-        <MealCard
-          v-if="filteredData && !pendingFilteredData"
-          v-for="(meal, index) in filteredData.hits"
-          :key="`meal-${index}`"
-          :category="meal.recipe.cuisineType[0]"
-          :label="meal.recipe.label"
-          :img="meal.recipe.image"
-        />
+
+        <template v-if="filteredData && !pendingFilteredData">
+          <MealCard
+            v-for="(meal, index) in filteredData.hits"
+            :key="`meal-${index}`"
+            :category="meal.recipe.cuisineType[0]"
+            :label="meal.recipe.label"
+            :img="meal.recipe.image"
+          />
+        </template>
       </div>
       <div
+        v-if="data !== null && !isMealData(data)"
         class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
       >
-        <ProductCard
-          v-if="data !== null && !isMealData(data)"
-          v-for="product in data"
-          :key="product.id"
-          :product="product"
-        />
+        <ProductCard v-for="product in data" :key="product.id" :product="product" />
       </div>
     </section>
   </div>
