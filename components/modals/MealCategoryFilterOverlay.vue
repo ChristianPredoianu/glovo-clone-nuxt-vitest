@@ -1,30 +1,18 @@
 <script setup lang="ts">
 import { cuisineTypes } from '@/data/productCategoriesData';
-import type { ICuisineType } from '@/interfaces/meals.interface';
 
 const emits = defineEmits(['emitSelected']);
 
-const selectedCuisineType = useState<string>('selectedCuisineType', () => '');
-
 const { closeModal } = useModal();
 const { closeBackdrop } = useBackdrop();
-
-function toggleActive(cuisineType: ICuisineType) {
-  selectedCuisineType.value === cuisineType.cuisineType
-    ? (selectedCuisineType.value = '')
-    : (selectedCuisineType.value = cuisineType.cuisineType);
-}
-
-function isActive(cuisineType: ICuisineType): boolean {
-  return selectedCuisineType.value === cuisineType.cuisineType;
-}
+const { selected, toggleActive, isActive } = useIsActive();
 
 function handleDelete() {
-  selectedCuisineType.value = '';
+  selected.value = '';
 }
 
 function handleApply() {
-  emits('emitSelected', selectedCuisineType.value);
+  emits('emitSelected', selected.value);
   closeModal();
   closeBackdrop();
 }
@@ -40,12 +28,12 @@ function handleApply() {
         v-for="cuisineType in cuisineTypes"
         :key="cuisineType.id"
         class="py-4 rounded-lg flex flex-col items-center cursor-pointer gap-y-2"
-        @click="toggleActive(cuisineType)"
+        @click="toggleActive(cuisineType.cuisineType)"
       >
         <font-awesome-icon
           :icon="['fas', cuisineType.icon]"
           class="text-gray-700 text-3xl p-2 rounded-full w-min"
-          :class="{ 'bg-orange-200': isActive(cuisineType) }"
+          :class="{ 'bg-orange-200': isActive(cuisineType.cuisineType) }"
         />
         <p class="text-gray-800 text-center text-sm font-semibold">
           {{ cuisineType.cuisineType }}
