@@ -17,7 +17,6 @@ watch(
 
 function emitSelected(selectedCuisineType: string) {
   emits('emitSelected', selectedCuisineType);
-  console.log(selectedCuisineType);
 }
 </script>
 
