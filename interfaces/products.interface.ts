@@ -1,3 +1,9 @@
+export interface IProductCategories {
+  category: string;
+  text: string;
+  img: string;
+}
+
 export interface IProduct {
   id: number;
   category: string;
