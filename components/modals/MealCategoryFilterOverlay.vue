@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { cuisineTypes } from '@/data/productCategoriesData';
-
 const emits = defineEmits(['emitSelected']);
 
 const { closeModal } = useModal();
 const { closeBackdrop } = useBackdrop();
 const { selected, toggleActive, isActive } = useIsActive();
+const { isFakeStoreIndex, filters, getCategoryName } = useFilter();
 
 function handleDelete() {
   selected.value = '';
@@ -20,23 +19,25 @@ function handleApply() {
 
 <template>
   <main class="container mx-auto py-10 px-4 flex flex-col overflow-auto">
-    <h1 class="text-start text-2xl font-bold py-4 w-full">Types of dishes</h1>
+    <h1 class="text-start text-2xl font-bold py-4 w-full">
+      Types of {{ isFakeStoreIndex ? 'products' : 'dishes' }}
+    </h1>
     <ul
-      class="grid place-content-center grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-1 gap-4 mt-8 w-full"
+      class="grid place-content-center grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-4 mt-8 w-full"
     >
       <li
-        v-for="cuisineType in cuisineTypes"
-        :key="cuisineType.id"
+        v-for="category in filters"
+        :key="category.id"
         class="py-4 rounded-lg flex flex-col items-center cursor-pointer gap-y-2"
-        @click="toggleActive(cuisineType.cuisineType)"
+        @click="toggleActive(getCategoryName(category))"
       >
         <font-awesome-icon
-          :icon="['fas', cuisineType.icon]"
+          :icon="['fas', category.icon]"
           class="text-gray-700 text-3xl p-2 rounded-full w-min"
-          :class="{ 'bg-orange-200': isActive(cuisineType.cuisineType) }"
+          :class="{ 'bg-orange-200': isActive(getCategoryName(category)) }"
         />
         <p class="text-gray-800 text-center text-sm font-semibold">
-          {{ cuisineType.cuisineType }}
+          {{ getCategoryName(category) }}
         </p>
       </li>
     </ul>
