@@ -1,4 +1,7 @@
-import type { IProductCategories } from '@/interfaces/productCategories.interface';
+import type {
+  IProductCategories,
+  IFakeStoreCategories,
+} from '@/interfaces/products.interface';
 import type { ICuisineType } from '@/interfaces/meals.interface';
 
 export const productCategories: IProductCategories[] = [
@@ -50,4 +53,11 @@ export const cuisineTypes: ICuisineType[] = [
   { id: 15, cuisineType: 'Middle Eastern', icon: 'fa-shrimp' },
   { id: 16, cuisineType: 'South American', icon: 'fa-lemon' },
   { id: 17, cuisineType: 'South East Asian', icon: 'fa-utensils' },
+];
+
+export const fakeStoreCategories: IFakeStoreCategories[] = [
+  { id: 1, category: 'electronics', icon: 'fa-laptop-medical' },
+  { id: 2, category: 'jewelery', icon: 'fa-gem' },
+  { id: 3, category: "men's clothing", icon: 'fa-person' },
+  { id: 4, category: "women's clothing", icon: 'fa-person-dress' },
 ];
