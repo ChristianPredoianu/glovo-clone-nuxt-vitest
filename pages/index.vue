@@ -21,11 +21,6 @@ let dropdownOptions: IDropdownOptions[] = [];
 
 const runtimeConfig = useRuntimeConfig();
 
-console.log(runtimeConfig);
-if (process.server) {
-  console.log(runtimeConfig.apiSecret);
-}
-
 const { data: locationData } = await useFetch<ILocationsData[]>(
   () =>
     `${runtimeConfig.public.apiAutoconfig}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInput.value}&limit=5`
