@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { fakeStoreCategories } from '@/data/productCategoriesData';
-import { fakeStoreBase } from '@/helpers/apiEndpoints';
+import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import type { IMeal } from '@/interfaces/meals.interface';
 import type { IProduct } from '@/interfaces/products.interface';
 
@@ -22,11 +22,11 @@ const edamamApiFilteredEndpoint = computed(() => {
 });
 
 const fakeStoreEndpoint = computed(() => {
-  return `${fakeStoreBase}${route.params.category}`;
+  return `${runtimeConfig.public.fakeStoreBase}${route.params.category}`;
 });
 
 const fakeStoreFilteredEndpoint = computed(() => {
-  return `${fakeStoreBase}${emittedFilter.value.toLowerCase()}`;
+  return `${runtimeConfig.public.fakeStoreBase}${emittedFilter.value.toLowerCase()}`;
 });
 
 const initialFetchEndpoint = computed(() => {
@@ -117,7 +117,7 @@ watch(emittedFilter, () => {
       </div>
       <div class="w-full lg:w-4/5">
         <h1 class="text-2xl font-bold md:text-4xl py-5 lg:py-10">
-          {{ $route.params.category }} meals
+          {{ capitalizeFirstLetter($route.params.category) }} meals
         </h1>
         <div v-if="pending" class="flex justify-center w-full">
           <LoadingSpinner />
