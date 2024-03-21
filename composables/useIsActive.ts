@@ -2,7 +2,6 @@ export function useIsActive() {
   const selected = useState<string | number>('selected', () => '');
 
   function toggleActive(userSelected: string | number) {
-    console.log(userSelected);
     selected.value === userSelected
       ? (selected.value = '')
       : (selected.value = userSelected);
