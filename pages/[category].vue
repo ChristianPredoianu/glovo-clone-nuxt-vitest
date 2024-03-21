@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { fakeStoreCategories } from '@/data/productCategoriesData';
+import { fakeStoreBase } from '@/helpers/apiEndpoints';
 import type { IMeal } from '@/interfaces/meals.interface';
 import type { IProduct } from '@/interfaces/products.interface';
 
-const emittedCuisineType = useState<string>('emmitedCuisineType', () => '');
+const emittedFilter = useState<string>('emmitedFilter', () => '');
+const filteredData = useState<IMeal | IProduct[] | null>('filteredData', () => null);
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
@@ -10,28 +13,73 @@ const { isModalOpen, openModal } = useModal();
 const { openBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
 
-const edamamApiEndpoint = `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&dishType=Main%20course`;
+const edamamApiEndpoint = computed(() => {
+  return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&dishType=Main%20course`;
+});
 
 const edamamApiFilteredEndpoint = computed(() => {
-  return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&cuisineType=${emittedCuisineType.value}`;
+  return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&cuisineType=${emittedFilter.value}`;
 });
 
-const fakeStoreEndpoint = `https://fakestoreapi.com/products/category/${route.params.category}`;
+const fakeStoreEndpoint = computed(() => {
+  return `${fakeStoreBase}${route.params.category}`;
+});
+
+const fakeStoreFilteredEndpoint = computed(() => {
+  return `${fakeStoreBase}${emittedFilter.value.toLowerCase()}`;
+});
+
+const initialFetchEndpoint = computed(() => {
+  return route.query.index !== null && +route.query.index >= 0 && +route.query.index < 3
+    ? edamamApiEndpoint.value
+    : fakeStoreEndpoint.value;
+});
 
 const selectedApiEndpoint = computed(() => {
-  return route.query.index !== null && +route.query.index >= 0 && +route.query.index < 3;
+  const shouldFetchFromFakeStore = fakeStoreCategories.some(
+    (category) => category.category.toLowerCase() === emittedFilter.value.toLowerCase()
+  );
+
+  return shouldFetchFromFakeStore
+    ? fakeStoreFilteredEndpoint.value
+    : edamamApiFilteredEndpoint.value;
 });
 
-const { data, pending } = await useFetch<IMeal | IProduct[]>(() =>
-  selectedApiEndpoint.value ? edamamApiEndpoint : fakeStoreEndpoint
+const shouldRenderMealCard = computed(() => {
+  return data.value !== null && isMealData(data.value) && emittedFilter.value === '';
+});
+
+const shouldRenderFilteredMealCard = computed(() => {
+  return (
+    filteredData.value !== null &&
+    isMealData(filteredData.value) &&
+    emittedFilter.value !== ''
+  );
+});
+
+const shouldRenderProducts = computed(() => {
+  return data.value !== null && !isMealData(data.value) && emittedFilter.value === '';
+});
+
+const shouldRenderFilteredProducts = computed(() => {
+  return (
+    filteredData.value !== null &&
+    !isMealData(filteredData.value) &&
+    emittedFilter.value !== ''
+  );
+});
+
+const { data, pending } = await useFetch<IMeal | IProduct[] | null>(
+  initialFetchEndpoint.value
 );
 
-const { data: filteredData, pending: pendingFilteredData } = useFetch<IMeal | null>(
-  edamamApiFilteredEndpoint
-);
+async function fetchData() {
+  const response = await fetch(selectedApiEndpoint.value);
+  filteredData.value = await response.json();
+}
 
-function isMealData(data: IMeal | IProduct[]): data is IMeal {
-  return 'hits' in data;
+function isMealData(data: IMeal | IProduct[] | null): data is IMeal {
+  return data !== null && 'hits' in data;
 }
 
 function openFilter() {
@@ -40,14 +88,12 @@ function openFilter() {
 }
 
 function handleEmitSelected(selectedCuisineType: string) {
-  emittedCuisineType.value = selectedCuisineType;
+  emittedFilter.value = selectedCuisineType;
 }
 
-/* watch(emittedCuisineType, (newX) => {
-  emittedCuisineType.value = newX;
-
-  console.log(filteredData.value);
-}); */
+watch(emittedFilter, () => {
+  fetchData();
+});
 </script>
 
 <template>
@@ -73,28 +119,24 @@ function handleEmitSelected(selectedCuisineType: string) {
         <h1 class="text-2xl font-bold md:text-4xl py-5 lg:py-10">
           {{ $route.params.category }} meals
         </h1>
-        <div v-if="pending || pendingFilteredData" class="flex justify-center w-full">
+        <div v-if="pending" class="flex justify-center w-full">
           <LoadingSpinner />
         </div>
         <div
           class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-4 2xl:grid-cols-6 gap-y-8 gap-x-8 mt-8"
         >
-          <template
-            v-if="
-              data !== null && isMealData(data) && emittedCuisineType === '' && !pending
-            "
-          >
+          <template v-if="shouldRenderMealCard">
             <MealCard
-              v-for="meal in data.hits"
+              v-for="meal in (data as IMeal).hits"
               :key="meal.recipe.label"
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
             />
           </template>
-          <template v-if="filteredData && !pendingFilteredData">
+          <template v-if="shouldRenderFilteredMealCard">
             <MealCard
-              v-for="(meal, index) in filteredData.hits"
+              v-for="(meal, index) in (filteredData as IMeal).hits"
               :key="`meal-${index}`"
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
@@ -104,10 +146,25 @@ function handleEmitSelected(selectedCuisineType: string) {
         </div>
 
         <div
-          v-if="data !== null && !isMealData(data)"
+          v-if="shouldRenderProducts"
           class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
         >
-          <ProductCard v-for="product in data" :key="product.id" :product="product" />
+          <ProductCard
+            v-for="product in (data as IProduct[])"
+            :key="product.id"
+            :product="product"
+          />
+        </div>
+
+        <div
+          v-if="shouldRenderFilteredProducts"
+          class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
+        >
+          <ProductCard
+            v-for="product in (filteredData as IProduct[])"
+            :key="product.id"
+            :product="product"
+          />
         </div>
       </div>
     </section>
