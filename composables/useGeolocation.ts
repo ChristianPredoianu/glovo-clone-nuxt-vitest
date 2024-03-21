@@ -3,7 +3,7 @@ export default function useGeolocation() {
   const longitude = useState<number | null>('longitude', () => null);
   const error = useState<string | null>('longitude', () => null);
 
-  const getLocation = () => {
+  function getLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -17,7 +17,7 @@ export default function useGeolocation() {
     } else {
       error.value = 'Geolocation is not supported by this browser.';
     }
-  };
+  }
 
   return { latitude, longitude, error, getLocation };
 }
