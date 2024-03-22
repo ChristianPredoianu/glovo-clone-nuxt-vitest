@@ -1,13 +1,23 @@
-export async function fetchData<T>(url: string): Promise<T | null> {
+export interface FetchResult<T> {
+  data: T | null;
+  isLoading: boolean;
+}
+
+export async function fetchData<T>(url: string): Promise<FetchResult<T>> {
+  let isLoading = true;
+  let data: T | null = null;
+
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
-    const data = await response.json();
-    return data as T;
+    data = await response.json();
   } catch (error) {
     console.error('Error fetching data:', error);
-    return null;
+  } finally {
+    isLoading = false;
   }
+
+  return { data, isLoading };
 }
