@@ -1,26 +1,11 @@
-<script setup lang="ts"></script>
-
 <template>
   <div class="flex justify-center items-center h-screen">
     <div
-      class="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-20 w-20"
-    ></div>
+      class="w-28 h-28 flex justify-center items-center rounded-full bg-gradient-to-br from-orange-900 via-orange-400 to-orange-900 shadow-lg"
+    >
+      <div
+        class="loader w-3/5 h-3/5 border-2 rounded-full border-solid border-white border-opacity-70 border-t-transparent animate-spin"
+      ></div>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.loader {
-  border-top-color: #3498db;
-  border-left-color: #3498db;
-  animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>
