@@ -16,7 +16,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <article class="flex flex-col relative border-b-2 cursor-pointer">
+  <article
+    class="flex flex-col relative p-4 border-b-2 cursor-pointer shadow-sm rounded-md"
+  >
     <div class="relative">
       <img
         :src="props.img"
