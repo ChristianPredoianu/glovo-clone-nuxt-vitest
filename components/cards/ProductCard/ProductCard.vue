@@ -4,7 +4,7 @@ const props = defineProps({
 });
 </script>
 <template>
-  <article class="flex flex-col gap-y-4">
+  <article class="flex flex-col gap-y-4 p-4 shadow-sm rounded-md">
     <div class="relative">
       <img :src="product?.image" alt="Product image" class="mx-auto md:h-52" />
       <div
