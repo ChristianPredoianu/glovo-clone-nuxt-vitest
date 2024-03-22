@@ -1,15 +1,28 @@
 <script setup lang="ts">
 import { fakeStoreCategories } from '@/data/productCategoriesData';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
+import { fetchData } from '@/helpers/fetchGenericData';
 import type { IMeal } from '@/interfaces/meals.interface';
 import type { IProduct } from '@/interfaces/products.interface';
 
+interface FetchResult<T> {
+  data: IMeal | IProduct[] | null;
+  isLoading: boolean;
+}
+
 const emittedFilter = useState<string>('emmitedFilter', () => '');
-const filteredData = useState<IMeal | IProduct[] | null>('filteredData', () => null);
+const filteredData = useState<FetchResult<IMeal | IProduct[] | null>>(
+  'filteredData',
+  () => ({
+    data: null,
+    isLoading: false,
+  })
+);
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { isModalOpen, openModal } = useModal();
+const { isFakeStoreIndex } = useFilter();
 const { openBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
 
@@ -30,7 +43,7 @@ const fakeStoreFilteredEndpoint = computed(() => {
 });
 
 const initialFetchEndpoint = computed(() => {
-  return route.query.index !== null && +route.query.index >= 0 && +route.query.index < 3
+  return route.query.index !== null && +route.query.index >= 0 && +route.query.index <= 3
     ? edamamApiEndpoint.value
     : fakeStoreEndpoint.value;
 });
@@ -51,8 +64,8 @@ const shouldRenderMealCard = computed(() => {
 
 const shouldRenderFilteredMealCard = computed(() => {
   return (
-    filteredData.value !== null &&
-    isMealData(filteredData.value) &&
+    filteredData.value.data !== null &&
+    isMealData(filteredData.value.data) &&
     emittedFilter.value !== ''
   );
 });
@@ -64,7 +77,7 @@ const shouldRenderProducts = computed(() => {
 const shouldRenderFilteredProducts = computed(() => {
   return (
     filteredData.value !== null &&
-    !isMealData(filteredData.value) &&
+    !isMealData(filteredData.value.data) &&
     emittedFilter.value !== ''
   );
 });
@@ -72,11 +85,6 @@ const shouldRenderFilteredProducts = computed(() => {
 const { data, pending } = await useFetch<IMeal | IProduct[] | null>(
   initialFetchEndpoint.value
 );
-
-async function fetchData() {
-  const response = await fetch(selectedApiEndpoint.value);
-  filteredData.value = await response.json();
-}
 
 function isMealData(data: IMeal | IProduct[] | null): data is IMeal {
   return data !== null && 'hits' in data;
@@ -87,13 +95,18 @@ function openFilter() {
   openModal();
 }
 
-function handleEmitSelected(selectedCuisineType: string) {
-  emittedFilter.value = selectedCuisineType;
+function handleEmitSelected(selectedFilter: string) {
+  console.log(selectedFilter);
+  emittedFilter.value = selectedFilter;
 }
 
-watch(emittedFilter, () => {
-  fetchData();
+watch(emittedFilter, async () => {
+  filteredData.value.isLoading = true;
+  const result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value);
+  filteredData.value.data = result.data;
+  filteredData.value.isLoading = result.isLoading;
 });
+console.log(pending.value);
 </script>
 
 <template>
@@ -116,10 +129,14 @@ watch(emittedFilter, () => {
         <MealCategoryFilterList @emitSelected="handleEmitSelected" />
       </div>
       <div class="w-full lg:w-4/5">
-        <h1 class="text-2xl font-bold md:text-4xl py-5 lg:py-10">
-          {{ capitalizeFirstLetter($route.params.category) }} meals
+        <h1 class="text-xl font-bold md:text-4xl py-5 lg:py-10">
+          {{ capitalizeFirstLetter($route.params.category) }}
+          {{ !isFakeStoreIndex ? 'meals' : '' }}
         </h1>
-        <div v-if="pending" class="flex justify-center w-full">
+        <div
+          v-if="pending || filteredData.isLoading"
+          class="flex justify-center -mt-40 w-full"
+        >
           <LoadingSpinner />
         </div>
         <div
@@ -136,7 +153,7 @@ watch(emittedFilter, () => {
           </template>
           <template v-if="shouldRenderFilteredMealCard">
             <MealCard
-              v-for="(meal, index) in (filteredData as IMeal).hits"
+              v-for="(meal, index) in (filteredData.data as IMeal).hits"
               :key="`meal-${index}`"
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
@@ -161,7 +178,7 @@ watch(emittedFilter, () => {
           class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
         >
           <ProductCard
-            v-for="product in (filteredData as IProduct[])"
+            v-for="product in (filteredData.data as IProduct[])"
             :key="product.id"
             :product="product"
           />
