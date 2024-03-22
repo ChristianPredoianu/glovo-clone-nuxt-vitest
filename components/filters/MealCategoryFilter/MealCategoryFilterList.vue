@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { cuisineTypes } from '@/data/productCategoriesData';
-
 const emits = defineEmits(['emitSelected']);
+const { filters } = useFilter();
 
 function emitSelected(selectedFilter: string) {
   emits('emitSelected', selectedFilter);
@@ -11,9 +10,9 @@ function emitSelected(selectedFilter: string) {
 <template>
   <ul class="flex flex-col gap-y-2">
     <MealCategoryFilterListItem
-      v-for="cuisineType in cuisineTypes"
-      :key="cuisineType.id"
-      :cuisineType="cuisineType"
+      v-for="category in filters"
+      :key="category.id"
+      :category="category"
       @emitSelected="emitSelected"
     />
   </ul>
