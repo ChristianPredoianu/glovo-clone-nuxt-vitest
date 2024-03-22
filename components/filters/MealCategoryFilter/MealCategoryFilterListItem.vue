@@ -11,7 +11,7 @@ const props = defineProps({
 
 const emits = defineEmits(['emitSelected']);
 
-const { selected, toggleActive, isActive } = useIsActive();
+const { toggleActive, isActive } = useIsActive();
 const { getCategoryName } = useFilter();
 
 function handleClick(selectedFilter: IFakeStoreCategories | ICuisineType) {
