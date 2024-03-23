@@ -5,7 +5,6 @@ const { filters } = useFilter();
 function emitSelected(selectedFilter: string) {
   emits('emitSelected', selectedFilter);
 }
-console.log('dsa');
 </script>
 
 <template>
