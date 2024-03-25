@@ -43,6 +43,7 @@ function handleApply() {
     </ul>
     <div class="mt-10 flex justify-center gap-x-3">
       <CtaBtn
+        data-test="delete-btn"
         backCol="bg-transparent"
         textCol="text-green-600"
         borderCol="border-green-500"
@@ -50,7 +51,11 @@ function handleApply() {
         @click="handleDelete"
         >Delete</CtaBtn
       >
-      <CtaBtn backCol="bg-green-600" textCol="text-gray-100" @click="handleApply"
+      <CtaBtn
+        data-test="apply-btn"
+        backCol="bg-green-600"
+        textCol="text-gray-100"
+        @click="handleApply"
         >Apply</CtaBtn
       >
     </div>
