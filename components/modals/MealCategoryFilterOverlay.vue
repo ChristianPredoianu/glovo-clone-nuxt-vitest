@@ -15,6 +15,10 @@ function handleApply() {
   closeModal();
   closeBackdrop();
 }
+
+watch(selected, (newValue, oldValue) => {
+  console.log(`Count changed from ${oldValue} to ${newValue}`);
+});
 </script>
 
 <template>
@@ -33,6 +37,7 @@ function handleApply() {
       >
         <font-awesome-icon
           :icon="['fas', category.icon]"
+          data-test="filter-icon"
           class="text-gray-700 text-3xl p-2 rounded-full w-min"
           :class="{ 'bg-orange-200': isActive(getCategoryName(category)) }"
         />
