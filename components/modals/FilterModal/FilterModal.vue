@@ -15,8 +15,8 @@ watch(
   }
 );
 
-function emitSelected(selectedCuisineType: string) {
-  emits('emitSelected', selectedCuisineType);
+function emitSelected(selectedFilter) {
+  emits('emitSelected', selectedFilter);
 }
 </script>
 
