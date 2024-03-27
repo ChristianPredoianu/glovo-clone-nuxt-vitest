@@ -1,19 +1,25 @@
 <script setup lang="ts">
+import type { IFakeStoreCategories } from '@/interfaces/products.interface';
+import type { ICuisineType } from '@/interfaces/meals.interface';
+
 const emits = defineEmits(['emitSelected']);
 
 const { closeModal } = useModal();
 const { closeBackdrop } = useBackdrop();
-const { selected, toggleActive, isActive } = useIsActive();
-const { isFakeStoreIndex, filters, getCategoryName } = useFilter();
+const { selected } = useIsActive();
+const { isFakeStoreIndex } = useFilter();
 
 function handleDelete() {
   selected.value = '';
 }
 
 function handleApply() {
-  emits('emitSelected', selected.value);
   closeModal();
   closeBackdrop();
+}
+
+function emitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
+  emits('emitSelected', selectedFilter);
 }
 </script>
 
@@ -22,7 +28,7 @@ function handleApply() {
     <h1 class="text-start text-2xl font-bold py-4 w-full">
       Types of {{ isFakeStoreIndex ? 'products' : 'dishes' }}
     </h1>
-    <FilterModalList />
+    <FilterModalList @selectedFilter="emitSelected" />
     <div class="mt-10 flex justify-center gap-x-3">
       <CtaBtn
         data-test="delete-btn"
