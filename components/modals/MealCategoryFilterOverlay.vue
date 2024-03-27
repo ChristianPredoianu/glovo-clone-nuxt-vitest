@@ -11,14 +11,11 @@ function handleDelete() {
 }
 
 function handleApply() {
+  console.log(selected.value);
   emits('emitSelected', selected.value);
   closeModal();
   closeBackdrop();
 }
-
-watch(selected, (newValue, oldValue) => {
-  console.log(`Count changed from ${oldValue} to ${newValue}`);
-});
 </script>
 
 <template>
