@@ -113,7 +113,7 @@ console.log(pending.value);
   <div class="container mx-auto px-4">
     <section class="mt-10 flex justify-center items-center">
       <Teleport to="body">
-        <MealCategoryFilterModal v-if="isModalOpen" @emitSelected="handleEmitSelected" />
+        <FilterModal v-if="isModalOpen" @emitSelected="handleEmitSelected" />
       </Teleport>
       <div v-if="screenWidth <= 1024" class="py-5">
         <font-awesome-icon
