@@ -2,6 +2,7 @@ import { describe, beforeEach, vi, it, expect } from 'vitest';
 import { mount, VueWrapper } from '@vue/test-utils';
 
 import MealCategoryFilterModalOverlay from '@/components/modals/MealCategoryFilterOverlay.vue';
+import Backdrop from '../ui/Backdrop/Backdrop.vue';
 
 describe('MealCategoryFilterModalOverlay', () => {
   let wrapper: VueWrapper<any>;
@@ -14,6 +15,8 @@ describe('MealCategoryFilterModalOverlay', () => {
     const applyBtn = wrapper.find('[data-test="apply-btn"]');
 
     await applyBtn.trigger('click');
+
+    expect(wrapper.emitted().emitSelected).toBeTruthy();
   });
 
   it('Should be active class when click on filter', async () => {
@@ -25,4 +28,21 @@ describe('MealCategoryFilterModalOverlay', () => {
 
     expect(filterIcon.classes()).toContain('bg-orange-200');
   });
+
+  it('Should remove active class when click on filter', async () => {
+    const filterListItem = wrapper.find('li');
+    const filterIcon = wrapper.find('[data-test="filter-icon"]');
+
+    await filterListItem.trigger('click');
+
+    expect(filterIcon.classes()).not.toContain('bg-orange-200');
+  });
+
+  /* it('Should close modal and backdrop whan apply btn is clicked', async () => {
+    const applyBtn = wrapper.find('[data-test="apply-btn"]');
+
+    await applyBtn.trigger('click');
+
+    expect(wrapper.isVisible()).toBe(false);
+  }); */
 });
