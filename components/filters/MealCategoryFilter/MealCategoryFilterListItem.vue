@@ -15,8 +15,7 @@ const { toggleActive, isActive } = useIsActive();
 const { getCategoryName } = useFilter();
 
 function handleClick(selectedFilter: IFakeStoreCategories | ICuisineType) {
-  const category = getCategoryName(selectedFilter);
-  emits('emitSelected', category);
+  emits('emitSelected', selectedFilter);
   toggleActive(getCategoryName(selectedFilter));
 }
 </script>
