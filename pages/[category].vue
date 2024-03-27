@@ -4,6 +4,8 @@ import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
 import type { IMeal } from '@/interfaces/meals.interface';
 import type { IProduct } from '@/interfaces/products.interface';
+import type { IFakeStoreCategories } from '@/interfaces/products.interface';
+import type { ICuisineType } from '@/interfaces/meals.interface';
 
 interface FetchResult<T> {
   data: IMeal | IProduct[] | null;
@@ -22,7 +24,7 @@ const filteredData = useState<FetchResult<IMeal | IProduct[] | null>>(
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { isModalOpen, openModal } = useModal();
-const { isFakeStoreIndex } = useFilter();
+const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { openBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
 
@@ -95,9 +97,9 @@ function openFilter() {
   openModal();
 }
 
-function handleEmitSelected(selectedFilter: string) {
+function handleEmitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
   console.log(selectedFilter);
-  emittedFilter.value = selectedFilter;
+  emittedFilter.value = getCategoryName(selectedFilter);
 }
 
 watch(emittedFilter, async () => {
@@ -106,7 +108,6 @@ watch(emittedFilter, async () => {
   filteredData.value.data = result.data;
   filteredData.value.isLoading = result.isLoading;
 });
-console.log(pending.value);
 </script>
 
 <template>
@@ -140,7 +141,7 @@ console.log(pending.value);
           <LoadingSpinner />
         </div>
         <div
-          class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-4 2xl:grid-cols-6 gap-y-8 gap-x-8 mt-8"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-8 gap-x-8 mt-8"
         >
           <template v-if="shouldRenderMealCard">
             <MealCard
