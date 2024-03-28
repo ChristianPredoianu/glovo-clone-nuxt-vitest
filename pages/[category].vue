@@ -98,7 +98,6 @@ function openFilter() {
 }
 
 function handleEmitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
-  console.log(selectedFilter);
   emittedFilter.value = getCategoryName(selectedFilter);
 }
 
@@ -112,17 +111,17 @@ watch(emittedFilter, async () => {
 
 <template>
   <div class="container mx-auto px-4">
-    <section class="mt-10 flex justify-center items-center">
+    <section class="mt-10 flex justify-center items-center gap-4">
       <Teleport to="body">
         <FilterModal v-if="isModalOpen" @emitSelected="handleEmitSelected" />
       </Teleport>
       <div v-if="screenWidth <= 1024" class="py-5">
-        <font-awesome-icon
-          :icon="['fas', 'fa-filter']"
-          class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer"
-          @click="openFilter"
+        <RoundedBtn
+          @emitClick="openFilter"
+          text="Filter"
+          backCol="bg-orange-200"
+          icon="fa-filter"
         />
-        <p class="text-xs text-center">Filter</p>
       </div>
     </section>
     <section class="flex justify-between">
