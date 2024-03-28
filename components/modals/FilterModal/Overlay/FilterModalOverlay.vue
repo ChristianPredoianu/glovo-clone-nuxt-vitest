@@ -4,7 +4,7 @@ import type { ICuisineType } from '@/interfaces/meals.interface';
 
 const emits = defineEmits(['emitSelected']);
 
-const { closeModal } = useModal();
+const { closeModal, isModalOpen } = useModal();
 const { closeBackdrop } = useBackdrop();
 const { selected } = useIsActive();
 const { isFakeStoreIndex } = useFilter();
