@@ -1,20 +1,6 @@
 <script setup lang="ts">
 const emits = defineEmits(['emitSelected']);
 
-const { closeModal } = useModal();
-const { screenWidth } = useScreenWidth();
-
-function closeModalDialog() {
-  closeModal();
-}
-
-watch(
-  () => screenWidth.value,
-  () => {
-    if (screenWidth.value >= 1024) closeModal();
-  }
-);
-
 function emitSelected(selectedCuisineType: string) {
   emits('emitSelected', selectedCuisineType);
 }
@@ -24,7 +10,7 @@ function emitSelected(selectedCuisineType: string) {
   <main
     class="modal fixed top-0 flex flex-col justify-center items-center z-50 w-full h-full bg-white"
   >
-    <Backdrop @closeElement="closeModalDialog" />
+    <Backdrop />
     <FilterModalOverlay @emitSelected="emitSelected" />
   </main>
 </template>
