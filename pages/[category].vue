@@ -23,7 +23,8 @@ const filteredData = useState<FetchResult<IMeal | IProduct[] | null>>(
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
-const { isModalOpen, openModal } = useModal();
+const { openModal, isModalOpen } = useModal();
+
 const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { openBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
@@ -94,7 +95,12 @@ function isMealData(data: IMeal | IProduct[] | null): data is IMeal {
 
 function openFilter() {
   openBackdrop();
-  openModal();
+  openModal('filterModal');
+}
+
+function handleProductClick() {
+  openBackdrop();
+  openModal('productModal');
 }
 
 function handleEmitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
@@ -113,7 +119,13 @@ watch(emittedFilter, async () => {
   <div class="container mx-auto px-4">
     <section class="mt-10 flex justify-center items-center gap-4">
       <Teleport to="body">
-        <FilterModal v-if="isModalOpen" @emitSelected="handleEmitSelected" />
+        <FilterModal
+          v-if="isModalOpen('filterModal')"
+          @emitSelected="handleEmitSelected"
+        />
+      </Teleport>
+      <Teleport to="body">
+        <ProductModal v-if="isModalOpen('productModal')" />
       </Teleport>
       <div v-if="screenWidth <= 1024" class="py-5">
         <RoundedBtn
@@ -149,6 +161,7 @@ watch(emittedFilter, async () => {
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
+              @click="handleProductClick"
             />
           </template>
           <template v-if="shouldRenderFilteredMealCard">
@@ -158,6 +171,7 @@ watch(emittedFilter, async () => {
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
+              @click="handleProductClick"
             />
           </template>
         </div>
@@ -170,6 +184,7 @@ watch(emittedFilter, async () => {
             v-for="product in (data as IProduct[])"
             :key="product.id"
             :product="product"
+            @click="handleProductClick"
           />
         </div>
 
@@ -181,6 +196,7 @@ watch(emittedFilter, async () => {
             v-for="product in (filteredData.data as IProduct[])"
             :key="product.id"
             :product="product"
+            @click="handleProductClick"
           />
         </div>
       </div>
