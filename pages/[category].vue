@@ -24,7 +24,6 @@ const filteredData = useState<FetchResult<IMeal | IProduct[] | null>>(
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
 const { openModal, isModalOpen } = useModal();
-
 const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { openBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
