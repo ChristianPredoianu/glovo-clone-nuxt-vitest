@@ -2,6 +2,7 @@
 import { fakeStoreCategories } from '@/data/productCategoriesData';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
+import { edamamApiEndpoint } from '@/helpers/endpoints';
 import type { IMeal } from '@/interfaces/meals.interface';
 import type { IProduct } from '@/interfaces/products.interface';
 import type { IFakeStoreCategories } from '@/interfaces/products.interface';
@@ -23,14 +24,15 @@ const filteredData = useState<FetchResult<IMeal | IProduct[] | null>>(
 
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
+
 const { openModal, isModalOpen } = useModal();
 const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { openBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
 
-const edamamApiEndpoint = computed(() => {
+/* const edamamApiEndpoint = computed(() => {
   return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&dishType=Main%20course`;
-});
+}); */
 
 const edamamApiFilteredEndpoint = computed(() => {
   return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&cuisineType=${emittedFilter.value}`;
@@ -46,7 +48,7 @@ const fakeStoreFilteredEndpoint = computed(() => {
 
 const initialFetchEndpoint = computed(() => {
   return route.query.index !== null && +route.query.index >= 0 && +route.query.index <= 3
-    ? edamamApiEndpoint.value
+    ? edamamApiEndpoint(runtimeConfig.public.apiEdamam, route.params.category)
     : fakeStoreEndpoint.value;
 });
 
