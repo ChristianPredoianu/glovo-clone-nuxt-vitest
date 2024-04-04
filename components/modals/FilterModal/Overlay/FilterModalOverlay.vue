@@ -13,6 +13,7 @@ function handleDelete() {
   selected.value = '';
 }
 
+//use emit to close modal
 function handleApply() {
   closeModal();
   closeBackdrop();
