@@ -107,22 +107,23 @@ watch(emittedFilter, async () => {
 </script>
 
 <template>
+  <Modal ref="filterDialog"
+    ><FilterModalOverlay
+      @emitSelected="handleEmitSelected"
+      @closeModal="filterDialog?.closeDialog()"
+  /></Modal>
+  <Modal ref="productDialog"><ProductModalOverlay /></Modal>
   <div class="container mx-auto px-4">
-    <section class="mt-10 flex justify-center items-center gap-4">
-      <Modal ref="filterDialog"
-        ><FilterModalOverlay
-          @emitSelected="handleEmitSelected"
-          @closeModal="filterDialog?.closeDialog()"
-      /></Modal>
-      <Modal ref="productDialog"><ProductModalOverlay /></Modal>
-      <div v-if="screenWidth <= 1024" class="py-5">
-        <RoundedBtn
-          @emitClick="filterDialog?.showDialog()"
-          text="Filter"
-          backCol="bg-orange-200"
-          icon="fa-filter"
-        />
-      </div>
+    <section
+      v-if="screenWidth <= 1024"
+      class="mt-10 flex justify-center items-center gap-4py-5"
+    >
+      <RoundedBtn
+        @emitClick="filterDialog?.showDialog()"
+        text="Filter"
+        backCol="bg-orange-200"
+        icon="fa-filter"
+      />
     </section>
     <section class="flex justify-between">
       <div v-if="screenWidth >= 1024" class="mt-20">
