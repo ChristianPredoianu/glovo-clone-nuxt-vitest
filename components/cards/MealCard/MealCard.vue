@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { generateRandomPrice } from '@/helpers/randomPrice';
+import type { IMeal } from '@/interfaces/meals.interface';
 
 const props = defineProps<{
   category: string;
