@@ -1,8 +1,13 @@
 <script setup lang="ts">
 const dialogRef = ref<HTMLDialogElement | null>(null);
 
-const showDialog = () => dialogRef.value?.showModal();
-const closeDialog = () => dialogRef.value?.close();
+function showDialog() {
+  dialogRef.value?.showModal();
+}
+
+function closeDialog() {
+  dialogRef.value?.close();
+}
 
 defineExpose({
   showDialog,
