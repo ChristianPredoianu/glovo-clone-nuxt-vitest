@@ -2,11 +2,11 @@
 import { fakeStoreCategories } from '@/data/productCategoriesData';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
-import { edamamApiEndpoint } from '@/helpers/endpoints';
 import type { IMeal } from '@/interfaces/meals.interface';
 import type { IProduct } from '@/interfaces/products.interface';
 import type { IFakeStoreCategories } from '@/interfaces/products.interface';
 import type { ICuisineType } from '@/interfaces/meals.interface';
+import Modal from '@/components/modals/Modal/Modal.vue';
 
 interface FetchResult<T> {
   data: IMeal | IProduct[] | null;
@@ -22,17 +22,17 @@ const filteredData = useState<FetchResult<IMeal | IProduct[] | null>>(
   })
 );
 
+const filterDialog = ref<typeof Modal>();
+const productDialog = ref<typeof Modal>();
+
 const route = useRoute();
 const runtimeConfig = useRuntimeConfig();
-
-const { openModal, isModalOpen } = useModal();
 const { isFakeStoreIndex, getCategoryName } = useFilter();
-const { openBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
 
-/* const edamamApiEndpoint = computed(() => {
+const edamamApiEndpoint = computed(() => {
   return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&dishType=Main%20course`;
-}); */
+});
 
 const edamamApiFilteredEndpoint = computed(() => {
   return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&cuisineType=${emittedFilter.value}`;
@@ -48,7 +48,7 @@ const fakeStoreFilteredEndpoint = computed(() => {
 
 const initialFetchEndpoint = computed(() => {
   return route.query.index !== null && +route.query.index >= 0 && +route.query.index <= 3
-    ? edamamApiEndpoint(runtimeConfig.public.apiEdamam, route.params.category)
+    ? edamamApiEndpoint.value
     : fakeStoreEndpoint.value;
 });
 
@@ -94,16 +94,6 @@ function isMealData(data: IMeal | IProduct[] | null): data is IMeal {
   return data !== null && 'hits' in data;
 }
 
-function openFilter() {
-  openBackdrop();
-  openModal('filterModal');
-}
-
-function handleProductClick() {
-  openBackdrop();
-  openModal('productModal');
-}
-
 function handleEmitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
   emittedFilter.value = getCategoryName(selectedFilter);
 }
@@ -119,18 +109,15 @@ watch(emittedFilter, async () => {
 <template>
   <div class="container mx-auto px-4">
     <section class="mt-10 flex justify-center items-center gap-4">
-      <Teleport to="body">
-        <FilterModal
-          v-if="isModalOpen('filterModal')"
+      <Modal ref="filterDialog"
+        ><FilterModalOverlay
           @emitSelected="handleEmitSelected"
-        />
-      </Teleport>
-      <Teleport to="body">
-        <ProductModal v-if="isModalOpen('productModal')" />
-      </Teleport>
+          @closeModal="filterDialog?.closeDialog()"
+      /></Modal>
+      <Modal ref="productDialog"><ProductModalOverlay /></Modal>
       <div v-if="screenWidth <= 1024" class="py-5">
         <RoundedBtn
-          @emitClick="openFilter"
+          @emitClick="filterDialog?.showDialog()"
           text="Filter"
           backCol="bg-orange-200"
           icon="fa-filter"
@@ -162,7 +149,7 @@ watch(emittedFilter, async () => {
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
-              @click="handleProductClick"
+              @click="productDialog?.showDialog()"
             />
           </template>
           <template v-if="shouldRenderFilteredMealCard">
@@ -172,7 +159,7 @@ watch(emittedFilter, async () => {
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
-              @click="handleProductClick"
+              @click="productDialog?.showDialog()"
             />
           </template>
         </div>
@@ -185,7 +172,7 @@ watch(emittedFilter, async () => {
             v-for="product in (data as IProduct[])"
             :key="product.id"
             :product="product"
-            @click="handleProductClick"
+            @click="productDialog?.showDialog()"
           />
         </div>
 
@@ -197,13 +184,10 @@ watch(emittedFilter, async () => {
             v-for="product in (filteredData.data as IProduct[])"
             :key="product.id"
             :product="product"
-            @click="handleProductClick"
+            @click="productDialog?.showDialog()"
           />
         </div>
       </div>
     </section>
   </div>
-
-  <h1>Products in category: {{ $route.params.category }}</h1>
-  <h1>Products in category: {{ $route.query.index }}</h1>
 </template>
