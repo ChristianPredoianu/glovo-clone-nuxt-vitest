@@ -1,12 +1,10 @@
 <script setup lang="ts">
+import Modal from '@/components/modals/Modal/Modal.vue';
 import { fakeStoreCategories } from '@/data/productCategoriesData';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
-import type { IMeal } from '@/interfaces/meals.interface';
-import type { IProduct } from '@/interfaces/products.interface';
-import type { IFakeStoreCategories } from '@/interfaces/products.interface';
-import type { ICuisineType } from '@/interfaces/meals.interface';
-import Modal from '@/components/modals/Modal/Modal.vue';
+import type { IMeal, ICuisineType } from '@/interfaces/meals.interface';
+import type { IProduct, IFakeStoreCategories } from '@/interfaces/products.interface';
 
 interface FetchResult<T> {
   data: IMeal | IProduct[] | null;
@@ -98,12 +96,14 @@ function handleEmitSelected(selectedFilter: IFakeStoreCategories | ICuisineType)
   emittedFilter.value = getCategoryName(selectedFilter);
 }
 
-watch(emittedFilter, async () => {
+async function fetchDataAndUpdate() {
   filteredData.value.isLoading = true;
   const result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value);
   filteredData.value.data = result.data;
   filteredData.value.isLoading = result.isLoading;
-});
+}
+
+watch(emittedFilter, fetchDataAndUpdate);
 </script>
 
 <template>
