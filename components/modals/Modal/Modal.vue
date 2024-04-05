@@ -12,7 +12,7 @@ defineExpose({
 
 <template>
   <Teleport to="body">
-    <dialog ref="dialogRef" class="w-full h-full">
+    <dialog ref="dialogRef">
       <slot />
     </dialog>
   </Teleport>
