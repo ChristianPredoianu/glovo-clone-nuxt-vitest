@@ -1,11 +1,12 @@
 <script setup lang="ts">
+const { screenWidth } = useScreenWidth();
 import type { IFakeStoreCategories } from '@/interfaces/products.interface';
 import type { ICuisineType } from '@/interfaces/meals.interface';
 
-const emits = defineEmits(['emitSelected']);
+const emits = defineEmits(['emitSelected', 'closeModal']);
 
-const { closeModal } = useModal();
-const { closeBackdrop } = useBackdrop();
+const userSelectedFilter = ref<IFakeStoreCategories | ICuisineType>();
+
 const { selected } = useIsActive();
 const { isFakeStoreIndex } = useFilter();
 
@@ -13,25 +14,39 @@ function handleDelete() {
   selected.value = '';
 }
 
-//use emit to close modal
 function handleApply() {
-  closeModal();
-  closeBackdrop();
+  emits('closeModal');
+  emits('emitSelected', userSelectedFilter.value);
 }
 
-function emitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
-  emits('emitSelected', selectedFilter);
+function setSelectedFilter(selectedFilter: IFakeStoreCategories | ICuisineType) {
+  userSelectedFilter.value = selectedFilter;
 }
+
+watch(
+  () => screenWidth.value,
+  () => {
+    if (screenWidth.value >= 1024) emits('closeModal');
+  }
+);
 </script>
 
 <template>
-  <main class="container mx-auto py-10 px-4 flex flex-col overflow-auto">
+  <main
+    class="container mx-auto relative py-10 px-4 flex flex-col w-full h-full overflow-y-auto"
+  >
+    <p class="text-xl font-semibold absolute top-4 right-4" @click="emits('closeModal')">
+      Close
+    </p>
     <h1 class="text-start text-2xl font-bold py-4 w-full">
       Types of {{ isFakeStoreIndex ? 'products' : 'dishes' }}
     </h1>
-    <FilterModalList @selectedFilter="emitSelected" />
-    <div class="mt-10 flex justify-center gap-x-3">
+    <FilterModalList @selectedFilter="setSelectedFilter" />
+    <div
+      class="mt-10 flex flex-col gap-y-4 sm:flex-row sm:gap-y-0 justify-center gap-x-3"
+    >
       <CtaBtn
+        class="order-2 sm:order-1"
         data-test="delete-btn"
         backCol="bg-transparent"
         textCol="text-green-600"
@@ -41,6 +56,7 @@ function emitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
         >Delete</CtaBtn
       >
       <CtaBtn
+        class="order-1 sm:order-2"
         data-test="apply-btn"
         backCol="bg-green-600"
         textCol="text-gray-100"
