@@ -14,9 +14,7 @@ function handleClick(category: IFakeStoreCategories | ICuisineType) {
 </script>
 
 <template>
-  <ul
-    class="grid place-content-center grid-cols-2 sm:grid-cols-4 lg:grid-cols-1 gap-4 mt-8 w-full"
-  >
+  <ul class="grid place-content-center xs:grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
     <li
       v-for="category in filters"
       :key="category.id"
