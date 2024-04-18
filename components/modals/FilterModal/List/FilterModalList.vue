@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { IFakeStoreCategories } from '@/interfaces/products.interface';
-import type { ICuisineType } from '@/interfaces/meals.interface';
+import type {
+  IFakeStoreCategories,
+  ICuisineType,
+} from '@/interfaces/interfaces.interface';
 
 const { toggleActive, isActive } = useIsActive();
 const { filters, getCategoryName } = useFilter();
