@@ -36,7 +36,7 @@ const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { screenWidth } = useScreenWidth();
 
 const { data, pending } = await useFetch<IMeal | IProduct[] | null>(
-  initialFetchEndpoint.value
+  initialFetchEndpoint.value!
 );
 
 async function fetchDataAndUpdate() {
@@ -44,7 +44,7 @@ async function fetchDataAndUpdate() {
 
   if (emittedFilter.value !== '') {
     filteredData.value.isLoading = true;
-    result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value);
+    result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value!);
 
     filteredData.value.data = result.data;
     filteredData.value.isLoading = result.isLoading;
