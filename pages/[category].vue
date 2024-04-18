@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Modal from '@/components/modals/Modal/Modal.vue';
-import { fakeStoreCategories } from '@/data/productCategoriesData';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
 import type { IMeal, ICuisineType } from '@/interfaces/meals.interface';
@@ -24,41 +23,33 @@ const filterDialog = ref<typeof Modal>();
 const productDialog = ref<typeof Modal>();
 
 const route = useRoute();
-const runtimeConfig = useRuntimeConfig();
+const { initialFetchEndpoint, selectedApiEndpoint } = useEndpoints(
+  route.params.category,
+  emittedFilter,
+  route.query.index as string
+);
 const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { screenWidth } = useScreenWidth();
 
-const edamamApiEndpoint = computed(() => {
-  return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&dishType=Main%20course`;
-});
+const { data, pending } = await useFetch<IMeal | IProduct[] | null>(
+  initialFetchEndpoint.value
+);
 
-const edamamApiFilteredEndpoint = computed(() => {
-  return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${route.params.category}&cuisineType=${emittedFilter.value}`;
-});
+async function fetchDataAndUpdate() {
+  let result;
 
-const fakeStoreEndpoint = computed(() => {
-  return `${runtimeConfig.public.fakeStoreBase}${route.params.category}`;
-});
+  if (emittedFilter.value !== '') {
+    filteredData.value.isLoading = true;
+    result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value);
 
-const fakeStoreFilteredEndpoint = computed(() => {
-  return `${runtimeConfig.public.fakeStoreBase}${emittedFilter.value.toLowerCase()}`;
-});
+    filteredData.value.data = result.data;
+    filteredData.value.isLoading = result.isLoading;
+  }
+}
 
-const initialFetchEndpoint = computed(() => {
-  return route.query.index !== null && +route.query.index >= 0 && +route.query.index <= 3
-    ? edamamApiEndpoint.value
-    : fakeStoreEndpoint.value;
-});
-
-const selectedApiEndpoint = computed(() => {
-  const shouldFetchFromFakeStore = fakeStoreCategories.some(
-    (category) => category.category.toLowerCase() === emittedFilter.value.toLowerCase()
-  );
-
-  return shouldFetchFromFakeStore
-    ? fakeStoreFilteredEndpoint.value
-    : edamamApiFilteredEndpoint.value;
-});
+function isMealData(data: IMeal | IProduct[] | null): data is IMeal {
+  return data !== null && 'hits' in data;
+}
 
 const shouldRenderMealCard = computed(() => {
   return data.value !== null && isMealData(data.value) && emittedFilter.value === '';
@@ -84,14 +75,6 @@ const shouldRenderFilteredProducts = computed(() => {
   );
 });
 
-const { data, pending } = await useFetch<IMeal | IProduct[] | null>(
-  initialFetchEndpoint.value
-);
-
-function isMealData(data: IMeal | IProduct[] | null): data is IMeal {
-  return data !== null && 'hits' in data;
-}
-
 function handleEmitSelected(
   selectedFilter: IFakeStoreCategories | ICuisineType | string
 ) {
@@ -100,25 +83,7 @@ function handleEmitSelected(
     : (emittedFilter.value = getCategoryName(selectedFilter));
 }
 
-async function fetchDataAndUpdate() {
-  let result;
-
-  if (emittedFilter.value !== '') {
-    filteredData.value.isLoading = true;
-    result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value);
-
-    filteredData.value.data = result.data;
-    filteredData.value.isLoading = result.isLoading;
-  }
-}
-
 watch(emittedFilter, fetchDataAndUpdate);
-watch(emittedFilter, (newValue, oldValue) => {
-  // Perform actions based on the change in myData
-  console.log('myData changed from', oldValue, 'to', newValue);
-
-  // You can also call methods or perform any other logic here
-});
 </script>
 
 <template>
@@ -179,7 +144,6 @@ watch(emittedFilter, (newValue, oldValue) => {
             />
           </template>
         </div>
-
         <div
           v-if="shouldRenderProducts"
           class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
@@ -191,7 +155,6 @@ watch(emittedFilter, (newValue, oldValue) => {
             @click="productDialog?.showDialog()"
           />
         </div>
-
         <div
           v-if="shouldRenderFilteredProducts"
           class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
