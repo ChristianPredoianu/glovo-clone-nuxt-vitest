@@ -5,17 +5,22 @@ import type { ICuisineType } from '@/interfaces/meals.interface';
 
 const emits = defineEmits(['emitSelected', 'closeModal']);
 
-const userSelectedFilter = ref<IFakeStoreCategories | ICuisineType>();
+const userSelectedFilter = ref<IFakeStoreCategories | ICuisineType | string>('');
 
 const { selected } = useIsActive();
 const { isFakeStoreIndex } = useFilter();
 
 function handleDelete() {
   selected.value = '';
+  userSelectedFilter.value = '';
+
+  /*   emits('emitSelected', userSelectedFilter.value); */
+  console.log(userSelectedFilter.value);
 }
 
 function handleApply() {
   emits('closeModal');
+  console.log(userSelectedFilter.value);
   emits('emitSelected', userSelectedFilter.value);
 }
 
