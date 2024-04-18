@@ -8,7 +8,7 @@ const props = defineProps<{
   textKey: keyof IDropdownOptions;
 }>();
 
-const emits = defineEmits(['emit-input', 'emit-option', 'emit-location']);
+const emits = defineEmits(['emitInput', 'emitOption', 'emitLocation']);
 
 let locationAdress: ILocationAdress | null = null;
 
@@ -49,12 +49,12 @@ function handleClearInput() {
 }
 
 function handleEmmitedOption(option: number) {
-  emits('emit-option', option);
+  emits('emitOption', option);
 }
 
 function handleOnChange() {
   handleInputElements();
-  emits('emit-input', inputText.value);
+  emits('emitInput', inputText.value);
 }
 
 watch(
@@ -62,7 +62,7 @@ watch(
   (newValue: ILocationAdress | null) => {
     if (newValue) {
       locationAdress = newValue;
-      emits('emit-location', locationAdress);
+      emits('emitLocation', locationAdress);
     }
   }
 );
