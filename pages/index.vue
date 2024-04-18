@@ -19,20 +19,20 @@ const emittedLocation = useState<ILocationAdress>('emittedLocation', () => {
 
 let dropdownOptions: IDropdownOptions[] = [];
 
-const runtimeConfig = useRuntimeConfig();
+const { locationEndpoint, indexMealDataEndpoint, restCountriesEndpoint } = useEndpoints(
+  undefined,
+  emittedInput,
+  undefined
+);
 
 const { data: locationData } = await useFetch<ILocationsData[]>(
-  () =>
-    `${runtimeConfig.public.apiAutoconfig}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${emittedInput.value}&limit=5`
+  () => `${locationEndpoint.value}`
 );
 
-const { data: mealData } = await useFetch<IMeal>(
-  () =>
-    `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`
-);
+const { data: mealData } = await useFetch<IMeal>(() => `${indexMealDataEndpoint.value}`);
 
 const { data: countriesData } = await useFetch<ICountriesData[]>(
-  () => `https://restcountries.com/v3.1/region/europe`
+  () => `${restCountriesEndpoint}`
 );
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
