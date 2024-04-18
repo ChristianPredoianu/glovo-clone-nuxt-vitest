@@ -13,11 +13,13 @@ function handleClick() {
 </script>
 
 <template>
-  <font-awesome-icon
-    :icon="['fas', props.icon]"
-    class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer"
-    :class="[props.backCol]"
-    @click="handleClick"
-  />
-  <p class="text-xs text-center">{{ props.text }}</p>
+  <div class="flex flex-col gap-y-1">
+    <font-awesome-icon
+      :icon="['fas', props.icon]"
+      class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer"
+      :class="[props.backCol]"
+      @click="handleClick"
+    />
+    <p class="text-xs text-center">{{ props.text }}</p>
+  </div>
 </template>
