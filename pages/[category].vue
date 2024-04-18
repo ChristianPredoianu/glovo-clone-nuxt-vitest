@@ -92,18 +92,33 @@ function isMealData(data: IMeal | IProduct[] | null): data is IMeal {
   return data !== null && 'hits' in data;
 }
 
-function handleEmitSelected(selectedFilter: IFakeStoreCategories | ICuisineType) {
-  emittedFilter.value = getCategoryName(selectedFilter);
+function handleEmitSelected(
+  selectedFilter: IFakeStoreCategories | ICuisineType | string
+) {
+  typeof selectedFilter === 'string'
+    ? (emittedFilter.value = '')
+    : (emittedFilter.value = getCategoryName(selectedFilter));
 }
 
 async function fetchDataAndUpdate() {
-  filteredData.value.isLoading = true;
-  const result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value);
-  filteredData.value.data = result.data;
-  filteredData.value.isLoading = result.isLoading;
+  let result;
+
+  if (emittedFilter.value !== '') {
+    filteredData.value.isLoading = true;
+    result = await fetchData<IMeal | IProduct[]>(selectedApiEndpoint.value);
+
+    filteredData.value.data = result.data;
+    filteredData.value.isLoading = result.isLoading;
+  }
 }
 
 watch(emittedFilter, fetchDataAndUpdate);
+watch(emittedFilter, (newValue, oldValue) => {
+  // Perform actions based on the change in myData
+  console.log('myData changed from', oldValue, 'to', newValue);
+
+  // You can also call methods or perform any other logic here
+});
 </script>
 
 <template>
@@ -116,7 +131,7 @@ watch(emittedFilter, fetchDataAndUpdate);
   <div class="container mx-auto px-4">
     <section
       v-if="screenWidth <= 1024"
-      class="mt-10 flex justify-center items-center gap-4py-5"
+      class="mt-10 flex justify-center items-center gap-4"
     >
       <RoundedBtn
         @emitClick="filterDialog?.showDialog()"
