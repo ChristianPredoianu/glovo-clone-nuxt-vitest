@@ -2,8 +2,12 @@
 import Modal from '@/components/modals/Modal/Modal.vue';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
-import type { IMeal, ICuisineType } from '@/interfaces/meals.interface';
-import type { IProduct, IFakeStoreCategories } from '@/interfaces/products.interface';
+import type {
+  IMeal,
+  ICuisineType,
+  IProduct,
+  IFakeStoreCategories,
+} from '@/interfaces/interfaces.interface';
 
 interface FetchResult<T> {
   data: IMeal | IProduct[] | null;
