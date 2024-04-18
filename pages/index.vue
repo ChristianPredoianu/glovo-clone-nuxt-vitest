@@ -4,8 +4,8 @@ import type {
   ILocationsData,
   ILocationAdress,
   ICountriesData,
-} from '@/interfaces/locations.interface';
-import type { IMeal } from '@/interfaces/meals.interface';
+  IMeal,
+} from '@/interfaces/interfaces.interface';
 import { productCategories, dishTypes } from '@/data/productCategoriesData';
 
 const emittedInput = useState<string>('emmitedInput', () => '');
@@ -98,9 +98,9 @@ watch(
             :options="dropdownOptions"
             textKey="text"
             idKey="id"
-            @emit-input="handleEmittedSearchQuery"
-            @emit-option="handleEmmitedOption"
-            @emit-location="handleEmmitedLocation"
+            @emitInput="handleEmittedSearchQuery"
+            @emitOption="handleEmmitedOption"
+            @emitLocation="handleEmmitedLocation"
           />
 
           <p
