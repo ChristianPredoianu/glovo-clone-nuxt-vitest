@@ -6,10 +6,6 @@ const props = defineProps<{
 }>();
 
 const emits = defineEmits(['emitClick']);
-
-function handleClick() {
-  emits('emitClick');
-}
 </script>
 
 <template>
@@ -18,7 +14,7 @@ function handleClick() {
       :icon="['fas', props.icon]"
       class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer"
       :class="[props.backCol]"
-      @click="handleClick"
+      @click="emits('emitClick')"
     />
     <p class="text-xs text-center">{{ props.text }}</p>
   </div>
