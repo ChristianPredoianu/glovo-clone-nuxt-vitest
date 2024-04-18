@@ -7,7 +7,7 @@ const props = defineProps<{
   textKey: keyof IDropdownOptions;
 }>();
 
-const emits = defineEmits(['emit-option', 'clear-input']);
+const emits = defineEmits(['emitOption', 'clearInput']);
 
 const isOpen = useState<boolean>('isOpen', () => true);
 
@@ -32,8 +32,8 @@ function toggleDropdown() {
 function selectOption(index: number) {
   const option = props.options[index];
   isOpen.value = false;
-  emits('emit-option', option);
-  emits('clear-input');
+  emits('emitOption', option);
+  emits('clearInput');
 }
 
 //The API sometimes returns two of the same adresses, this creates unique returns
