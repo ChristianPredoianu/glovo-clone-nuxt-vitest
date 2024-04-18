@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { generateRandomPrice } from '@/helpers/randomPrice';
-import type { IMeal } from '@/interfaces/meals.interface';
 
 const props = defineProps<{
   category: string;
@@ -10,8 +9,8 @@ const props = defineProps<{
 
 const price = ref<string | null>(null);
 
+// Generate the price only on the client side
 onMounted(() => {
-  // Generate the price only on the client side
   price.value = generateRandomPrice();
 });
 </script>
