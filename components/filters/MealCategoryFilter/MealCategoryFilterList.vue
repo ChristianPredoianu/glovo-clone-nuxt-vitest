@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const emits = defineEmits(['emitSelected']);
+
 const { filters } = useFilter();
 
 function emitSelected(selectedFilter: string) {
