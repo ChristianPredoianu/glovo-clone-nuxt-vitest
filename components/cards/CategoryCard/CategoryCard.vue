@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import type { ISelectedCategory } from '@/interfaces/interfaces.interface';
+interface ISelectedCategory {
+  index: number;
+  img: string;
+  text: string;
+  category: string;
+}
 
 const props = defineProps<ISelectedCategory>();
 
