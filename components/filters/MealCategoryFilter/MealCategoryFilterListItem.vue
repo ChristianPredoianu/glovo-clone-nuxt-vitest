@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import type { IFakeStoreCategories } from '@/interfaces/products.interface';
-import type { ICuisineType } from '@/interfaces/meals.interface';
+import type {
+  IFakeStoreCategories,
+  ICuisineType,
+} from '@/interfaces/interfaces.interface';
 
 const props = defineProps({
   category: {
