@@ -30,14 +30,15 @@ const productDialog = ref<typeof Modal>();
 const productModalProps = ref<{ label: string; img: string } | null>(null);
 
 const route = useRoute();
+const { isFakeStoreIndex, getCategoryName } = useFilter();
+const { screenWidth } = useScreenWidth();
+const { isMealData, isSingleMealData } = useIsMealData();
+
 const { initialFetchEndpoint, selectedApiEndpoint } = useEndpoints(
   route.params.category,
   emittedFilter,
   route.query.index as string
 );
-const { isFakeStoreIndex, getCategoryName } = useFilter();
-const { screenWidth } = useScreenWidth();
-const { isMealData, isSingleMealData } = useIsMealData();
 
 const { data, pending } = await useFetch<IMeals | IProduct[] | null>(
   initialFetchEndpoint.value!
@@ -96,7 +97,7 @@ function handleMealCardClick(item: ISingleMeal | IProduct) {
   } else {
     console.log(item.title);
     productModalProps.value = {
-      label: item.title,
+      label: item.title!,
       img: item.image,
     };
   }
