@@ -4,14 +4,21 @@ import type {
   ICuisineType,
 } from '@/interfaces/interfaces.interface';
 
-const { toggleActive, isActive } = useIsActive();
+const { setActive, isActive } = useIsActive();
 const { filters, getCategoryName } = useFilter();
 
 const emits = defineEmits(['selectedFilter']);
 
 function handleClick(category: IFakeStoreCategories | ICuisineType) {
+  const categoryName = getCategoryName(category);
   emits('selectedFilter', category);
-  toggleActive(getCategoryName(category));
+
+  setActive(categoryName);
+}
+
+function handleDeleteFilter() {
+  setActive('');
+  emits('selectedFilter', '');
 }
 </script>
 
@@ -34,6 +41,7 @@ function handleClick(category: IFakeStoreCategories | ICuisineType) {
       </p>
       <p
         v-if="isActive(getCategoryName(category))"
+        @click.stop="handleDeleteFilter"
         class="absolute bottom-8 right-12 rounded-full px-1.5 pb-1 text-xs bg-gray-600 text-gray-200 cursor-pointer"
       >
         x
