@@ -9,6 +9,18 @@ function closeDialog() {
   dialogRef.value?.close();
 }
 
+function closeDialogOnClickOutside(e: MouseEvent) {
+  if (e.target === dialogRef.value) closeDialog();
+}
+
+onMounted(() => {
+  dialogRef.value?.addEventListener('click', closeDialogOnClickOutside);
+});
+
+onUnmounted(() => {
+  dialogRef.value?.removeEventListener('click', closeDialogOnClickOutside);
+});
+
 defineExpose({
   showDialog,
   closeDialog,
