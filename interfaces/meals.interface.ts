@@ -1,4 +1,4 @@
-export interface IMeal {
+export interface IMeals {
   hits: {
     recipe: {
       cuisineType: string[];
@@ -6,6 +6,14 @@ export interface IMeal {
       image: string;
     };
   }[];
+}
+
+export interface ISingleMeal {
+  recipe: {
+    cuisineType: string[];
+    label: string;
+    image: string;
+  };
 }
 
 export interface ICuisineType {
