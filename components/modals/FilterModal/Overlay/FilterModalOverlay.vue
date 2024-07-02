@@ -9,11 +9,11 @@ const emits = defineEmits(['emitSelected', 'closeModal']);
 
 const userSelectedFilter = ref<IFakeStoreCategories | ICuisineType | string>('');
 
-const { selected } = useIsActive();
+const { clearActive } = useIsActive();
 const { isFakeStoreIndex } = useFilter();
 
 function handleDelete() {
-  selected.value = '';
+  clearActive();
   userSelectedFilter.value = '';
 
   emits('emitSelected', userSelectedFilter.value);
@@ -26,6 +26,7 @@ function handleApply() {
 }
 
 function setSelectedFilter(selectedFilter: IFakeStoreCategories | ICuisineType) {
+  console.log(selectedFilter);
   userSelectedFilter.value = selectedFilter;
 }
 
