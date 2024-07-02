@@ -12,7 +12,7 @@ function closeBackdropElements() {
 <template>
   <Teleport to="body">
     <div
-      class="#test absolute inset-0 min-h-screen w-full bg-slate-800 z-40 opacity-50"
+      class="#test fixed inset-0 min-h-full w-full bg-slate-800 z-10 opacity-50"
       v-if="isBackdropOpen"
       @click="closeBackdropElements"
     ></div
