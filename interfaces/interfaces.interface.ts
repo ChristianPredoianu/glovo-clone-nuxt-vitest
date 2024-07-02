@@ -18,7 +18,7 @@ export interface ICountriesData {
   };
 }
 
-export interface IMeal {
+export interface IMeals {
   hits: {
     recipe: {
       cuisineType: string[];
@@ -55,6 +55,14 @@ export interface IProduct {
     rate: number;
   };
   title?: string;
+}
+
+export interface ISingleMeal {
+  recipe: {
+    cuisineType: string[];
+    label: string;
+    image: string;
+  };
 }
 
 export interface IFakeStoreCategories {
