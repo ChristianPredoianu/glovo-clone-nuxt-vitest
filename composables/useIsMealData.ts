@@ -1,5 +1,4 @@
 import type { IMeals, IProduct, ISingleMeal } from '@/interfaces/interfaces.interface';
-import type {} from '@/interfaces/products.interface';
 
 export function useIsMealData() {
   function isMealData(data: IMeals | IProduct[] | null): data is IMeals {
