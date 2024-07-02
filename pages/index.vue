@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Modal from '@/components/modals/Modal/Modal.vue';
 import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type {
   ILocationsData,
@@ -12,6 +13,8 @@ const emittedInput = useState<string>('emmitedInput', () => '');
 const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
   return { id: 0, text: '' };
 });
+
+const productDialog = ref<typeof Modal>();
 
 const emittedLocation = useState<ILocationAdress>('emittedLocation', () => {
   return { address: { road: '', postcode: '', town: '', country: '' } };
@@ -80,6 +83,7 @@ watch(
 </script>
 
 <template>
+  <Modal ref="productDialog"><ProductModalOverlay /></Modal>
   <section class="bg-amber-400 text-gray-800 min-h-screen md:min-h-min">
     <div
       class="container px-4 pt-28 mx-auto flex flex-col items-center justify-center gap-8 p-10 md:flex-row"
@@ -145,6 +149,7 @@ watch(
           :category="meal.recipe.cuisineType[0]"
           :label="meal.recipe.label"
           :img="meal.recipe.image"
+          @click="productDialog?.showDialog()"
         />
       </div>
     </section>
