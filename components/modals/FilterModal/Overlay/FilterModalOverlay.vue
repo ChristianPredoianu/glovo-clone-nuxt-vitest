@@ -16,14 +16,13 @@ function handleDelete() {
   selected.value = '';
   userSelectedFilter.value = '';
 
-  /*   emits('emitSelected', userSelectedFilter.value); */
-  console.log(userSelectedFilter.value);
+  emits('emitSelected', userSelectedFilter.value);
+  emits('closeModal');
 }
 
 function handleApply() {
-  emits('closeModal');
-  console.log(userSelectedFilter.value);
   emits('emitSelected', userSelectedFilter.value);
+  emits('closeModal');
 }
 
 function setSelectedFilter(selectedFilter: IFakeStoreCategories | ICuisineType) {
