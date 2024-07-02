@@ -11,12 +11,13 @@ const props = defineProps({
 
 const emits = defineEmits(['emitSelected']);
 
-const { toggleActive, isActive } = useIsActive();
+const { setActive, isActive } = useIsActive();
 const { getCategoryName } = useFilter();
 
 function handleClick(selectedFilter: IFakeStoreCategories | ICuisineType) {
+  const categoryName = getCategoryName(selectedFilter);
   emits('emitSelected', selectedFilter);
-  toggleActive(getCategoryName(selectedFilter));
+  setActive(categoryName);
 }
 </script>
 
