@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import Modal from '@/components/modals/Modal/Modal.vue';
-import type { IDropdownOptions } from '@/interfaces/options.interface';
 import type {
   ILocationsData,
   ILocationAdress,
   ICountriesData,
-  IMeal,
+  IMeals,
+  IDropdownOptions,
 } from '@/interfaces/interfaces.interface';
 import { productCategories, dishTypes } from '@/data/productCategoriesData';
 
@@ -14,7 +14,7 @@ const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
   return { id: 0, text: '' };
 });
 
-const productDialog = ref<typeof Modal>();
+const productDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 const emittedLocation = useState<ILocationAdress>('emittedLocation', () => {
   return { address: { road: '', postcode: '', town: '', country: '' } };
@@ -28,17 +28,18 @@ const { locationEndpoint, indexMealDataEndpoint, restCountriesEndpoint } = useEn
   undefined
 );
 
+const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
+const { currentModalProps, handleCardClick } = useDialogProps(productDialog);
+
 const { data: locationData } = await useFetch<ILocationsData[]>(
   () => `${locationEndpoint.value}`
 );
 
-const { data: mealData } = await useFetch<IMeal>(() => `${indexMealDataEndpoint.value}`);
+const { data: mealData } = await useFetch<IMeals>(() => `${indexMealDataEndpoint.value}`);
 
 const { data: countriesData } = await useFetch<ICountriesData[]>(
   () => `${restCountriesEndpoint}`
 );
-
-const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
 
 function handleEmittedSearchQuery(searchQuery: string) {
   emittedInput.value = searchQuery;
@@ -83,7 +84,9 @@ watch(
 </script>
 
 <template>
-  <Modal ref="productDialog"><ProductModalOverlay /></Modal>
+  <Modal ref="productDialog"
+    ><ProductModalOverlay :productModalProps="currentModalProps"
+  /></Modal>
   <section class="bg-amber-400 text-gray-800 min-h-screen md:min-h-min">
     <div
       class="container px-4 pt-28 mx-auto flex flex-col items-center justify-center gap-8 p-10 md:flex-row"
@@ -141,7 +144,7 @@ watch(
       </div>
       <div
         v-if="mealData"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10 gap-y-8 gap-x-8 mt-8"
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-y-8 gap-x-8 mt-8"
       >
         <MealCard
           v-for="meal in mealData.hits"
@@ -149,7 +152,7 @@ watch(
           :category="meal.recipe.cuisineType[0]"
           :label="meal.recipe.label"
           :img="meal.recipe.image"
-          @click="productDialog?.showDialog()"
+          @click="handleCardClick(meal)"
         />
       </div>
     </section>
