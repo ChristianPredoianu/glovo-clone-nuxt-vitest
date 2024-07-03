@@ -1,12 +1,7 @@
 <script setup lang="ts">
-interface ProductModalProps {
-  label: string;
-  img: string;
-}
+import type { ModalProps } from '@/interfaces/interfaces.interface';
 
-const props = defineProps<{
-  productModalProps: ProductModalProps | null;
-}>();
+const props = defineProps<{ productModalProps: ModalProps | null }>();
 </script>
 
 <template>
