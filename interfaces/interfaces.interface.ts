@@ -57,11 +57,16 @@ export interface IProduct {
   title?: string;
 }
 
+interface IIngredient {
+  text: string;
+}
+
 export interface ISingleMeal {
   recipe: {
     cuisineType: string[];
     label: string;
     image: string;
+    ingredients?: IIngredient[];
   };
 }
 
@@ -77,3 +82,14 @@ export interface ISelectedCategory {
   text: string;
   category: string;
 }
+
+export interface IProductModalProps {
+  label: string;
+  img: string;
+}
+
+export interface IMealModalProps extends IProductModalProps {
+  ingredients: string;
+}
+
+export type ModalProps = IMealModalProps | IProductModalProps;
