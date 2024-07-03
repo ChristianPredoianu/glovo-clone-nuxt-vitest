@@ -4,7 +4,6 @@ import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
 import type {
   IMeals,
-  ISingleMeal,
   ICuisineType,
   IProduct,
   IFakeStoreCategories,
@@ -24,15 +23,14 @@ const filteredData = useState<FetchResult<IMeals | IProduct[] | null>>(
   })
 );
 
-const filterDialog = ref<typeof Modal>();
-const productDialog = ref<typeof Modal>();
-
-const productModalProps = ref<{ label: string; img: string } | null>(null);
+const filterDialog = ref<InstanceType<typeof Modal> | null>(null);
+const productDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 const route = useRoute();
 const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { screenWidth } = useScreenWidth();
-const { isMealData, isSingleMealData } = useIsMealData();
+const { isMealData } = useIsMealData();
+const { currentModalProps, handleCardClick } = useDialogProps(productDialog);
 
 const { initialFetchEndpoint, selectedApiEndpoint } = useEndpoints(
   route.params.category,
@@ -88,23 +86,6 @@ function handleEmitSelected(
     : (emittedFilter.value = getCategoryName(selectedFilter));
 }
 
-function handleMealCardClick(item: ISingleMeal | IProduct) {
-  if (isSingleMealData(item)) {
-    productModalProps.value = {
-      label: item.recipe.label,
-      img: item.recipe.image,
-    };
-  } else {
-    console.log(item.title);
-    productModalProps.value = {
-      label: item.title!,
-      img: item.image,
-    };
-  }
-
-  productDialog.value?.showDialog();
-}
-
 watch(emittedFilter, fetchDataAndUpdate);
 </script>
 
@@ -115,7 +96,7 @@ watch(emittedFilter, fetchDataAndUpdate);
       @closeModal="filterDialog?.closeDialog()"
   /></Modal>
   <Modal ref="productDialog"
-    ><ProductModalOverlay :productModalProps="productModalProps"
+    ><ProductModalOverlay :productModalProps="currentModalProps"
   /></Modal>
   <div class="container mx-auto px-4">
     <section
@@ -154,7 +135,7 @@ watch(emittedFilter, fetchDataAndUpdate);
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
-              @click="handleMealCardClick(meal)"
+              @click="handleCardClick(meal)"
             />
           </template>
           <template v-if="shouldRenderFilteredMealCard">
@@ -164,7 +145,7 @@ watch(emittedFilter, fetchDataAndUpdate);
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
-              @click="handleMealCardClick(meal)"
+              @click="handleCardClick(meal)"
             />
           </template>
         </div>
@@ -176,7 +157,7 @@ watch(emittedFilter, fetchDataAndUpdate);
             v-for="product in (data as IProduct[])"
             :key="product.id"
             :product="product"
-            @click="handleMealCardClick(product)"
+            @click="handleCardClick(product)"
           />
         </div>
         <div
@@ -187,7 +168,7 @@ watch(emittedFilter, fetchDataAndUpdate);
             v-for="product in (filteredData.data as IProduct[])"
             :key="product.id"
             :product="product"
-            @click="handleMealCardClick(product)"
+            @click="handleCardClick(product)"
           />
         </div>
       </div>
