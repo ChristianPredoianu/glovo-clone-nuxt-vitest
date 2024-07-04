@@ -15,8 +15,7 @@ interface FetchResult<T> {
   data: IMeals | IProduct[] | null;
   isLoading: boolean;
 }
-const testPrice = useState('price');
-console.log(testPrice.value);
+
 const emittedFilter = useState<string>('emmitedFilter', () => '');
 const filteredData = useState<FetchResult<IMeals | IProduct[] | null>>(
   'filteredData',
@@ -93,9 +92,6 @@ function handleEmitSelected(
 }
 
 watch(emittedFilter, fetchDataAndUpdate);
-
-const price = ref<string | null>(null);
-const isMounted = ref(false);
 </script>
 
 <template>
@@ -109,6 +105,7 @@ const isMounted = ref(false);
     ><ProductModalOverlay
       :productModalProps="currentModalProps"
       :price="+generateRandomPrice()"
+      @closeModal="productDialog?.closeDialog()"
   /></Modal>
   <div class="container mx-auto px-4">
     <section
