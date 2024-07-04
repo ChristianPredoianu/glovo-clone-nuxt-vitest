@@ -12,12 +12,10 @@ interface IModalRef extends Ref<InstanceType<typeof Modal> | null> {}
 
 export function useDialogProps(dialogRef: IModalRef) {
   const mealModalProps = useState<IMealModalProps | null>('mealModalProps', () => null);
-  const productModalProps = useState<IMealModalProps | null>(
+  const productModalProps = useState<IProductModalProps | null>(
     'productModalProps',
     () => null
   );
-  /*   const mealModalProps = ref<IMealModalProps | null>(null); */
-  /* const productModalProps = ref<IProductModalProps | null>(null); */
 
   const { isSingleMealData } = useIsMealData();
 
