@@ -18,14 +18,16 @@ export interface ICountriesData {
   };
 }
 
+export interface IMeal {
+  recipe: {
+    cuisineType: string[];
+    label: string;
+    image: string;
+  };
+}
+
 export interface IMeals {
-  hits: {
-    recipe: {
-      cuisineType: string[];
-      label: string;
-      image: string;
-    };
-  }[];
+  hits: IMeal[];
 }
 
 export interface ICuisineType {
