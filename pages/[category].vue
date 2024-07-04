@@ -2,6 +2,8 @@
 import Modal from '@/components/modals/Modal/Modal.vue';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
+import { generateRandomPrice } from '@/helpers/randomPrice';
+import { useIsMealData } from '@/composables/useIsMealData';
 import type {
   IMeals,
   ICuisineType,
@@ -13,7 +15,8 @@ interface FetchResult<T> {
   data: IMeals | IProduct[] | null;
   isLoading: boolean;
 }
-
+const testPrice = useState('price');
+console.log(testPrice.value);
 const emittedFilter = useState<string>('emmitedFilter', () => '');
 const filteredData = useState<FetchResult<IMeals | IProduct[] | null>>(
   'filteredData',
@@ -26,6 +29,7 @@ const filterDialog = useState<InstanceType<typeof Modal> | null>(
   'filterDialog',
   () => null
 );
+
 const productDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 const route = useRoute();
@@ -89,6 +93,9 @@ function handleEmitSelected(
 }
 
 watch(emittedFilter, fetchDataAndUpdate);
+
+const price = ref<string | null>(null);
+const isMounted = ref(false);
 </script>
 
 <template>
@@ -97,8 +104,11 @@ watch(emittedFilter, fetchDataAndUpdate);
       @emitSelected="handleEmitSelected"
       @closeModal="filterDialog?.closeDialog()"
   /></Modal>
+
   <Modal ref="productDialog"
-    ><ProductModalOverlay :productModalProps="currentModalProps"
+    ><ProductModalOverlay
+      :productModalProps="currentModalProps"
+      :price="+generateRandomPrice()"
   /></Modal>
   <div class="container mx-auto px-4">
     <section
