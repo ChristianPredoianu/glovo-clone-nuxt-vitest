@@ -1,18 +1,9 @@
 <script setup lang="ts">
-import { generateRandomPrice } from '@/helpers/randomPrice';
-
 const props = defineProps<{
   category: string;
   label: string;
   img?: string;
 }>();
-
-const price = ref<string | null>(null);
-
-// Generate the price only on the client side
-onMounted(() => {
-  price.value = generateRandomPrice();
-});
 </script>
 
 <template>
@@ -37,9 +28,8 @@ onMounted(() => {
         {{ label.replace(/\brecipes?\b/gi, '') }}
       </h3>
 
-      <div class="flex flex-wrap items-center justify-between mt-2 py-1">
-        <p class="text-green-500">{{ price }}$</p>
-        <div class="flex items-center gap-2 bg-amber-400 p-1 rounded-md">
+      <div class="flex flex-wrap justify-center">
+        <div class="flex items-center gap-2 mt-2 py-1 px-4 bg-amber-400 p-1 rounded-md">
           <font-awesome-icon :icon="['fas', 'fa-truck']" />
           <p>Free</p>
         </div>
