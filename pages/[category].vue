@@ -22,9 +22,14 @@ const filteredData = useState<FetchResult<IMeals | IProduct[] | null>>(
     isLoading: false,
   })
 );
-
-const filterDialog = ref<InstanceType<typeof Modal> | null>(null);
-const productDialog = ref<InstanceType<typeof Modal> | null>(null);
+const filterDialog = useState<InstanceType<typeof Modal> | null>(
+  'filterDialog',
+  () => null
+);
+const productDialog = useState<InstanceType<typeof Modal> | null>(
+  'filterDialog',
+  () => null
+);
 
 const route = useRoute();
 const { isFakeStoreIndex, getCategoryName } = useFilter();
