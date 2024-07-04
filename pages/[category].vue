@@ -26,10 +26,7 @@ const filterDialog = useState<InstanceType<typeof Modal> | null>(
   'filterDialog',
   () => null
 );
-const productDialog = useState<InstanceType<typeof Modal> | null>(
-  'filterDialog',
-  () => null
-);
+const productDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 const route = useRoute();
 const { isFakeStoreIndex, getCategoryName } = useFilter();
