@@ -22,10 +22,11 @@ export function useDialogProps(dialogRef: IModalRef) {
   function handleCardClick(item: ISingleMeal | IProduct) {
     console.log(item);
     if (isSingleMealData(item)) {
+      console.log(item);
       mealModalProps.value = {
         label: item.recipe.label,
         img: item.recipe.image,
-        ingredients: item.recipe.ingredients![0].text,
+        ingredients: item.recipe.ingredients || [],
       };
     } else {
       productModalProps.value = {
