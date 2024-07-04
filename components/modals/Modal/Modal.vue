@@ -29,8 +29,15 @@ defineExpose({
 
 <template>
   <Teleport to="body">
-    <dialog ref="dialogRef" class="rounded-lg">
+    <dialog ref="dialogRef" class="rounded-lg" id="main-dialog">
       <slot />
     </dialog>
   </Teleport>
 </template>
+
+<style scoped>
+#main-dialog::backdrop {
+  background-color: #1d1d1d;
+  opacity: 0.7;
+}
+</style>
