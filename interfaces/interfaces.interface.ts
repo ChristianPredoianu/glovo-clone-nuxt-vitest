@@ -91,7 +91,6 @@ export interface IProductModalProps {
 }
 
 export interface IMealModalProps extends IProductModalProps {
-  ingredients: string;
+  ingredients: IIngredient[];
 }
-
 export type ModalProps = IMealModalProps | IProductModalProps;
