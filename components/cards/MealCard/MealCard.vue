@@ -28,7 +28,7 @@ const props = defineProps<{
         {{ label.replace(/\brecipes?\b/gi, '') }}
       </h3>
 
-      <div class="flex flex-wrap justify-center">
+      <div class="flex flex-wrap">
         <div class="flex items-center gap-2 mt-2 py-1 px-4 bg-amber-400 p-1 rounded-md">
           <font-awesome-icon :icon="['fas', 'fa-truck']" />
           <p>Free</p>
