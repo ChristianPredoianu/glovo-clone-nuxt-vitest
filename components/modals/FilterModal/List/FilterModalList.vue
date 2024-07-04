@@ -23,7 +23,7 @@ function handleDeleteFilter() {
 </script>
 
 <template>
-  <ul class="grid place-content-center xs:grid-cols-2 sm:grid-cols-4 gap-4 mt-8">
+  <ul class="grid place-content-center grid-cols-3 sm:grid-cols-4 gap-4 mt-8">
     <li
       v-for="category in filters"
       :key="category.id"
