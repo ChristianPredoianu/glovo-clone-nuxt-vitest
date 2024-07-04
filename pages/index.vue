@@ -8,6 +8,7 @@ import type {
   IDropdownOptions,
 } from '@/interfaces/interfaces.interface';
 import { productCategories, dishTypes } from '@/data/productCategoriesData';
+import { generateRandomPrice } from '~/helpers/randomPrice';
 
 const emittedInput = useState<string>('emmitedInput', () => '');
 const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
@@ -85,7 +86,9 @@ watch(
 
 <template>
   <Modal ref="productDialog"
-    ><ProductModalOverlay :productModalProps="currentModalProps"
+    ><ProductModalOverlay
+      :productModalProps="currentModalProps"
+      :price="+generateRandomPrice()"
   /></Modal>
   <section class="bg-amber-400 text-gray-800 min-h-screen md:min-h-min">
     <div
