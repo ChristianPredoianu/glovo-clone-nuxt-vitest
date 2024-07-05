@@ -29,7 +29,7 @@ defineExpose({
 
 <template>
   <Teleport to="body">
-    <dialog ref="dialogRef" class="rounded-lg" id="main-dialog">
+    <dialog class="rounded-lg w-4/5 sm:w-3/5 lg:w-2/5" ref="dialogRef" id="main-dialog">
       <slot />
     </dialog>
   </Teleport>
