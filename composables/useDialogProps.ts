@@ -20,7 +20,6 @@ export function useDialogProps(dialogRef: IModalRef) {
   const { isSingleMealData } = useIsMealData();
 
   function handleCardClick(item: ISingleMeal | IProduct) {
-    console.log(item);
     if (isSingleMealData(item)) {
       mealModalProps.value = {
         label: item.recipe.label,
