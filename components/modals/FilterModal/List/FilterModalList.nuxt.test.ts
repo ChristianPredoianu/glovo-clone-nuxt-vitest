@@ -7,17 +7,19 @@ import type {
 } from '@/interfaces/interfaces.interface';
 
 // Mock implementations for composables
-const useIsActive = () => ({
-  setActive: vi.fn(),
-  isActive: vi.fn((name: string) => name === 'ActiveCategory'),
-});
+function useIsActive() {
+  return {
+    setActive: vi.fn(),
+    isActive: vi.fn((name: string) => name === 'ActiveCategory'),
+  };
+}
 
-const useFilter = () => ({
-  filters: [{ id: 1, icon: 'fa-burger', cuisineType: 'American' }],
-  getCategoryName: vi.fn(
-    (category: IFakeStoreCategories | ICuisineType) => category.cuisineType
-  ),
-});
+function useFilter() {
+  return {
+    filters: [{ id: 1, icon: 'fa-burger', cuisineType: 'American' }],
+    getCategoryName: vi.fn((category: ICuisineType) => category.cuisineType),
+  };
+}
 
 describe('MyComponent', () => {
   it('renders the list of filters correctly', () => {
