@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
-import MyComponent from './FilterModalList.vue'; // Adjust the path as needed
+import MyComponent from './FilterModalList.vue';
 import type {
   IFakeStoreCategories,
   ICuisineType,
