@@ -1,4 +1,4 @@
-import { describe, vi, beforeEach, it, expect } from 'vitest';
+import { describe, beforeEach, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 
 import FilterModalList from '@/components/modals/FilterModal/List/FilterModalList.vue';
