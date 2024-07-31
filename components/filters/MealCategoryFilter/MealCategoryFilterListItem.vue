@@ -29,6 +29,7 @@ function handleClick(selectedFilter: IFakeStoreCategories | ICuisineType) {
     @click="handleClick(category)"
   >
     <font-awesome-icon
+      data-test="icon"
       :icon="['fas', category?.icon]"
       class="fa-fw bg-orange-200 p-2 rounded-full text-gray-600"
       :class="{ 'bg-orange-300': isActive(getCategoryName(category)) }"
