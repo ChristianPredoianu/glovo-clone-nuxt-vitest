@@ -1,26 +1,99 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import MealCategoryFilterListItem from '@/components/filters/MealCategoryFilter/MealCategoryFilterListItem.vue';
-import type { IFakeStoreCategories } from '@/interfaces/products.interface';
-import type { ICuisineType } from '@/interfaces/meals.interface';
+import type { IFakeStoreCategories } from '@/interfaces/interfaces.interface';
+import type { ICuisineType } from '@/interfaces/interfaces.interface';
 
 describe('MealCategoryFilterListItem', () => {
-  it('emits selected category when clicked', async () => {
-    const category: IFakeStoreCategories | ICuisineType = {
-      id: 1,
-      category: 'American',
-      icon: 'fa-category',
-    };
+  const category: ICuisineType | IFakeStoreCategories = {
+    id: 1,
+    icon: 'fa-burger',
+    cuisineType: 'American',
+  };
 
+  it('renders the category item correctly', () => {
     const wrapper = mount(MealCategoryFilterListItem, {
-      props: {
-        category: category,
+      props: { category },
+      global: {
+        mocks: {
+          useIsActive: useIsActive(), // Mock composables
+          useFilter: useFilter(),
+        },
+        components: {
+          'font-awesome-icon': {
+            name: 'font-awesome-icon',
+            props: ['icon'],
+            template: '<span :class="icon" />',
+          },
+        },
       },
     });
 
-    await wrapper.trigger('click');
+    // Check if the component renders the correct icon and text
+    const icon = wrapper.find('[data-test="icon"]');
 
+    expect(icon.exists()).toBe(true);
+
+    const iconClass = icon.attributes('class');
+    expect(iconClass).toContain('fa-burger');
+
+    const text = wrapper.find('p');
+    expect(text.text()).toBe('American');
+  });
+
+  it('emits emitSelected event with the correct payload when clicked', async () => {
+    const wrapper = mount(MealCategoryFilterListItem, {
+      props: { category },
+      global: {
+        mocks: {
+          useIsActive: useIsActive(),
+          useFilter: useFilter(),
+        },
+        components: {
+          'font-awesome-icon': {
+            name: 'font-awesome-icon',
+            props: ['icon'],
+            template: '<span :class="icon" />',
+          },
+        },
+      },
+    });
+
+    // Simulate clicking the list item
+    await wrapper.find('li').trigger('click');
+
+    // Check if emitSelected event was emitted with the correct payload
     expect(wrapper.emitted('emitSelected')).toBeTruthy();
-    expect(wrapper.emitted('emitSelected')![0][0]).toBe('American');
+    expect(wrapper.emitted('emitSelected')![0]).toEqual([category]);
+  });
+
+  it('applies the active class correctly based on isActive', async () => {
+    const wrapper = mount(MealCategoryFilterListItem, {
+      props: { category },
+      global: {
+        mocks: {
+          useIsActive: useIsActive(),
+          useFilter: useFilter(),
+        },
+        components: {
+          'font-awesome-icon': {
+            name: 'font-awesome-icon',
+            props: ['icon'],
+            template: '<span :class="icon" />',
+          },
+        },
+      },
+    });
+
+    // Ensure the DOM updates after setting isActive
+    await wrapper.vm.$nextTick();
+
+    // Check if the active class is applied correctly
+    const activeClassIcon = wrapper.find('[data-test="icon"].bg-orange-300');
+    expect(activeClassIcon.exists()).toBe(true);
+
+    const activeText = wrapper.find('p.font-semibold');
+    console.log(activeText);
+    expect(activeText.exists()).toBe(true);
   });
 });
