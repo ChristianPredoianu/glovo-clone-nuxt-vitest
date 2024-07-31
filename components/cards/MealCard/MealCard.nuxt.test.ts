@@ -1,23 +1,66 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import MealCard from '@/components/cards/MealCard/MealCard.vue';
+import MealCard from '@/components/cards/MealCard/MealCard.vue'; // Adjust the path as needed
 
-describe('Meal card', () => {
-  it('renders correctly with props', async () => {
+describe('MealCard', () => {
+  it('renders with provided props', () => {
+    const propsData = {
+      category: 'dessert',
+      label: 'Delicious recipes',
+      img: 'https://example.com/image.jpg',
+    };
+
     const wrapper = mount(MealCard, {
-      props: {
-        category: 'food',
-        label: 'Delicious recipes',
-        img: 'food.jpg',
-      },
+      props: propsData,
     });
 
-    await wrapper.vm.$nextTick();
+    // Check if the image is rendered correctly
+    const img = wrapper.find('img');
+    expect(img.exists()).toBe(true);
+    expect(img.attributes('src')).toBe(propsData.img);
+    expect(img.attributes('alt')).toBe(propsData.label);
 
-    expect(wrapper.find('img').attributes('src')).toBe('food.jpg');
-    expect(wrapper.find('img').attributes('alt')).toBe('Delicious recipes');
-    expect(wrapper.find('p').text()).toBe('Food');
-    expect(wrapper.find('h3').text()).toBe('Delicious');
-    expect(wrapper.find('.text-green-500').text()).toMatch(/^\d+(\.\d+)?\$$/);
+    // Check if the category label is rendered correctly
+    const categoryLabel = wrapper.find('p').text();
+    expect(categoryLabel).toBe('Dessert'); // Capitalized category
+
+    // Check if the label is rendered correctly without 'recipe' or 'recipes'
+    const h3 = wrapper.find('h3');
+    expect(h3.text()).toBe('Delicious'); // Label with 'recipe' removed
+
+    // Check if the "Free" text and icon are rendered
+    const freeDiv = wrapper.find('div.bg-amber-400');
+    expect(freeDiv.exists()).toBe(true);
+    expect(freeDiv.text()).toContain('Free');
+  });
+
+  it('capitalizes the first letter of the category', () => {
+    const propsData = {
+      category: 'appetizer',
+      label: 'Tasty recipes',
+    };
+
+    const wrapper = mount(MealCard, {
+      props: propsData,
+    });
+
+    // Check if the category is correctly capitalized
+    const categoryLabel = wrapper.find('p').text();
+    expect(categoryLabel).toBe('Appetizer'); // Capitalized category
+  });
+
+  it('removes "recipe" or "recipes" from the label', () => {
+    const propsData = {
+      category: 'beverage',
+      label: 'Refreshing recipes',
+    };
+
+    const wrapper = mount(MealCard, {
+      props: propsData,
+    });
+
+    // Check if 'recipe' or 'recipes' is removed from the label
+    const h3 = wrapper.find('h3');
+    expect(h3.text()).toBe('Refreshing'); // Label with 'recipe' removed
   });
 });
