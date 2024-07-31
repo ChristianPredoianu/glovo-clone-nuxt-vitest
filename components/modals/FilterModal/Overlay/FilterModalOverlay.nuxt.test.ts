@@ -1,40 +1,78 @@
-import { describe, beforeEach, vi, it, expect } from 'vitest';
-import { mount, VueWrapper } from '@vue/test-utils';
+import { describe, it, expect, vi } from 'vitest';
+import { mount } from '@vue/test-utils';
+import FilterModalOverlay from './FilterModalOverlay.vue'; // Adjust the path as needed
 
-import MealCategoryFilterModalOverlay from '@/components/modals/MealCategoryFilterModal/MealCategoryFilterOverlay/MealCategoryFilterOverlay.vue';
-import Backdrop from '../ui/Backdrop/Backdrop.vue';
+// Mock composables used in the component
+const mockClearActive = vi.fn();
+const mockIsFakeStoreIndex = vi.fn(() => true);
+const mockScreenWidth = ref(800); // Mock screen width
 
-describe('MealCategoryFilterModalOverlay', () => {
-  let wrapper: VueWrapper<any>;
+vi.mock('@/composables/useIsActive', () => ({
+  useIsActive: vi.fn(() => ({
+    clearActive: mockClearActive,
+  })),
+}));
 
-  beforeEach(() => {
-    wrapper = mount(MealCategoryFilterModalOverlay);
+vi.mock('@/composables/useFilter', () => ({
+  useFilter: vi.fn(() => ({
+    isFakeStoreIndex: mockIsFakeStoreIndex,
+  })),
+}));
+
+vi.mock('@/composables/useScreenWidth', () => ({
+  useScreenWidth: vi.fn(() => ({
+    screenWidth: mockScreenWidth,
+  })),
+}));
+
+describe('FilterModalOverlay', () => {
+  it('emits "closeModal" when close button is clicked', async () => {
+    const wrapper = mount(FilterModalOverlay);
+
+    // Simulate clicking the close button
+    await wrapper.find('.text-xl').trigger('click');
+
+    // Check if closeModal was emitted
+    expect(wrapper.emitted('closeModal')).toBeTruthy();
   });
 
-  it('Should emit', async () => {
-    const applyBtn = wrapper.find('[data-test="apply-btn"]');
+  it('emits "emitSelected" and "closeModal" when Apply button is clicked', async () => {
+    const wrapper = mount(FilterModalOverlay);
 
-    await applyBtn.trigger('click');
+    // Simulate clicking the apply button
+    await wrapper.find('[data-test="apply-btn"]').trigger('click');
 
-    expect(wrapper.emitted().emitSelected).toBeTruthy();
+    // Check if emitSelected was emitted with correct value
+    expect(wrapper.emitted('emitSelected')).toBeTruthy();
+
+    // Check if closeModal was emitted
+    expect(wrapper.emitted('closeModal')).toBeTruthy();
   });
 
-  it('Should be active class when click on filter', async () => {
-    const filterListItem = wrapper.find('li');
+  it('clears active state and emits "emitSelected" with an empty string on delete', async () => {
+    const wrapper = mount(FilterModalOverlay);
 
-    await filterListItem.trigger('click');
+    // Simulate clicking the delete button
+    await wrapper.find('[data-test="delete-btn"]').trigger('click');
 
-    const filterIcon = wrapper.find('[data-test="filter-icon"]');
+    // Check if clearActive was called
+    expect(mockClearActive).toHaveBeenCalled();
 
-    expect(filterIcon.classes()).toContain('bg-orange-200');
+    // Check if emitSelected was emitted with an empty string
+    expect(wrapper.emitted('emitSelected')?.[0]).toEqual(['']);
+
+    // Check if closeModal was emitted
+    expect(wrapper.emitted('closeModal')).toBeTruthy();
   });
 
-  it('Should remove active class when click on filter', async () => {
-    const filterListItem = wrapper.find('li');
-    const filterIcon = wrapper.find('[data-test="filter-icon"]');
+  it('emits "closeModal" when screen width is >= 1024', async () => {
+    const wrapper = mount(FilterModalOverlay);
 
-    await filterListItem.trigger('click');
+    // Simulate the screen width change
+    mockScreenWidth.value = 1024;
+    await wrapper.vm.$nextTick(); // Wait for reactivity to update
 
-    expect(filterIcon.classes()).not.toContain('bg-orange-200');
+    // Check if closeModal was emitted
+    expect(wrapper.emitted('closeModal')).toBeTruthy();
   });
 });
