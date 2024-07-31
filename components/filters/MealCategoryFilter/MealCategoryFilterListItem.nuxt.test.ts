@@ -1,8 +1,22 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, vi, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import MealCategoryFilterListItem from '@/components/filters/MealCategoryFilter/MealCategoryFilterListItem.vue';
 import type { IFakeStoreCategories } from '@/interfaces/interfaces.interface';
 import type { ICuisineType } from '@/interfaces/interfaces.interface';
+
+function useIsActive() {
+  return {
+    setActive: vi.fn(),
+    isActive: vi.fn((name: string) => name === 'American'), // Mock to simulate 'American' category as active
+  };
+}
+function useFilter() {
+  return {
+    getCategoryName: vi.fn(
+      (category: IFakeStoreCategories | ICuisineType) => category.cuisineType
+    ),
+  };
+}
 
 describe('MealCategoryFilterListItem', () => {
   const category: ICuisineType | IFakeStoreCategories = {
@@ -16,7 +30,7 @@ describe('MealCategoryFilterListItem', () => {
       props: { category },
       global: {
         mocks: {
-          useIsActive: useIsActive(), // Mock composables
+          useIsActive: useIsActive(),
           useFilter: useFilter(),
         },
         components: {
@@ -31,7 +45,6 @@ describe('MealCategoryFilterListItem', () => {
 
     // Check if the component renders the correct icon and text
     const icon = wrapper.find('[data-test="icon"]');
-
     expect(icon.exists()).toBe(true);
 
     const iconClass = icon.attributes('class');
@@ -93,7 +106,6 @@ describe('MealCategoryFilterListItem', () => {
     expect(activeClassIcon.exists()).toBe(true);
 
     const activeText = wrapper.find('p.font-semibold');
-    console.log(activeText);
     expect(activeText.exists()).toBe(true);
   });
 });
