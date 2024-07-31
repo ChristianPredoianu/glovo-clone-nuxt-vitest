@@ -1,23 +1,26 @@
 import { describe, vi, beforeEach, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
+import FilterModal from './FilterModal.vue';
+import FilterModalOverlay from './Overlay/FilterModalOverlay.vue';
 
-import MealCategoryFilterModalOverlay from '@/components/modals/MealCategoryFilterModal/MealCategoryFilterOverlay.vue';
-import { VueWrapper } from '@vue/test-utils';
-import Backdrop from '@/components/ui/Backdrop/Backdrop.vue';
+describe('FilterModal', () => {
+  it('emits the selected cuisine type', async () => {
+    const emitSpy = vi.fn();
+    const wrapper = mount(FilterModal, {
+      global: {
+        components: { FilterModalOverlay },
+      },
+      attrs: {
+        onEmitSelected: emitSpy,
+      },
+    });
 
-describe('MealCategoryFilterModal', () => {
-  let wrapper: VueWrapper<any>;
+    // Find FilterModalOverlay and trigger emitSelected
+    const overlay = wrapper.findComponent(FilterModalOverlay);
+    overlay.vm.$emit('emitSelected', 'Italian');
 
-  beforeEach(() => {
-    wrapper = mount(MealCategoryFilterModalOverlay);
-  });
+    await wrapper.vm.$nextTick();
 
-  it('Should display backdrop and meal category filter overlay', async () => {});
-
-  it('Should close modal when screen width is >= 1024', async () => {});
-
-  it('Should close modal and backdrop whan apply btn is clicked', async () => {
-    const backdrop = wrapper.findComponent(Backdrop);
-    console.log(backdrop.html());
+    expect(emitSpy).toHaveBeenCalledWith('Italian');
   });
 });
