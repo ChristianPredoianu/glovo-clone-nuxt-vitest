@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import CategoryCard from '@/components/cards/CategoryCard/CategoryCard.vue';
+import CategoryCard from './CategoryCard.vue';
 
 describe('Category card', () => {
   it('renders correctly with props', async () => {
