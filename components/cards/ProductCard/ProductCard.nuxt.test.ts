@@ -1,16 +1,16 @@
-import { describe, beforeEach, it, expect } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
 import ProductCard from './ProductCard.vue';
 
+const product = {
+  image: 'path/to/image.jpg',
+  rating: { rate: 4.5, count: 120 },
+  title: 'Sample Product',
+  category: 'Category Name',
+};
+
 describe('ProductCard', () => {
   it('renders product details correctly', () => {
-    const product = {
-      image: 'path/to/image.jpg',
-      rating: { rate: 4.5, count: 120 },
-      title: 'Sample Product',
-      category: 'Category Name',
-    };
-
     const wrapper = mount(ProductCard, {
       props: { product },
     });
