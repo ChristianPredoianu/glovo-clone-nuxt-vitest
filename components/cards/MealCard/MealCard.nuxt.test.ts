@@ -1,14 +1,20 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import MealCard from '@/components/cards/MealCard/MealCard.vue'; // Adjust the path as needed
+import MealCard from '@/components/cards/MealCard/MealCard.vue';
+
+const propsData = {
+  category: 'dessert',
+  label: 'Delicious recipes',
+  img: 'https://example.com/image.jpg',
+};
 
 describe('MealCard', () => {
   it('renders with provided props', () => {
-    const propsData = {
+    /*  const propsData = {
       category: 'dessert',
       label: 'Delicious recipes',
       img: 'https://example.com/image.jpg',
-    };
+    }; */
 
     const wrapper = mount(MealCard, {
       props: propsData,
@@ -35,10 +41,10 @@ describe('MealCard', () => {
   });
 
   it('capitalizes the first letter of the category', () => {
-    const propsData = {
+    /*  const propsData = {
       category: 'appetizer',
       label: 'Tasty recipes',
-    };
+    }; */
 
     const wrapper = mount(MealCard, {
       props: propsData,
@@ -46,7 +52,7 @@ describe('MealCard', () => {
 
     // Check if the category is correctly capitalized
     const categoryLabel = wrapper.find('p').text();
-    expect(categoryLabel).toBe('Appetizer'); // Capitalized category
+    expect(categoryLabel).toBe('Dessert'); // Capitalized category
   });
 
   it('removes "recipe" or "recipes" from the label', () => {
