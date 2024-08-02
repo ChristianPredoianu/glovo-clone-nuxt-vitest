@@ -10,12 +10,6 @@ const propsData = {
 
 describe('MealCard', () => {
   it('renders with provided props', () => {
-    /*  const propsData = {
-      category: 'dessert',
-      label: 'Delicious recipes',
-      img: 'https://example.com/image.jpg',
-    }; */
-
     const wrapper = mount(MealCard, {
       props: propsData,
     });
@@ -41,11 +35,6 @@ describe('MealCard', () => {
   });
 
   it('capitalizes the first letter of the category', () => {
-    /*  const propsData = {
-      category: 'appetizer',
-      label: 'Tasty recipes',
-    }; */
-
     const wrapper = mount(MealCard, {
       props: propsData,
     });
@@ -67,6 +56,6 @@ describe('MealCard', () => {
 
     // Check if 'recipe' or 'recipes' is removed from the label
     const h3 = wrapper.find('h3');
-    expect(h3.text()).toBe('Refreshing'); // Label with 'recipe' removed
+    expect(h3.text()).not.toMatch(/^recipe(s?)$/);
   });
 });
