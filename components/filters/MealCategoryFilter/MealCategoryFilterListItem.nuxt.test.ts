@@ -10,6 +10,7 @@ function useIsActive() {
     isActive: vi.fn((name: string) => name === 'American'), // Mock to simulate 'American' category as active
   };
 }
+
 function useFilter() {
   return {
     getCategoryName: vi.fn(
