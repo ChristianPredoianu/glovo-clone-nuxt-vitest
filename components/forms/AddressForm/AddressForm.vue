@@ -77,6 +77,7 @@ watch(
       <font-awesome-icon :icon="['fas', 'location']" />
     </span>
     <input
+      data-testid="input"
       type="text"
       placeholder="What's your address?"
       class="py-3 px-12 w-full rounded-md"
