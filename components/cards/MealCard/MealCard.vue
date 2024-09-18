@@ -17,7 +17,8 @@ const props = defineProps<{
         />
       </div>
       <p
-        class="absolute bottom-2 left-2 bg-gray-600 p-1 text-xs text-gray-100 rounded-md"
+        class="absolute bottom-2 left-2 px-2 py-1 text-sm font-semibold tracking-wide text-gray-100 bg-opacity-50 rounded-md"
+        :style="{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }"
       >
         {{ props.category.charAt(0).toUpperCase() + props.category.slice(1) }}
       </p>
