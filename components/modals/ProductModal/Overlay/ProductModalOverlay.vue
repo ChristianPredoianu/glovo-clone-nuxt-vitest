@@ -31,7 +31,7 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
     <h1 class="text-xl font-semibold text-gray-700 py-4">
       {{ props.productModalProps!.label.replace(/\brecipe\b|\brecipes\b/gi, '').trim() }}
     </h1>
-    <h2 class="text-red-500 font-semibold text-2xl">{{ props.price }}$</h2>
+    <h2 class="text-red-500 font-semibold text-2xl mb-8">{{ props.price }} $</h2>
     <div
       class="mt-2 mb-8 gap-2 text-gray-500"
       v-if="isMealModalProps(props.productModalProps)"
