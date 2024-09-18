@@ -89,6 +89,7 @@ watch(
     ><ProductModalOverlay
       :productModalProps="currentModalProps"
       :price="+generateRandomPrice()"
+      @closeModal="productDialog?.closeDialog()"
   /></Modal>
   <section class="bg-amber-400 text-gray-800 min-h-screen md:min-h-min">
     <div
