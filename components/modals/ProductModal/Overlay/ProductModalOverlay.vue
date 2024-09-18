@@ -22,7 +22,11 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
       Close
     </p>
     <div class="mx-auto">
-      <img :src="props.productModalProps!.img" :alt="props.productModalProps!.label" />
+      <img
+        :src="props.productModalProps!.img"
+        :alt="props.productModalProps!.label"
+        class="rounded-lg shadow-lg"
+      />
     </div>
     <h1 class="text-xl font-semibold text-gray-700 py-4">
       {{ props.productModalProps!.label.replace(/\brecipe\b|\brecipes\b/gi, '').trim() }}
