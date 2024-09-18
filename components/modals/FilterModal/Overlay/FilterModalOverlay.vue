@@ -26,7 +26,6 @@ function handleApply() {
 }
 
 function setSelectedFilter(selectedFilter: IFakeStoreCategories | ICuisineType) {
-  console.log(selectedFilter);
   userSelectedFilter.value = selectedFilter;
 }
 
