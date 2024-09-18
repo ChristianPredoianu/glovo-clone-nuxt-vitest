@@ -26,6 +26,6 @@ async function navigateToPage(selectedCategory: ISelectedCategory) {
       :alt="props.text"
       class="w-20 h-20 rounded-full object-cover shadow-lg transition-transform duration-300 hover:scale-105"
     />
-    <h3 class="mt-3 text-center font-semibold">{{ props.text }}</h3>
+    <h3 class="text-gray-900 mt-3 text-center font-semibold">{{ props.text }}</h3>
   </article>
 </template>
