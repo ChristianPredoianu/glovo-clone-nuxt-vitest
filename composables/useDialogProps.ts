@@ -30,7 +30,7 @@ export function useDialogProps(dialogRef: IModalRef) {
     if (isSingleMealData(item)) {
       console.log(item);
       mealModalProps.value = {
-        id: extractRecipeId(item.recipe.uri),
+        id: +extractRecipeId(item.recipe.uri),
         label: item.recipe.label,
         img: item.recipe.image,
         ingredients: item.recipe.ingredients || [],
