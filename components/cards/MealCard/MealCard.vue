@@ -7,15 +7,15 @@ const props = defineProps<{
 </script>
 
 <template>
-  <article
-    class="flex flex-col relative p-4 border-b-2 cursor-pointer shadow-sm rounded-md"
-  >
+  <article class="flex flex-col relative py-4 cursor-pointer rounded-md">
     <div class="relative">
-      <img
-        :src="props.img"
-        :alt="props.label"
-        class="rounded-lg transform transition-transform duration-300 hover:scale-105"
-      />
+      <div class="relative overflow-hidden w-full max-w-[500px] aspect-[16/9]">
+        <img
+          :src="props.img"
+          :alt="props.label"
+          class="rounded-lg transform transition-transform duration-300 hover:scale-105 object-cover w-full h-full"
+        />
+      </div>
       <p
         class="absolute bottom-2 left-2 bg-gray-600 p-1 text-xs text-gray-100 rounded-md"
       >
