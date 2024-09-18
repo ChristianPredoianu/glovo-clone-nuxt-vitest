@@ -69,6 +69,7 @@ export interface ISingleMeal {
     label: string;
     image: string;
     ingredients?: IIngredient[];
+    uri: string;
   };
 }
 
@@ -86,6 +87,7 @@ export interface ISelectedCategory {
 }
 
 export interface IProductModalProps {
+  id: number;
   label: string;
   img: string;
 }
