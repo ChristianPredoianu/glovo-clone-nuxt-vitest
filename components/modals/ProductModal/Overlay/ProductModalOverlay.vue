@@ -21,11 +21,12 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
     >
       Close
     </p>
-    <div class="mx-auto">
+
+    <div class="mx-auto relative overflow-hidden w-full max-w-[500px] aspect-[16/9]">
       <img
         :src="props.productModalProps!.img"
         :alt="props.productModalProps!.label"
-        class="rounded-lg shadow-lg"
+        class="rounded-lg object-cover w-full h-full"
       />
     </div>
     <h1 class="text-xl font-semibold text-gray-700 py-4">
