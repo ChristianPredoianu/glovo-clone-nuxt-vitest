@@ -72,23 +72,3 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
     </div>
   </section>
 </template>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease-out;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.fade-leave-from {
-  opacity: 1;
-}
-
-.fade-enter-to {
-  opacity: 1;
-}
-</style>
