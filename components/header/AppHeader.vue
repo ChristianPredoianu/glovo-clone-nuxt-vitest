@@ -43,11 +43,7 @@ onUnmounted(() => {
             v-if="screenWidth > 640"
             @click="cartDialog?.showDialog()"
           />
-          <p
-            class="bg-green-700 w-8 h-8 flex items-center justify-center text-white rounded-full text-center text-sm"
-          >
-            1
-          </p>
+          <CartCounter />
         </div>
       </div>
     </nav>
