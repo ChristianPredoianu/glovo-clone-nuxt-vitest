@@ -1,9 +1,23 @@
 <script setup lang="ts">
+import { replaceRecipeText } from '@/helpers/replaceRecipeText';
 import type { ModalProps, IMealModalProps } from '@/interfaces/interfaces.interface';
 
 const props = defineProps<{ productModalProps: ModalProps | null; price: number }>();
 
 const emits = defineEmits(['closeModal']);
+
+const { addToCart } = useCart();
+
+const product = computed(() => {
+  if (!props.productModalProps) return null;
+
+  return {
+    id: props.productModalProps.id,
+    label: props.productModalProps.label,
+    img: props.productModalProps.img,
+    price: props.price,
+  };
+});
 
 const isMealModalProps = (props: ModalProps | null): props is IMealModalProps => {
   return props !== null && 'ingredients' in props;
@@ -29,9 +43,9 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
         class="rounded-lg object-cover w-full h-full"
       />
     </div>
-    <h1>{{ props.productModalProps!.id }}</h1>
+
     <h1 class="text-xl font-semibold text-gray-700 py-4">
-      {{ props.productModalProps!.label.replace(/\brecipe\b|\brecipes\b/gi, '').trim() }}
+      {{ replaceRecipeText(props.productModalProps!.label) }}
     </h1>
     <h2 class="text-red-500 font-semibold text-2xl mb-8">{{ props.price }} $</h2>
     <div
@@ -45,6 +59,8 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
         <li>{{ ingredient.text }}</li>
       </ul>
     </div>
-    <CtaBtn :textCol="'text-gray-200'">Add to cart {{ price }} $</CtaBtn>
+    <CtaBtn :textCol="'text-gray-200'" @click="addToCart(product)"
+      >Add to cart {{ price }} $</CtaBtn
+    >
   </main>
 </template>
