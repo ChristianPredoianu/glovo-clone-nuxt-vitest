@@ -87,7 +87,7 @@ export interface ISelectedCategory {
 }
 
 export interface IProductModalProps {
-  id: number;
+  id: string | number;
   label: string;
   img: string;
 }
