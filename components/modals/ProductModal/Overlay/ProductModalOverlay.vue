@@ -26,7 +26,7 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
 </script>
 
 <template>
-  <main
+  <section
     class="container relative mx-auto p-10 flex flex-col overflow-auto"
     v-if="productModalProps"
   >
@@ -70,7 +70,7 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
         </div>
       </transition>
     </div>
-  </main>
+  </section>
 </template>
 
 <style scoped>
