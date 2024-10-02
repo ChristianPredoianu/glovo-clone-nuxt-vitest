@@ -7,6 +7,7 @@ const props = defineProps<{ productModalProps: ModalProps | null; price: number 
 const emits = defineEmits(['closeModal']);
 
 const { addToCart } = useCart();
+const { isBarActive } = useProgressBar();
 
 const product = computed(() => {
   if (!props.productModalProps) return null;
@@ -62,5 +63,32 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
     <CtaBtn :textCol="'text-gray-200'" @click="addToCart(product)"
       >Add to cart {{ price }} $</CtaBtn
     >
+    <div class="h-4">
+      <transition name="fade" mode="out-in">
+        <div class="mt-4 w-full overflow-hidden" v-show="isBarActive">
+          <ProgressBar />
+        </div>
+      </transition>
+    </div>
   </main>
 </template>
+
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+</style>
