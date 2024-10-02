@@ -44,9 +44,9 @@ watch(
     <p class="text-xl font-semibold absolute top-4 right-4" @click="emits('closeModal')">
       Close
     </p>
-    <h1 class="text-start text-2xl font-bold py-4 w-full">
+    <h3 class="text-start text-2xl font-bold py-4 w-full">
       Types of {{ isFakeStoreIndex ? 'products' : 'dishes' }}
-    </h1>
+    </h3>
     <FilterModalList @selectedFilter="setSelectedFilter" />
     <div
       class="mt-10 flex flex-col gap-y-4 sm:flex-row sm:gap-y-0 justify-center gap-x-3"
