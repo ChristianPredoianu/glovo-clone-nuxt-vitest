@@ -24,7 +24,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  css: ['@fortawesome/fontawesome-svg-core/styles.css'],
+  css: ['@fortawesome/fontawesome-svg-core/styles.css', '@/assets/transitions.css'],
   components: [
     { path: '@/components/header', extensions: ['vue'] },
     { path: '@/components/header/links', extensions: ['vue'] },
