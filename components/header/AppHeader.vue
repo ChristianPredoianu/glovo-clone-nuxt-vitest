@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import Modal from '@/components/modals/Modal/Modal.vue';
+
 const { isNavOpen, closeNav } = useNav();
 const { closeBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
+
+const cartDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 function closeNavigationDialog() {
   closeNav();
@@ -20,6 +24,9 @@ onUnmounted(() => {
 <template>
   <header class="relative bg-amber-400" v-if="screenWidth">
     <nav class="flex items-center justify-between flex-wrap container mx-auto p-4">
+      <Modal ref="cartDialog"
+        ><CartModalOverlay @closeModal="cartDialog?.closeDialog()"
+      /></Modal>
       <Logo />
       <Backdrop @closeElement="closeNav" />
       <Hamburger />
@@ -33,6 +40,7 @@ onUnmounted(() => {
           :icon="['fas', 'cart-shopping']"
           class="cursor-pointer"
           v-if="screenWidth > 640"
+          @click="cartDialog?.showDialog()"
         />
       </div>
     </nav>
