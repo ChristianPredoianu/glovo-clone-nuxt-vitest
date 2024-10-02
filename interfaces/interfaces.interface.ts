@@ -23,6 +23,7 @@ export interface IMeal {
     cuisineType: string[];
     label: string;
     image: string;
+    uri: string;
   };
 }
 
