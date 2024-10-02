@@ -1,7 +1,7 @@
 export default function useGeolocation() {
   const latitude = useState<number | null>('latitude', () => null);
   const longitude = useState<number | null>('longitude', () => null);
-  const error = useState<string | null>('longitude', () => null);
+  const error = useState<string | null>('error', () => null);
 
   function getLocation() {
     if ('geolocation' in navigator) {
