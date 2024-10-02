@@ -38,7 +38,7 @@ watch(
 </script>
 
 <template>
-  <main
+  <section
     class="container mx-auto relative py-10 px-4 flex flex-col w-full h-full overflow-y-auto"
   >
     <p class="text-xl font-semibold absolute top-4 right-4" @click="emits('closeModal')">
@@ -70,5 +70,5 @@ watch(
         >Apply</CtaBtn
       >
     </div>
-  </main>
+  </section>
 </template>
