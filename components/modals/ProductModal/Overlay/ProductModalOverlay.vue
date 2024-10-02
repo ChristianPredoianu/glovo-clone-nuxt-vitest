@@ -29,6 +29,7 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
         class="rounded-lg object-cover w-full h-full"
       />
     </div>
+    <h1>{{ props.productModalProps!.id }}</h1>
     <h1 class="text-xl font-semibold text-gray-700 py-4">
       {{ props.productModalProps!.label.replace(/\brecipe\b|\brecipes\b/gi, '').trim() }}
     </h1>
