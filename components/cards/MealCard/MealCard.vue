@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { replaceRecipeText } from '@/helpers/replaceRecipeText';
+
 const props = defineProps<{
   category: string;
   label: string;
@@ -24,15 +26,14 @@ const props = defineProps<{
       </p>
     </div>
     <div class="flex flex-col h-full">
-      <!-- Replace word Recipe or recipes-->
       <h3 class="font-bold text-sm mt-1 flex-1">
-        {{ label.replace(/\brecipes?\b/gi, '') }}
+        {{ replaceRecipeText(label) }}
       </h3>
 
       <div class="flex flex-wrap">
         <div class="flex items-center gap-2 mt-2 py-1 px-4 bg-amber-400 p-1 rounded-md">
           <font-awesome-icon :icon="['fas', 'fa-truck']" />
-          <p>Freee</p>
+          <p>Free</p>
         </div>
       </div>
     </div>
