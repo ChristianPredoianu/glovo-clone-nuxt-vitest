@@ -7,8 +7,8 @@ function emitSelected(selectedCuisineType: string) {
 </script>
 
 <template>
-  <main class="modal">
+  <div class="modal">
     <Backdrop />
     <FilterModalOverlay @emitSelected="emitSelected" />
-  </main>
+  </div>
 </template>
