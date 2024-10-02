@@ -40,7 +40,7 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
     >
       <ul
         v-for="ingredient in props.productModalProps!.ingredients"
-        :key="ingredient.text"
+        :key="ingredient.foodId"
       >
         <li>{{ ingredient.text }}</li>
       </ul>
