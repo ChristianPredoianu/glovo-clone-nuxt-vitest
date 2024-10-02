@@ -60,6 +60,7 @@ export interface IProduct {
 }
 
 interface IIngredient {
+  foodId: string;
   text: string;
 }
 
