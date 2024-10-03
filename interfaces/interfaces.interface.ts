@@ -104,4 +104,5 @@ export interface ICartProduct {
   label: string;
   img: string;
   price: number;
+  quantity?: number;
 }
