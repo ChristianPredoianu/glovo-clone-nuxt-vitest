@@ -43,7 +43,7 @@ export function useDialogProps(dialogRef: IModalRef) {
       };
       mealModalProps.value = null;
     }
-
+    console.log(mealModalProps.value);
     dialogRef.value?.showDialog();
   }
 
