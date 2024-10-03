@@ -16,10 +16,7 @@ const { numberOfCartProducts } = useCart();
         You've not added any products yet. When you do, you'll see them here!
       </h4>
     </div>
-    <div
-      class="w-full bg-blue-500 flex flex-col items-center justify-center gap-2"
-      v-else
-    >
+    <div class="w-full flex flex-col items-center justify-center gap-2" v-else>
       <CartItemList />
     </div>
   </section>
