@@ -23,6 +23,7 @@ const product = computed(() => {
 const isMealModalProps = (props: ModalProps | null): props is IMealModalProps => {
   return props !== null && 'ingredients' in props;
 };
+console.log(props.productModalProps);
 </script>
 
 <template>
@@ -52,12 +53,7 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
       v-if="isMealModalProps(props.productModalProps)"
       class="mt-2 mb-8 gap-2 text-gray-500"
     >
-      <ul
-        v-for="ingredient in props.productModalProps!.ingredients"
-        :key="ingredient.foodId"
-      >
-        <li>{{ ingredient.text }}</li>
-      </ul>
+      <ProductModalOverlayList :ingredients="props.productModalProps!.ingredients" />
     </div>
     <CtaBtn :textCol="'text-gray-200'" @click="addToCart(product)"
       >Add to cart {{ price }} $</CtaBtn
