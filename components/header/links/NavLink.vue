@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { screenWidth } = useScreenWidth();
-import { navLinks } from '@/data/navLinks';
 
 const props = defineProps<{
   title: string;
