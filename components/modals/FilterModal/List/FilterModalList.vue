@@ -39,13 +39,13 @@ function handleDeleteFilter() {
       <p class="text-gray-800 text-center text-sm font-semibold">
         {{ getCategoryName(category) }}
       </p>
-      <p
+      <font-awesome-icon
         v-if="isActive(getCategoryName(category))"
         @click.stop="handleDeleteFilter"
-        class="absolute bottom-8 right-12 rounded-full px-1.5 pb-1 text-xs bg-gray-600 text-gray-200 cursor-pointer"
-      >
-        x
-      </p>
+        :icon="['fas', 'close']"
+        class="absolute bottom-10 right-4 rounded-full p-2 text-xs bg-gray-600 text-gray-200 cursor-pointer shadow-lg transition-transform duration-200 hover:scale-105 hover:bg-gray-700"
+        title="Remove Filter"
+      />
     </li>
   </ul>
 </template>
