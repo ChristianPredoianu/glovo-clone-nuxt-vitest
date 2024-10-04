@@ -129,10 +129,13 @@ onBeforeRouteLeave((to, from, next) => {
         <MealCategoryFilterList @emitSelected="handleEmitSelected" />
       </div>
       <div class="w-full lg:w-4/5">
-        <h1 class="text-xl font-bold md:text-4xl py-5 lg:py-10">
+        <h1 class="text-xl font-bold md:text-4xl pt-5 lg:py-10">
           {{ capitalizeFirstLetter($route.params.category) }}
           {{ !isFakeStoreIndex ? 'meals' : '' }}
         </h1>
+        <h2 v-if="emittedFilter !== ''" class="text-gray-500 text-lg font-semibold mt-1">
+          {{ emittedFilter }}
+        </h2>
         <div
           v-if="pending || filteredData.isLoading"
           class="flex justify-center -mt-40 w-full"
