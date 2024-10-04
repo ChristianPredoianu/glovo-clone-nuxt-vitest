@@ -92,6 +92,11 @@ function handleEmitSelected(
 }
 
 watch(emittedFilter, fetchDataAndUpdate);
+
+onBeforeRouteLeave((to, from, next) => {
+  emittedFilter.value = '';
+  next();
+});
 </script>
 
 <template>
