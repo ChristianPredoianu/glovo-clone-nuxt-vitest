@@ -20,7 +20,6 @@ const props = defineProps({
       <h3 class="text-sm w-1/2">{{ product?.title }}</h3>
       <p class="text-xs">{{ product?.category }}</p>
     </div>
-
     <div class="flex items-center gap-x-1 justify-self-end mt-auto">
       <font-awesome-icon :icon="['fas', 'fa-bicycle']" class="text-amber-600" />
       <p class="text-amber-700 font-semibold">Free</p>
