@@ -1,3 +1,9 @@
+export interface INavLinks {
+  title: string;
+  link: string;
+  icon: string[];
+}
+
 export interface ILocationsData {
   place_id: number;
   display_name: string;
