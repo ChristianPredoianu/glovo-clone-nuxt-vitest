@@ -6,7 +6,7 @@ import { navLinks } from '@/data/navLinks';
   <ul class="text-sm flex flex-col gap-4 sm:flex-row">
     <NavLink
       v-for="navLink in navLinks"
-      key="title"
+      :key="navLink.title"
       :title="navLink.title"
       :link="navLink.link"
       :icon="navLink.icon"
