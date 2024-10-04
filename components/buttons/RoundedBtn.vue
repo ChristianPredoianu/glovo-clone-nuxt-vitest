@@ -12,10 +12,10 @@ const emits = defineEmits(['emitClick']);
   <div class="flex flex-col gap-y-1">
     <font-awesome-icon
       :icon="['fas', props.icon]"
-      class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer"
+      class="bg-orange-200 p-2 rounded-full text-gray-600 cursor-pointer h-4 w-4"
       :class="[props.backCol]"
       @click="emits('emitClick')"
     />
-    <p class="text-xs text-center">{{ props.text }}</p>
+    <p class="text-center font-semibold">{{ props.text }}</p>
   </div>
 </template>
