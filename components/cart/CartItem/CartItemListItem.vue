@@ -10,11 +10,11 @@ const props = defineProps<{
 
 <template>
   <li class="flex flex-col gap-2 border-b border-gray-300 py-4">
-    <div class="flex justify-around">
-      <img :src="product.img" alt="product image" class="w-16 h-16 rounded-xl" />
-      <p class="text-lg font-bold">{{ product.quantity }}x</p>
-      <p class="text-center w-3/5">{{ product.label }}</p>
-      <p class="">{{ product.price.toFixed(2) }} $</p>
+    <div class="flex flex-col gap-4 justify-around items-center md:flex-row">
+      <img :src="product.img" alt="product image" class="w-12 h-12 rounded-xl" />
+      <p class="text-lg font-bold ml-1">{{ product.quantity }}x</p>
+      <p class="text-sm text-center w-1/2">{{ product.label }}</p>
+      <p class="font-semibold">{{ product.price.toFixed(2) }} $</p>
       <p @click="removeFromCart(product.id)">x</p>
     </div>
     <ProductCounter :quantity="product.quantity ?? 0" :product="product" />
