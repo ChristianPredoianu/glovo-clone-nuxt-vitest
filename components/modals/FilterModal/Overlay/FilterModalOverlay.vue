@@ -7,7 +7,10 @@ import type {
 
 const emits = defineEmits(['emitSelected', 'closeModal']);
 
-const userSelectedFilter = ref<IFakeStoreCategories | ICuisineType | string>('');
+const userSelectedFilter = useState<IFakeStoreCategories | ICuisineType | string>(
+  'userSelectedFilter',
+  () => ''
+);
 
 const { clearActive } = useIsActive();
 const { isFakeStoreIndex } = useFilter();
@@ -39,12 +42,15 @@ watch(
 
 <template>
   <section
-    class="container mx-auto relative py-10 px-4 flex flex-col w-full h-full overflow-y-auto"
+    class="container px-4 w-full h-full flex flex-col mx-auto relative py-10 overflow-y-auto"
   >
-    <p class="text-xl font-semibold absolute top-4 right-4" @click="emits('closeModal')">
-      Close
-    </p>
-    <h3 class="text-start text-2xl font-bold py-4 w-full">
+    <font-awesome-icon
+      :icon="['fas', 'close']"
+      class="text-2xl font-semibold absolute top-6 right-6 cursor-pointer"
+      @click="emits('closeModal')"
+    />
+
+    <h3 class="w-full text-xl md:text-2xl font-bold mt-6">
       Types of {{ isFakeStoreIndex ? 'products' : 'dishes' }}
     </h3>
     <FilterModalList @selectedFilter="setSelectedFilter" />
