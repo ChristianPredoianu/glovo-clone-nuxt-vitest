@@ -129,7 +129,7 @@ onBeforeRouteLeave((to, from, next) => {
         <MealCategoryFilterList @emitSelected="handleEmitSelected" />
       </div>
       <div class="w-full lg:w-4/5">
-        <h1 class="text-xl font-bold md:text-4xl pt-5 lg:py-10">
+        <h1 class="text-xl font-bold md:text-2xl pt-5 mt-6 lg:mt-12">
           {{ capitalizeFirstLetter($route.params.category) }}
           {{ !isFakeStoreIndex ? 'meals' : '' }}
         </h1>
@@ -143,7 +143,7 @@ onBeforeRouteLeave((to, from, next) => {
           <LoadingSpinner />
         </div>
         <div
-          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-8 gap-x-8 mt-8"
+          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-8 gap-x-8 mt-6"
         >
           <template v-if="shouldRenderMealCard">
             <MealCard
