@@ -53,7 +53,7 @@ console.log(props.productModalProps);
       v-if="isMealModalProps(props.productModalProps)"
       class="mt-2 mb-8 gap-2 text-gray-500"
     >
-      <ProductModalOverlayList :ingredients="props.productModalProps!.ingredients" />
+      <ProductModalList :ingredients="props.productModalProps!.ingredients" />
     </div>
     <CtaBtn :textCol="'text-gray-200'" @click="addToCart(product)"
       >Add to cart {{ price }} $</CtaBtn
