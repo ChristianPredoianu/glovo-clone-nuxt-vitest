@@ -10,19 +10,14 @@ export function useCart() {
       // Check if existing product
       const existingProduct = cartProducts.value.find((p) => p.id === product.id);
 
-      if (existingProduct) {
-        // Product already in the cart, increase quantity
-        existingProduct.quantity = (existingProduct.quantity || 1) + 1; //If existingProduct.quantity is truthy (i.e., it has a value that is not null, undefined, 0, false, or an empty string), then that value will be used.
-        console.log(`Increased quantity for ${existingProduct}`);
-      } else {
-        // New product, add to the cart with quantity 1
-        cartProducts.value.push({ ...product, quantity: 1 });
-        console.log('Product added to the cart.');
-      }
+      // If product already in the cart, increase quantity
+      /* If existingProduct.quantity is truthy (i.e., it has a value that is not null, undefined, 0, false, or an empty string), 
+        then that value will be used. else // New product, add to the cart with quantity 1*/
+      existingProduct
+        ? (existingProduct.quantity = (existingProduct.quantity || 1) + 1)
+        : cartProducts.value.push({ ...product, quantity: 1 });
 
       startProgressBar();
-
-      console.log(cartProducts.value);
     }
   }
 
@@ -34,16 +29,10 @@ export function useCart() {
     if (productIndex !== -1) {
       const product = cartProducts.value[productIndex];
 
-      if (product.quantity && product.quantity > 1) {
-        product.quantity--;
-        console.log(`Decreased quantity for ${product.label}`);
-      } else {
-        cartProducts.value.splice(productIndex, 1);
-        console.log(`Removed ${product.label} from the cart.`);
-      }
+      product.quantity && product.quantity > 1
+        ? product.quantity--
+        : cartProducts.value.splice(productIndex, 1);
     }
-
-    console.log(cartProducts.value);
   }
 
   const updatedTotalPrice = computed(() => {
