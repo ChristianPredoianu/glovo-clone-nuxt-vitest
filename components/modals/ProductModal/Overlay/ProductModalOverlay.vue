@@ -23,7 +23,6 @@ const product = computed(() => {
 const isMealModalProps = (props: ModalProps | null): props is IMealModalProps => {
   return props !== null && 'ingredients' in props;
 };
-console.log(props.productModalProps);
 </script>
 
 <template>
