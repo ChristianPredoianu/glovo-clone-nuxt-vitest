@@ -18,7 +18,7 @@ function closeNavigationDialog() {
       v-if="screenWidth < 640"
       @click="closeNavigationDialog"
     />
-    <div class="border-b-2 flex mt-40" v-if="screenWidth < 640">
+    <div v-if="screenWidth < 640" class="border-b-2 flex mt-40">
       <h1
         class="pb-2 text-md"
         :class="{
