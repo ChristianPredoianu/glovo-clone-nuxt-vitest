@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <article class="flex flex-col relative py-4 cursor-pointer rounded-md">
+  <article class="flex shadow-lg p-4 flex-col relative cursor-pointer rounded-md">
     <div class="relative">
       <div class="relative overflow-hidden w-full max-w-[500px] aspect-[16/9]">
         <img
