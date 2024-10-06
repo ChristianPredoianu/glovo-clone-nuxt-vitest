@@ -11,6 +11,7 @@ export default defineNuxtConfig({
       fakeStoreBase: process.env.NUXT_FAKESTORE_BASE,
     },
   },
+  plugins: ['~/plugins/firebase.ts'],
 
   devtools: { enabled: true },
 
