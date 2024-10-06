@@ -6,6 +6,7 @@ const { closeBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
 
 const cartDialog = ref<InstanceType<typeof Modal> | null>(null);
+const signInDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 function closeNavigationDialog() {
   closeNav();
@@ -27,6 +28,9 @@ onUnmounted(() => {
       <Modal ref="cartDialog"
         ><CartModalOverlay @closeModal="cartDialog?.closeDialog()"
       /></Modal>
+      <Modal ref="signInDialog"
+        ><SignInModalOverlay @closeModal="signInDialog?.closeDialog()"
+      /></Modal>
       <Logo />
       <Backdrop @closeElement="closeNav" />
       <Hamburger />
@@ -47,7 +51,11 @@ onUnmounted(() => {
             />
             <CartCounter />
           </div>
-          <CtaBtn :fontSize="'text-xs'" :textCol="'text-gray-100'" :paddingX="'px-6'"
+          <CtaBtn
+            :fontSize="'text-xs'"
+            :textCol="'text-gray-100'"
+            :paddingX="'px-6'"
+            @click="signInDialog?.showDialog()"
             >Sign in</CtaBtn
           >
         </div>
