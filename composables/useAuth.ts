@@ -1,7 +1,9 @@
 export function useAuth() {
-  function signIn(email: string, password: string) {}
+  function signIn(email: string, password: string, e: Event) {
+    e.preventDefault();
 
-  function signOut() {}
+    console.log(email, password);
+  }
 
-  return {};
+  return { signIn } as const;
 }
