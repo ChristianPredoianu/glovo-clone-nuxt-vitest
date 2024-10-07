@@ -9,5 +9,5 @@ export function useIsMealData() {
     return (item as ISingleMeal).recipe !== undefined;
   }
 
-  return { isMealData, isSingleMealData };
+  return { isMealData, isSingleMealData } as const;
 }
