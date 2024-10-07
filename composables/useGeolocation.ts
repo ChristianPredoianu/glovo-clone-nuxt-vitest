@@ -19,5 +19,5 @@ export default function useGeolocation() {
     }
   }
 
-  return { latitude, longitude, error, getLocation };
+  return { latitude, longitude, error, getLocation } as const;
 }

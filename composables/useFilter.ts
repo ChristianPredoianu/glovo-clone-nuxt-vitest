@@ -26,5 +26,5 @@ export function useFilter() {
     isFakeStoreIndex,
     filters,
     getCategoryName,
-  };
+  } as const;
 }
