@@ -11,5 +11,5 @@ export function useConvertToDropdownOptions<
   }
   return {
     convertToDropdownOptions,
-  };
+  } as const;
 }
