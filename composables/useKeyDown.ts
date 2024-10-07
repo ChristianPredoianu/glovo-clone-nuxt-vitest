@@ -27,5 +27,5 @@ export function useKeyDown(
 
   return {
     selectedIndex,
-  };
+  } as const;
 }
