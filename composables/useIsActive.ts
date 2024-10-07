@@ -13,5 +13,5 @@ export function useIsActive() {
     selected.value = '';
   }
 
-  return { setActive, isActive, clearActive };
+  return { setActive, isActive, clearActive } as const;
 }
