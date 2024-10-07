@@ -54,5 +54,5 @@ export function useCart() {
     removeFromCart,
     numberOfCartProducts,
     updatedTotalPrice,
-  };
+  } as const;
 }
