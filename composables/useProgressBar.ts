@@ -28,5 +28,5 @@ export function useProgressBar() {
     }, 10);
   }
 
-  return { startProgressBar, isBarActive, progressWidth };
+  return { startProgressBar, isBarActive, progressWidth } as const;
 }
