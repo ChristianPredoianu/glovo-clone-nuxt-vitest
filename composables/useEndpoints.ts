@@ -63,5 +63,5 @@ export function useEndpoints(
     restCountriesEndpoint,
     initialFetchEndpoint,
     selectedApiEndpoint,
-  };
+  } as const;
 }
