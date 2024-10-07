@@ -43,7 +43,6 @@ export function useDialogProps(dialogRef: IModalRef) {
       };
       mealModalProps.value = null;
     }
-    console.log(mealModalProps.value);
     dialogRef.value?.showDialog();
   }
 
@@ -51,5 +50,5 @@ export function useDialogProps(dialogRef: IModalRef) {
     return mealModalProps.value || productModalProps.value || null;
   });
 
-  return { currentModalProps, handleCardClick };
+  return { currentModalProps, handleCardClick } as const;
 }
