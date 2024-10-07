@@ -9,5 +9,5 @@ export function useBackdrop() {
     isBackdropOpen.value = false;
   }
 
-  return { isBackdropOpen, openBackdrop, closeBackdrop };
+  return { isBackdropOpen, openBackdrop, closeBackdrop } as const;
 }
