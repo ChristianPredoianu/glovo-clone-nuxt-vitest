@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const emailState = useState('emailState', () => '');
-const passwordState = useState('passwordState', () => '');
+const userEmail = ref('');
+const userPassword = ref('');
 
-const { signIn } = useAuth();
+const { emailError, passwordError, signIn } = useAuth();
 </script>
 
 <template>
@@ -10,7 +10,7 @@ const { signIn } = useAuth();
     <div class="flex flex-col">
       <label for="email" class="text-sm font-medium text-gray-700">Email</label>
       <input
-        v-model="emailState"
+        v-model="userEmail"
         type="email"
         name="email"
         autocomplete="username"
@@ -18,12 +18,19 @@ const { signIn } = useAuth();
         class="w-full border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         placeholder="email@example.com"
       />
+      <p
+        class="text-red-600 text-sm mt-1"
+        :class="{ invisible: !emailError }"
+        style="min-height: 1.5rem"
+      >
+        {{ emailError || '' }}
+      </p>
     </div>
 
     <div class="flex flex-col">
       <label for="password" class="text-sm font-medium text-gray-700">Password</label>
       <input
-        v-model="passwordState"
+        v-model="userPassword"
         type="password"
         name="password"
         autocomplete="current-password"
@@ -31,15 +38,23 @@ const { signIn } = useAuth();
         class="border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         placeholder="••••••••"
       />
+      <p
+        class="text-red-600 text-sm mt-1"
+        :class="{ invisible: !passwordError }"
+        style="min-height: 1.5rem"
+      >
+        {{ passwordError || '' }}
+      </p>
     </div>
     <div class="w-full">
       <button
         type="submit"
         class="w-full bg-green-600 text-gray-100 py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-50"
-        @click="(e) => signIn(emailState, passwordState, e)"
+        @click="(e) => signIn(userEmail, userPassword, e)"
       >
         Sign In
       </button>
+      <p>{{}}</p>
     </div>
   </form>
 </template>
