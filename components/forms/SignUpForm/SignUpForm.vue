@@ -1,10 +1,31 @@
 <script setup lang="ts">
 const userEmail = ref('');
-const userPassWord = ref('');
+const userPassword = ref('');
+const repeatedUserPassword = ref('');
+
+const { signUp } = useAuth();
+const {
+  emailError,
+  passwordError,
+  repeatedPasswordError,
+  validateEmail,
+  validatePassword,
+  validateRepeatedPassword,
+} = useAuthValidation();
+
+function signUserUp(e: Event) {
+  e.preventDefault();
+  signUp(userEmail.value, userPassword.value, repeatedUserPassword.value);
+
+  userEmail.value = '';
+  userPassword.value = '';
+  repeatedUserPassword.value = '';
+}
 </script>
 
 <template>
   <form class="flex flex-col gap-7 py-10 w-full">
+    <!-- Email -->
     <div class="flex flex-col">
       <label for="email" class="text-sm font-medium text-gray-700">Email</label>
       <input
@@ -15,16 +36,14 @@ const userPassWord = ref('');
         required
         class="w-full border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         placeholder="email@example.com"
+        @blur="validateEmail(userEmail)"
       />
-      <p
-        class="text-red-600 text-sm mt-1"
-        :class="{ invisible: !emailError }"
-        style="min-height: 1.5rem"
-      >
+      <p class="text-red-600 text-xs mt-1 h-2" :class="{ invisible: !emailError }">
         {{ emailError || '' }}
       </p>
     </div>
 
+    <!-- Password -->
     <div class="flex flex-col">
       <label for="password" class="text-sm font-medium text-gray-700">Password</label>
       <input
@@ -35,24 +54,48 @@ const userPassWord = ref('');
         required
         class="border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         placeholder="••••••••"
+        @blur="validatePassword(userPassword)"
       />
       <p
-        class="text-red-600 text-sm mt-1"
+        class="text-red-600 text-xs w-full mt-1 h-4"
         :class="{ invisible: !passwordError }"
-        style="min-height: 1.5rem"
       >
         {{ passwordError || '' }}
       </p>
     </div>
+
+    <!-- Repeated Password -->
+    <div class="flex flex-col">
+      <label for="repeatPassword" class="text-sm font-medium text-gray-700"
+        >Repeat Password</label
+      >
+      <input
+        v-model="repeatedUserPassword"
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        required
+        class="border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+        placeholder="••••••••"
+        @blur="validateRepeatedPassword(userPassword, repeatedUserPassword)"
+      />
+      <p
+        class="text-red-600 text-xs mt-1 h-2"
+        :class="{ invisible: !repeatedPasswordError }"
+      >
+        {{ repeatedPasswordError || '' }}
+      </p>
+    </div>
+
+    <!-- Submit Button -->
     <div class="w-full">
       <button
         type="submit"
         class="w-full bg-green-600 text-gray-100 py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-50"
-        @click="(e) => signIn(userEmail, userPassword, e)"
+        @click="signUserUp"
       >
-        Sign In
+        Sign Up
       </button>
-      <p>{{}}</p>
     </div>
   </form>
 </template>
