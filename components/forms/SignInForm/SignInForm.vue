@@ -2,10 +2,16 @@
 const userEmail = ref('');
 const userPassword = ref('');
 
-const { emailError, passwordError, signIn } = useAuth();
+const { signIn, emailError, signInPasswordError } = useAuth();
+
+function handleSignIn(e: Event) {
+  e.preventDefault();
+  signIn(userEmail.value, userPassword.value);
+}
 </script>
 
 <template>
+  <h1>{{ emailError }}</h1>
   <form class="flex flex-col gap-7 py-10 w-full">
     <div class="flex flex-col">
       <label for="email" class="text-sm font-medium text-gray-700">Email</label>
@@ -40,17 +46,17 @@ const { emailError, passwordError, signIn } = useAuth();
       />
       <p
         class="text-red-600 text-sm mt-1"
-        :class="{ invisible: !passwordError }"
+        :class="{ invisible: !signInPasswordError }"
         style="min-height: 1.5rem"
       >
-        {{ passwordError || '' }}
+        {{ signInPasswordError || '' }}
       </p>
     </div>
     <div class="w-full">
       <button
         type="submit"
         class="w-full bg-green-600 text-gray-100 py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-50"
-        @click="(e) => signIn(userEmail, userPassword, e)"
+        @click="(e) => handleSignIn(e)"
       >
         Sign In
       </button>
