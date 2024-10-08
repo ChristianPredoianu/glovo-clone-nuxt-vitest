@@ -1,29 +1,32 @@
 export function useAuth() {
-  const { validateEmail, validatePassword } = useAuthValidation();
+  const {
+    validateEmail,
+    validatePassword,
+    validateRepeatedPassword,
+    emailError,
+    passwordError: signInPasswordError,
+    passwordError: signUpPasswordError,
+    repeatedPasswordError,
+  } = useAuthValidation();
 
-  function signIn(email: string, password: string, e: Event) {
-    e.preventDefault();
-
+  // Sign up function with validation
+  function signUp(email: string, password: string, repeatedPassword: string) {
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
+    const isRepeatedPasswordValid = validateRepeatedPassword(password, repeatedPassword);
 
-    if (isEmailValid && isPasswordValid) {
-      console.log('ok');
+    if (isEmailValid && isPasswordValid && isRepeatedPasswordValid) {
+      console.log('Sign up successful');
     } else {
-      console.log('not ok');
+      console.log('Sign up failed', repeatedPasswordError.value);
     }
   }
 
-  function signUp(email: string, password: string, e: Event) {
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
-
-    if (isEmailValid && isPasswordValid) {
-      console.log('ok');
-    } else {
-      console.log('not ok');
-    }
-  }
-
-  return { signIn, signUp } as const;
+  return {
+    emailError,
+    signInPasswordError,
+    signUpPasswordError,
+    repeatedPasswordError,
+    signUp,
+  } as const;
 }
