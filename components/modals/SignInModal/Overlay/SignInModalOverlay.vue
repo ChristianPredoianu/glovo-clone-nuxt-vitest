@@ -16,7 +16,7 @@ function changeToSignUpComp() {
     </h3>
     <img src="@/sign-in.svg" alt="sign in" class="mx-auto mb-8 w-24 h-24" />
     <component :is="currentComponent" />
-    <h4 class>
+    <h4 v-if="currentComponent === SignInForm">
       Dont't have an account yet?
       <span
         class="text-yellow-600 font-semibold cursor-pointer"
