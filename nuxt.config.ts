@@ -1,6 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 console.log(process.env);
 export default defineNuxtConfig({
+  imports: {
+    dirs: ['composables', 'composables/auth', 'composables/ui'],
+  },
   runtimeConfig: {
     apiSecretLocationReverse: process.env.NUXT_API_KEY_LOCATION_REVERSE,
     public: {
