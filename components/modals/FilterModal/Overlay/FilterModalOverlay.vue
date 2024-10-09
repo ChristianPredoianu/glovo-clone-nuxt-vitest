@@ -44,11 +44,6 @@ watch(
   <section
     class="container px-4 w-full h-full flex flex-col mx-auto relative py-10 overflow-y-auto"
   >
-    <font-awesome-icon
-      :icon="['fas', 'close']"
-      class="text-2xl font-semibold absolute top-6 right-6 cursor-pointer"
-      @click="emits('closeModal')"
-    />
     <h3 class="w-full text-xl md:text-2xl font-bold mt-6">
       Types of {{ isFakeStoreIndex ? 'products' : 'dishes' }}
     </h3>
