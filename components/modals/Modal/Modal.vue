@@ -32,7 +32,7 @@ defineExpose({
     <dialog
       class="rounded-lg w-full md:max-w-md lg:max-w-lg xl:max-w-xl"
       ref="dialogRef"
-      id="main-dialog"
+      :dialogRef="dialogRef"
     >
       <div class="flex justify-end items-center mt-4 mr-4">
         <CloseIcon @click="closeDialog" />
