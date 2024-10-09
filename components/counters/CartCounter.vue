@@ -13,7 +13,6 @@ watch(numberOfCartProducts, (newCount, oldCount) => {
     <transition name="fade" mode="out-in">
       <p
         class="bg-green-700 w-8 h-8 flex items-center justify-center text-white rounded-full text-center text-sm"
-        v-show="numberOfCartProducts > 0"
       >
         <transition name="fade" mode="out-in">
           <span :key="numberKey"> {{ numberOfCartProducts }}</span></transition
