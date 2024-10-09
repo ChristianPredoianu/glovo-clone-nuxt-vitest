@@ -25,7 +25,7 @@ function signUserUp(e: Event) {
 </script>
 
 <template>
-  <form class="">
+  <form class="flex flex-col gap-7 p-4">
     <!-- Email -->
     <div class="flex flex-col">
       <label for="email" class="text-sm font-medium text-gray-700">Email</label>
@@ -54,7 +54,7 @@ function signUserUp(e: Event) {
         autocomplete="current-password"
         required
         class="border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        placeholder="••••••••"
+        placeholder="At least 8 characters"
         @blur="validatePassword(userPassword)"
       />
       <p
@@ -77,7 +77,7 @@ function signUserUp(e: Event) {
         autocomplete="current-password"
         required
         class="border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        placeholder="••••••••"
+        placeholder="At least 8 characters "
         @blur="validateRepeatedPassword(userPassword, repeatedUserPassword)"
       />
       <p
