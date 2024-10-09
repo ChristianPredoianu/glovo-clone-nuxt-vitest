@@ -15,6 +15,7 @@ const {
 
 function signUserUp(e: Event) {
   e.preventDefault();
+
   signUp(userEmail.value, userPassword.value, repeatedUserPassword.value);
 
   userEmail.value = '';
@@ -24,7 +25,7 @@ function signUserUp(e: Event) {
 </script>
 
 <template>
-  <form class="flex flex-col gap-7 py-10 w-full">
+  <form class="">
     <!-- Email -->
     <div class="flex flex-col">
       <label for="email" class="text-sm font-medium text-gray-700">Email</label>
@@ -38,7 +39,7 @@ function signUserUp(e: Event) {
         placeholder="email@example.com"
         @blur="validateEmail(userEmail)"
       />
-      <p class="text-red-600 text-xs mt-1 h-2" :class="{ invisible: !emailError }">
+      <p class="text-red-600 text-xs mt-1 h-4" :class="{ invisible: !emailError }">
         {{ emailError || '' }}
       </p>
     </div>
@@ -80,7 +81,7 @@ function signUserUp(e: Event) {
         @blur="validateRepeatedPassword(userPassword, repeatedUserPassword)"
       />
       <p
-        class="text-red-600 text-xs mt-1 h-2"
+        class="text-red-600 text-xs mt-1 h-4"
         :class="{ invisible: !repeatedPasswordError }"
       >
         {{ repeatedPasswordError || '' }}
@@ -96,6 +97,10 @@ function signUserUp(e: Event) {
       >
         Sign Up
       </button>
+      <h4 class="mt-6 w-full">
+        Already have an account?
+        <span class="text-yellow-600 font-semibold cursor-pointer">Sign in</span>
+      </h4>
     </div>
   </form>
 </template>
