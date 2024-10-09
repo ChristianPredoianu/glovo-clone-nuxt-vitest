@@ -34,6 +34,9 @@ defineExpose({
       ref="dialogRef"
       id="main-dialog"
     >
+      <div class="flex justify-end items-center mt-4 mr-4">
+        <CloseIcon @click="closeDialog" />
+      </div>
       <slot />
     </dialog>
   </Teleport>
