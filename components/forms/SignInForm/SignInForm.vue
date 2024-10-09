@@ -13,9 +13,7 @@ function handleSignIn(e: Event) {
 </script>
 
 <template>
-  <h1>{{ emailError }}</h1>
-
-  <form class="flex flex-col gap-7 p-4 w-full">
+  <form class="flex flex-col gap-7 p-4">
     <div class="flex flex-col">
       <label for="email" class="text-sm font-medium text-gray-700">Email</label>
       <input
@@ -41,7 +39,7 @@ function handleSignIn(e: Event) {
         autocomplete="current-password"
         required
         class="w-full border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        placeholder="••••••••"
+        placeholder="At least 8 characters"
       />
       <p
         class="text-red-600 text-xs mt-1 h-4"
