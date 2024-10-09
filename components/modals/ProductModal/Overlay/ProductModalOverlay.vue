@@ -31,11 +31,7 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
     class="container relative mx-auto p-10 flex flex-col overflow-auto"
   >
     <div class="flex justify-end">
-      <font-awesome-icon
-        :icon="['fas', 'close']"
-        class="text-2xl text-right mb-8 font-semibold cursor-pointer"
-        @click="emits('closeModal')"
-      />
+      <CloseIcon @closeModal="emits('closeModal')" />
     </div>
     <div class="mx-auto relative overflow-hidden w-full max-w-[500px] aspect-[16/9]">
       <img
