@@ -4,11 +4,18 @@ const userPassword = ref('');
 
 const emits = defineEmits(['emitSelected']);
 
-const { signIn, emailError, signInPasswordError } = useAuth();
+const { signIn } = useAuth();
+const { emailError, passwordError, validateEmail, validatePassword } =
+  useAuthValidation();
 
 function handleSignIn(e: Event) {
   e.preventDefault();
   signIn(userEmail.value, userPassword.value);
+
+  //If sign in successfull clear the inputs
+  /* userEmail.value = '';
+  userPassword.value = '';
+  */
 }
 </script>
 
@@ -24,6 +31,7 @@ function handleSignIn(e: Event) {
         required
         class="w-full border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         placeholder="email@example.com"
+        @blur="validateEmail(userEmail)"
       />
       <p class="text-red-600 text-xs mt-1 h-4" :class="{ invisible: !emailError }">
         {{ emailError || '' }}
@@ -39,13 +47,11 @@ function handleSignIn(e: Event) {
         autocomplete="current-password"
         required
         class="w-full border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        placeholder="At least 8 characters"
+        placeholder="At least 6 characters"
+        @blur="validatePassword(userPassword)"
       />
-      <p
-        class="text-red-600 text-xs mt-1 h-4"
-        :class="{ invisible: !signInPasswordError }"
-      >
-        {{ signInPasswordError || '' }}
+      <p class="text-red-600 text-xs mt-1 h-4" :class="{ invisible: !passwordError }">
+        {{ passwordError || '' }}
       </p>
     </div>
     <div class="w-full">
@@ -56,10 +62,6 @@ function handleSignIn(e: Event) {
       >
         Sign In
       </button>
-      <h4 class="mt-6">
-        Dont't have an account yet?
-        <span class="text-yellow-600 font-semibold cursor-pointer">Sign up</span>
-      </h4>
     </div>
   </form>
 </template>
