@@ -30,9 +30,6 @@ const isMealModalProps = (props: ModalProps | null): props is IMealModalProps =>
     v-if="productModalProps"
     class="container relative mx-auto p-10 flex flex-col overflow-auto"
   >
-    <div class="flex justify-end">
-      <CloseIcon @closeModal="emits('closeModal')" />
-    </div>
     <div class="mx-auto relative overflow-hidden w-full max-w-[500px] aspect-[16/9]">
       <img
         :src="props.productModalProps!.img"
