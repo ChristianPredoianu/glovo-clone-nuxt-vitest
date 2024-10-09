@@ -2,7 +2,9 @@
 import SignInForm from '@/components/forms/SignInForm/SignInForm.vue';
 import SignUpForm from '@/components/forms/SignUpForm/SignUpForm.vue';
 
-const emits = defineEmits(['closeModal']);
+const props = defineProps<{
+  dialogRef: HTMLDialogElement | null;
+}>();
 
 const currentComponent = ref<typeof SignInForm | typeof SignUpForm>(markRaw(SignInForm));
 const isSignIn = ref<boolean>(true);
@@ -14,6 +16,14 @@ function toggleForm() {
 
   isSignIn.value = !isSignIn.value;
 }
+
+function resetComponent() {
+  currentComponent.value = SignInForm;
+}
+
+defineExpose({
+  resetComponent,
+});
 </script>
 
 <template>
