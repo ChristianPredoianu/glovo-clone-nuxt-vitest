@@ -18,9 +18,10 @@ function signUserUp(e: Event) {
 
   signUp(userEmail.value, userPassword.value, repeatedUserPassword.value);
 
-  userEmail.value = '';
+  //If sign in successfull clear the inputs
+  /* userEmail.value = '';
   userPassword.value = '';
-  repeatedUserPassword.value = '';
+  repeatedUserPassword.value = ''; */
 }
 </script>
 
@@ -54,7 +55,7 @@ function signUserUp(e: Event) {
         autocomplete="current-password"
         required
         class="border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        placeholder="At least 8 characters"
+        placeholder="At least 6 characters"
         @blur="validatePassword(userPassword)"
       />
       <p
@@ -77,7 +78,7 @@ function signUserUp(e: Event) {
         autocomplete="current-password"
         required
         class="border-0 border-b-2 border-gray-300 p-2 mt-1 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-        placeholder="At least 8 characters "
+        placeholder="At least 6 characters "
         @blur="validateRepeatedPassword(userPassword, repeatedUserPassword)"
       />
       <p
@@ -97,10 +98,6 @@ function signUserUp(e: Event) {
       >
         Sign Up
       </button>
-      <h4 class="mt-6 w-full">
-        Already have an account?
-        <span class="text-yellow-600 font-semibold cursor-pointer">Sign in</span>
-      </h4>
     </div>
   </form>
 </template>
