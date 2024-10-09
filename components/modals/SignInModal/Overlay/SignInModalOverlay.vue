@@ -20,11 +20,16 @@ function toggleForm() {
   <section class="relative z-40 container mx-auto px-4">
     <div class="flex flex-col gap-7 p-4 md:p-10 w-full">
       <h3 class="text-center text-3xl font-bold pb-8">
-        {{ currentComponent === SignInForm ? 'Sign In' : 'Sign Up' }}
+        {{ isSignIn ? 'Sign In' : 'Sign Up' }}
       </h3>
       <img src="@/sign-in.svg" alt="sign in" class="mx-auto mb-8 w-24 h-24" />
       <component :is="currentComponent" />
+      <h4 class="pb-4 -mt-4 md:-mt-8 ml-4">
+        {{ isSignIn ? "Don't have an account?" : 'Already have an account?' }}
+        <span class="text-yellow-600 font-semibold cursor-pointer" @click="toggleForm">{{
+          isSignIn ? 'Sign up' : 'Sign in'
+        }}</span>
+      </h4>
     </div>
-    <button @click="toggleForm">dsadas</button>
   </section>
 </template>
