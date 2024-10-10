@@ -22,6 +22,8 @@ export function useAuth() {
     }
   }
 
+  function signIn(email: string, password: string) {}
+
   return {
     emailError,
     signInPasswordError,
