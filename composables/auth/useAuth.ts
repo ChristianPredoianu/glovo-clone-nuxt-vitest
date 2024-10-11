@@ -4,12 +4,10 @@ export function useAuth() {
     validatePassword,
     validateRepeatedPassword,
     emailError,
-    passwordError: signInPasswordError,
-    passwordError: signUpPasswordError,
+
     repeatedPasswordError,
   } = useAuthValidation();
 
-  // Sign up function with validation
   function signUp(email: string, password: string, repeatedPassword: string) {
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
@@ -26,8 +24,6 @@ export function useAuth() {
 
   return {
     emailError,
-    signInPasswordError,
-    signUpPasswordError,
     repeatedPasswordError,
     signUp,
   } as const;
