@@ -13,7 +13,6 @@ export function useFilter() {
   });
 
   const filters = computed(() => {
-    console.log('dsa');
     return isFakeStoreIndex.value ? fakeStoreCategories : cuisineTypes;
   });
 
