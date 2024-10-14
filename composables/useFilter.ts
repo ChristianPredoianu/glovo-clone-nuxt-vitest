@@ -7,6 +7,7 @@ import type {
 
 export function useFilter() {
   const route = useRoute();
+  console.log(route);
 
   const isFakeStoreIndex = computed(() => {
     return route?.query?.index && +route.query.index > 3;
