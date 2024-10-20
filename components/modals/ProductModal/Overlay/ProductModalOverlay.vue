@@ -11,6 +11,7 @@ const { isBarActive } = useProgressBar();
 
 const product = computed(() => {
   if (!props.productModalProps) return null;
+  console.log(props.productModalProps);
 
   return {
     id: props.productModalProps.id,
