@@ -32,16 +32,13 @@ onUnmounted(() => {
       <Modal modalName="cart">
         <CartModalOverlay @closeModal="closeModal" />
       </Modal>
-
       <!-- Sign-In Modal -->
       <Modal modalName="signin">
         <SignInModalOverlay @closeModal="closeModal" />
       </Modal>
-
       <Logo />
       <Backdrop :@closeElement="closeNav" />
       <Hamburger />
-
       <div
         id="nav-list-div"
         :class="isNavOpen ? ['translate-x-[0rem]'] : ['-translate-x-[50rem]']"
