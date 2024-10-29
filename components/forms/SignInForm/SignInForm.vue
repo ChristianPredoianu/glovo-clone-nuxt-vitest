@@ -4,18 +4,17 @@ const userPassword = ref('');
 
 const emits = defineEmits(['emitSelected']);
 
-const { signIn } = useAuth();
+const { signIn, user, authErrorMessage } = useAuth();
 const { emailError, passwordError, validateEmail, validatePassword } =
   useAuthValidation();
 
 function handleSignIn(e: Event) {
   e.preventDefault();
-  signIn(userEmail.value, userPassword.value);
-
-  //If sign in successfull clear the inputs
-  /* userEmail.value = '';
-  userPassword.value = '';
-  */
+  signIn(userEmail.value, userPassword.value).then(() => {
+    // User is signed in, check if the user is set
+    if (user.value !== null) {
+    }
+  });
 }
 </script>
 
@@ -62,6 +61,7 @@ function handleSignIn(e: Event) {
       >
         Sign In
       </button>
+      <p>{{ authErrorMessage }}</p>
     </div>
   </form>
 </template>
