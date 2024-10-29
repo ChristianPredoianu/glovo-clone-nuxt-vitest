@@ -1,7 +1,9 @@
 <script setup lang="ts">
+// Declare the props for the Backdrop component
+const props = defineProps<{ isBackdropOpen?: boolean }>();
 const emits = defineEmits(['closeElement']);
 
-const { isBackdropOpen, closeBackdrop } = useBackdrop();
+const { closeBackdrop } = useBackdrop();
 
 function closeBackdropElements() {
   closeBackdrop();
@@ -10,11 +12,10 @@ function closeBackdropElements() {
 </script>
 
 <template>
-  <Teleport to="body">
+  <Teleport to="body" v-if="isBackdropOpen">
     <div
-      class="#test fixed inset-0 min-h-full w-full bg-slate-800 z-10 opacity-50"
-      v-if="isBackdropOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 z-10"
       @click="closeBackdropElements"
-    ></div
-  ></Teleport>
+    ></div>
+  </Teleport>
 </template>
