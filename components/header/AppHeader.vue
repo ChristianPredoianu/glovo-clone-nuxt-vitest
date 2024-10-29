@@ -4,13 +4,16 @@ import Modal from '@/components/modals/Modal/Modal.vue';
 const { isNavOpen, closeNav } = useNav();
 const { closeBackdrop } = useBackdrop();
 const { screenWidth } = useScreenWidth();
-
-const cartDialog = ref<InstanceType<typeof Modal> | null>(null);
-const signInDialog = ref<InstanceType<typeof Modal> | null>(null);
+const { user, signUserOut } = useAuth();
+const { openModal, closeModal } = useModal();
 
 function closeNavigationDialog() {
   closeNav();
   closeBackdrop();
+}
+
+function signOut() {
+  signUserOut();
 }
 
 onMounted(() => {
@@ -25,14 +28,18 @@ onUnmounted(() => {
 <template>
   <header class="relative bg-amber-400" v-if="screenWidth">
     <nav class="flex items-center justify-between flex-wrap container mx-auto p-4">
-      <Modal ref="cartDialog"
-        ><CartModalOverlay @closeModal="cartDialog?.closeDialog()"
-      /></Modal>
-      <Modal ref="signInDialog"
-        ><SignInModalOverlay @closeModal="signInDialog?.closeDialog()"
-      /></Modal>
+      <!-- Cart Modal -->
+      <Modal modalName="cart">
+        <CartModalOverlay @closeModal="closeModal" />
+      </Modal>
+
+      <!-- Sign-In Modal -->
+      <Modal modalName="signin">
+        <SignInModalOverlay @closeModal="closeModal" />
+      </Modal>
+
       <Logo />
-      <Backdrop @closeElement="closeNav" />
+      <Backdrop :@closeElement="closeNav" />
       <Hamburger />
 
       <div
@@ -47,17 +54,28 @@ onUnmounted(() => {
               :icon="['fas', 'cart-shopping']"
               v-if="screenWidth > 640"
               class="cursor-pointer text-xl"
-              @click="cartDialog?.showDialog()"
+              @click="openModal('cart')"
             />
             <CartCounter />
           </div>
           <CtaBtn
+            v-if="user === null"
             :fontSize="'text-xs'"
             :textCol="'text-gray-100'"
             :paddingX="'px-6'"
-            @click="signInDialog?.showDialog()"
-            >Sign in</CtaBtn
+            @click="openModal('signin')"
           >
+            Sign in
+          </CtaBtn>
+          <CtaBtn
+            v-if="user"
+            :fontSize="'text-xs'"
+            :textCol="'text-gray-100'"
+            :paddingX="'px-6'"
+            @click="signOut"
+          >
+            Sign out
+          </CtaBtn>
         </div>
       </div>
     </nav>
