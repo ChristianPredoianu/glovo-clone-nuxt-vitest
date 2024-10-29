@@ -5,8 +5,7 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import type { User, Auth } from 'firebase/auth';
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { FirebaseError } from 'firebase/app'; // Import the FirebaseError type
 
 declare module '#app' {
   interface NuxtApp {
@@ -50,25 +49,30 @@ export function useAuth() {
     }
   }
 
-  function signIn(email: string, password: string): Promise<void> {
+  async function signIn(email: string, password: string): Promise<void> {
     authErrorMessage.value = '';
+
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
 
     if (isEmailValid && isPasswordValid) {
-      return signInWithEmailAndPassword($auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user);
-          router.push('/dashboard');
-        })
-        .catch((error) => {
-          authErrorMessage.value = error.message; // Keep this for user feedback
-          throw error; // Propagate the error to the caller
-        });
+      try {
+        const userCredential = await signInWithEmailAndPassword($auth, email, password);
+        const user = userCredential.user;
+        console.log(user);
+        await router.push('/dashboard');
+      } catch (error: unknown) {
+        // Specify that error is of type unknown
+        if (error instanceof FirebaseError) {
+          authErrorMessage.value = error.message; // Handle Firebase error
+        } else {
+          authErrorMessage.value = 'An unexpected error occurred'; // Generic error message
+        }
+        throw error; // Propagate the error to the caller
+      }
     } else {
       console.log('Sign in failed', emailError.value, passwordError.value);
-      return Promise.reject(new Error('Invalid email or password')); // Return a rejected Promise
+      throw new Error('Invalid email or password'); // Return a rejected Promise
     }
   }
 
@@ -77,8 +81,8 @@ export function useAuth() {
     signOut($auth)
       .then(() => {
         console.log('User signed out successfully.');
-        user.value = null; // Clear the user state
-        router.push('/'); // Redirect to home or sign-in page
+        user.value = null;
+        router.push('/');
       })
       .catch((error) => {
         authErrorMessage.value = error.message;
