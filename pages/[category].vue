@@ -36,6 +36,7 @@ const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { screenWidth } = useScreenWidth();
 const { isMealData } = useIsMealData();
 const { currentModalProps, handleCardClick } = useDialogProps(productDialog);
+const { openModal, closeModal } = useModal();
 
 const { initialFetchEndpoint, selectedApiEndpoint } = useEndpoints(
   route.params.category,
@@ -100,17 +101,16 @@ onBeforeRouteLeave((to, from, next) => {
 </script>
 
 <template>
-  <Modal ref="filterDialog"
-    ><FilterModalOverlay
-      @emitSelected="handleEmitSelected"
-      @closeModal="filterDialog?.closeDialog()"
+  <!-- Filter Modal -->
+  <Modal modalName="filter"
+    ><FilterModalOverlay @emitSelected="handleEmitSelected" @closeModal="closeModal"
   /></Modal>
 
-  <Modal ref="productDialog"
+  <Modal modalName="productCategoryPage"
     ><ProductModalOverlay
       :productModalProps="currentModalProps"
       :price="+generateRandomPrice()"
-      @closeModal="productDialog?.closeDialog()"
+      @closeModal="closeModal()"
   /></Modal>
   <div class="container mx-auto px-4">
     <section
@@ -118,7 +118,7 @@ onBeforeRouteLeave((to, from, next) => {
       class="mt-10 flex justify-center items-center gap-4"
     >
       <RoundedBtn
-        @emitClick="filterDialog?.showDialog()"
+        @emitClick="openModal('filter')"
         text="Filter"
         backCol="bg-orange-200"
         icon="fa-filter"
