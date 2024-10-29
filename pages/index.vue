@@ -31,6 +31,7 @@ const { locationEndpoint, indexMealDataEndpoint, restCountriesEndpoint } = useEn
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
 const { currentModalProps, handleCardClick } = useDialogProps(productDialog);
+const { closeModal } = useModal();
 
 const { data: locationData } = await useFetch<ILocationsData[]>(
   () => `${locationEndpoint.value}`
@@ -85,11 +86,12 @@ watch(
 </script>
 
 <template>
-  <Modal ref="productDialog"
+  <!-- Product Modal -->
+  <Modal modalName="productIndexPage"
     ><ProductModalOverlay
       :productModalProps="currentModalProps"
       :price="+generateRandomPrice()"
-      @closeModal="productDialog?.closeDialog()"
+      @closeModal="closeModal"
   /></Modal>
   <section class="bg-amber-400 text-gray-800 min-h-screen md:min-h-min">
     <div
