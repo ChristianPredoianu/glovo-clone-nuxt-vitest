@@ -1,6 +1,8 @@
 import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
+  plugins: ['~/plugins/firebase.client.ts'],
+
   imports: {
     dirs: ['composables', 'composables/auth', 'composables/ui'],
   },
