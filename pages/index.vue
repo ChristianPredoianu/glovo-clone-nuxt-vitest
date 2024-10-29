@@ -8,7 +8,8 @@ import type {
   IDropdownOptions,
 } from '@/interfaces/interfaces.interface';
 import { productCategories, dishTypes } from '@/data/productCategoriesData';
-import { generateRandomPrice } from '~/helpers/randomPrice';
+import { generateRandomPrice } from '@/helpers/randomPrice';
+import { infoCardsData } from '@/data/infocardsData';
 
 const emittedInput = useState<string>('emmitedInput', () => '');
 const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
@@ -191,22 +192,12 @@ watch(
     <section class="flex flex-col items-center">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         <InfoCard
-          :icon="'utensils'"
-          :heading="'Your city\'s top restaurants'"
-          :paragraph="'With a great variety of restaurants you can order your favourite food or '"
-          :span="'explore new restaurants nearby!'"
-        />
-        <InfoCard
-          :icon="'truck'"
-          :heading="'Fast delivery'"
-          :paragraph="'Like a flash! Order or send anything in your city and '"
-          :span="'receive it in minutes.'"
-        />
-        <InfoCard
-          :icon="'bowl-food'"
-          :heading="'Groceries delivery & more'"
-          :paragraph="'Find anything you need! From food to electronics and clothing'"
-          :span="' if it\'s in your city order it and receive it.'"
+          v-for="(card, index) in infoCardsData"
+          :key="index"
+          :icon="card.icon"
+          :heading="card.heading"
+          :paragraph="card.paragraph"
+          :span="card.span"
         />
       </div>
       <div class="pt-20">
