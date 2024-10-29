@@ -7,7 +7,7 @@ export function useAuthValidation() {
 
   // Validate email
   function validateEmail(email: string): boolean {
-    if (!email) {
+    if (!email || email === '') {
       emailError.value = 'Email is required';
       return false;
     }
@@ -22,7 +22,7 @@ export function useAuthValidation() {
 
   // Validate password
   function validatePassword(password: string): boolean {
-    if (!password) {
+    if (!password || password === '') {
       passwordError.value = 'Password is required';
       return false;
     }
