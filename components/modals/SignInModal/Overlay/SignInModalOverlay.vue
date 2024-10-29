@@ -2,10 +2,6 @@
 import SignInForm from '@/components/forms/SignInForm/SignInForm.vue';
 import SignUpForm from '@/components/forms/SignUpForm/SignUpForm.vue';
 
-const props = defineProps<{
-  dialogRef: HTMLDialogElement | null;
-}>();
-
 const currentComponent = ref<typeof SignInForm | typeof SignUpForm>(markRaw(SignInForm));
 const isSignIn = ref<boolean>(true);
 
@@ -32,7 +28,7 @@ defineExpose({
       <h3 class="text-center text-3xl font-bold pb-8">
         {{ isSignIn ? 'Sign In' : 'Sign Up' }}
       </h3>
-      <img src="@/sign-in.svg" alt="sign in" class="mx-auto mb-8 w-24 h-24" />
+      <!--     <img src="@/sign-in.svg" alt="sign in" class="mx-auto mb-8 w-24 h-24" /> -->
       <component :is="currentComponent" />
       <h4 class="pb-4 -mt-4 md:-mt-8 ml-4">
         {{ isSignIn ? "Don't have an account?" : 'Already have an account?' }}
