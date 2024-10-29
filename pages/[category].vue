@@ -19,16 +19,8 @@ interface FetchResult<T> {
 const emittedFilter = useState<string>('emmitedFilter', () => '');
 const filteredData = useState<FetchResult<IMeals | IProduct[] | null>>(
   'filteredData',
-  () => ({
-    data: null,
-    isLoading: false,
-  })
+  () => ({ data: null, isLoading: false })
 );
-const filterDialog = useState<InstanceType<typeof Modal> | null>(
-  'filterDialog',
-  () => null
-);
-
 const productDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 const route = useRoute();
@@ -37,7 +29,6 @@ const { screenWidth } = useScreenWidth();
 const { isMealData } = useIsMealData();
 const { currentModalProps, handleCardClick } = useDialogProps(productDialog);
 const { openModal, closeModal } = useModal();
-
 const { initialFetchEndpoint, selectedApiEndpoint } = useEndpoints(
   route.params.category,
   emittedFilter,
@@ -49,50 +40,35 @@ const { data, pending } = await useFetch<IMeals | IProduct[] | null>(
 );
 
 async function fetchDataAndUpdate() {
-  let result;
-
-  if (emittedFilter.value !== '') {
+  if (emittedFilter.value) {
     filteredData.value.isLoading = true;
-    result = await fetchData<IMeals | IProduct[]>(selectedApiEndpoint.value!);
-
-    filteredData.value.data = result.data;
-    filteredData.value.isLoading = result.isLoading;
+    const result = await fetchData<IMeals | IProduct[]>(selectedApiEndpoint.value!);
+    filteredData.value.data = result.data || null;
+    filteredData.value.isLoading = false;
+  } else {
+    filteredData.value.data = null;
   }
 }
 
-const shouldRenderMealCard = computed(() => {
-  return data.value !== null && isMealData(data.value) && emittedFilter.value === '';
-});
+watch(emittedFilter, fetchDataAndUpdate);
 
-const shouldRenderFilteredMealCard = computed(() => {
-  return (
-    filteredData.value.data !== null &&
-    isMealData(filteredData.value.data) &&
-    emittedFilter.value !== ''
-  );
-});
-
-const shouldRenderProducts = computed(() => {
-  return data.value !== null && !isMealData(data.value) && emittedFilter.value === '';
-});
-
-const shouldRenderFilteredProducts = computed(() => {
-  return (
-    filteredData.value !== null &&
-    !isMealData(filteredData.value.data) &&
-    emittedFilter.value !== ''
-  );
+const renderType = computed(() => {
+  if (filteredData.value.data) {
+    return isMealData(filteredData.value.data) ? 'filteredMeals' : 'filteredProducts';
+  }
+  if (data.value) {
+    return isMealData(data.value) ? 'meals' : 'products';
+  }
+  return null;
 });
 
 function handleEmitSelected(
   selectedFilter: IFakeStoreCategories | ICuisineType | string
 ) {
-  typeof selectedFilter === 'string'
-    ? (emittedFilter.value = '')
-    : (emittedFilter.value = getCategoryName(selectedFilter));
+  emittedFilter.value =
+    typeof selectedFilter === 'string' ? '' : getCategoryName(selectedFilter);
+  filteredData.value.data = null;
 }
-
-watch(emittedFilter, fetchDataAndUpdate);
 
 onBeforeRouteLeave((to, from, next) => {
   emittedFilter.value = '';
@@ -102,16 +78,17 @@ onBeforeRouteLeave((to, from, next) => {
 
 <template>
   <!-- Filter Modal -->
-  <Modal modalName="filter"
-    ><FilterModalOverlay @emitSelected="handleEmitSelected" @closeModal="closeModal"
-  /></Modal>
+  <Modal modalName="filter">
+    <FilterModalOverlay @emitSelected="handleEmitSelected" @closeModal="closeModal" />
+  </Modal>
 
-  <Modal modalName="productCategoryPage"
-    ><ProductModalOverlay
+  <Modal modalName="productCategoryPage">
+    <ProductModalOverlay
       :productModalProps="currentModalProps"
       :price="+generateRandomPrice()"
-      @closeModal="closeModal()"
-  /></Modal>
+      @closeModal="closeModal"
+    />
+  </Modal>
   <div class="container mx-auto px-4">
     <section
       v-if="screenWidth <= 1024"
@@ -124,10 +101,12 @@ onBeforeRouteLeave((to, from, next) => {
         icon="fa-filter"
       />
     </section>
+
     <section class="flex justify-between">
       <div v-if="screenWidth >= 1024" class="mt-20">
         <MealCategoryFilterList @emitSelected="handleEmitSelected" />
       </div>
+
       <div class="w-full lg:w-4/5">
         <h1 class="text-xl font-bold md:text-2xl pt-5 mt-6 lg:mt-12">
           {{ capitalizeFirstLetter($route.params.category) }}
@@ -136,57 +115,43 @@ onBeforeRouteLeave((to, from, next) => {
         <h2 v-if="emittedFilter !== ''" class="text-gray-500 text-lg font-semibold mt-1">
           {{ emittedFilter }}
         </h2>
+
         <div
           v-if="pending || filteredData.isLoading"
           class="flex justify-center -mt-40 w-full"
         >
           <LoadingSpinner />
         </div>
+
         <div
-          class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-y-8 gap-x-8 mt-6"
+          v-if="renderType"
+          class="grid gap-y-8 gap-x-8 mt-6"
+          :class="{
+            'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6':
+              renderType === 'meals' || renderType === 'filteredMeals',
+            'grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5':
+              renderType === 'products' || renderType === 'filteredProducts',
+          }"
         >
-          <template v-if="shouldRenderMealCard">
+          <template v-if="renderType === 'meals' || renderType === 'filteredMeals'">
             <MealCard
-              v-for="meal in (data as IMeals).hits"
-              :key="meal.recipe.label"
+              v-for="(meal, index) in (renderType === 'meals' ? (data as IMeals).hits : (filteredData.data as IMeals).hits)"
+              :key="renderType === 'meals' ? meal.recipe.label : `meal-${index}`"
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
               @click="handleCardClick(meal)"
             />
           </template>
-          <template v-if="shouldRenderFilteredMealCard">
-            <MealCard
-              v-for="(meal, index) in (filteredData.data as IMeals).hits"
-              :key="`meal-${index}`"
-              :category="meal.recipe.cuisineType[0]"
-              :label="meal.recipe.label"
-              :img="meal.recipe.image"
-              @click="handleCardClick(meal)"
+
+          <template v-if="renderType === 'products' || renderType === 'filteredProducts'">
+            <ProductCard
+              v-for="product in (renderType === 'products' ? (data as IProduct[]) : (filteredData.data as IProduct[]))"
+              :key="product.id"
+              :product="product"
+              @click="handleCardClick(product)"
             />
           </template>
-        </div>
-        <div
-          v-if="shouldRenderProducts"
-          class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
-        >
-          <ProductCard
-            v-for="product in (data as IProduct[])"
-            :key="product.id"
-            :product="product"
-            @click="handleCardClick(product)"
-          />
-        </div>
-        <div
-          v-if="shouldRenderFilteredProducts"
-          class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-8 gap-x-8 mt-8"
-        >
-          <ProductCard
-            v-for="product in (filteredData.data as IProduct[])"
-            :key="product.id"
-            :product="product"
-            @click="handleCardClick(product)"
-          />
         </div>
       </div>
     </section>
