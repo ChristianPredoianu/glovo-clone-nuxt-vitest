@@ -18,6 +18,7 @@ export function useDialogProps(dialogRef: IModalRef) {
   );
 
   const { isSingleMealData } = useIsMealData();
+  const { openModal } = useModal();
 
   function extractRecipeId(uri: string): string {
     const prefix = '#recipe_';
@@ -43,7 +44,8 @@ export function useDialogProps(dialogRef: IModalRef) {
       };
       mealModalProps.value = null;
     }
-    dialogRef.value?.showDialog();
+    openModal('productCategoryPage');
+    console.log(12);
   }
 
   const currentModalProps = computed<ModalProps | null>(() => {
