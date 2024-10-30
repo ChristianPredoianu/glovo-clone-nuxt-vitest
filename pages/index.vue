@@ -33,7 +33,7 @@ const { locationEndpoint, indexMealDataEndpoint, restCountriesEndpoint } = useEn
 );
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
-const { currentModalProps, setModalProps } = useDialogProps();
+const { currentModalProps, setModalProps } = useModalProps();
 const { openModal, closeModal } = useModal();
 
 const { data: locationData } = await useFetch<ILocationsData[]>(
