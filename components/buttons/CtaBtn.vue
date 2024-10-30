@@ -23,7 +23,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['clicked']);
+const emit = defineEmits(['clicked']);
 </script>
 
 <template>
@@ -37,7 +37,7 @@ const emits = defineEmits(['clicked']);
       props.borderWidth,
       props.paddingX,
     ]"
-    @click="emits('clicked')"
+    @click="emit('clicked')"
   >
     <slot></slot>
   </button>
