@@ -5,17 +5,17 @@ export function useEndpoints(
   filter?: Ref<string>,
   routeIndex?: string
 ) {
-  const runtimeConfig = useRuntimeConfig();
+  const config = useRuntimeConfig();
 
   const restCountriesEndpoint = 'https://restcountries.com/v3.1/region/europe';
 
   const indexMealDataEndpoint = computed(() => {
-    return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`;
+    return `${config.public.apiEdamam}&app_id=${config.public.apiEdamamAppId}&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=Dinner&dishType=Main%20course`;
   });
 
   const locationEndpoint = computed(() => {
     if (filter)
-      return `${runtimeConfig.public.apiAutoconfig}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${filter.value}&limit=5`;
+      return `${config.public.apiAutoconfig}pk.a75cdfe1cc307b34218d8021f4122dc6&q=${filter.value}&limit=5`;
   });
 
   const initialFetchEndpoint = computed(() => {
@@ -26,21 +26,20 @@ export function useEndpoints(
   });
 
   const edamamApiEndpoint = computed(() => {
-    return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${category}&dishType=Main%20course`;
+    return `${config.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${category}&dishType=Main%20course`;
   });
 
   const edamamApiFilteredEndpoint = computed(() => {
     if (filter)
-      return `${runtimeConfig.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${category}&cuisineType=${filter.value}`;
+      return `${config.public.apiEdamam}&app_id=e5a7e476&app_key=4b4dc5f4bc65e69c3e05af0392a55b18%09&mealType=${category}&cuisineType=${filter.value}`;
   });
 
   const fakeStoreEndpoint = computed(() => {
-    return `${runtimeConfig.public.fakeStoreBase}${category}`;
+    return `${config.public.fakeStoreBase}${category}`;
   });
 
   const fakeStoreFilteredEndpoint = computed(() => {
-    if (filter)
-      return `${runtimeConfig.public.fakeStoreBase}${filter.value.toLowerCase()}`;
+    if (filter) return `${config.public.fakeStoreBase}${filter.value.toLowerCase()}`;
   });
 
   const selectedApiEndpoint = computed(() => {
