@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Modal from '@/components/modals/Modal/Modal.vue';
 import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
 import { fetchData } from '@/helpers/fetchGenericData';
 import { generateRandomPrice } from '@/helpers/randomPrice';
@@ -22,13 +21,12 @@ const filteredData = useState<FetchResult<IMeals | IProduct[] | null>>(
   'filteredData',
   () => ({ data: null, isLoading: false })
 );
-const productDialog = ref<InstanceType<typeof Modal> | null>(null);
 
 const route = useRoute();
 const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { screenWidth } = useScreenWidth();
 const { isMealData } = useIsMealData();
-const { currentModalProps, setModalProps } = useDialogProps();
+const { currentModalProps, setModalProps } = useModalProps();
 const { openModal, closeModal } = useModal();
 const { initialFetchEndpoint, selectedApiEndpoint } = useEndpoints(
   route.params.category,
@@ -51,12 +49,18 @@ async function fetchDataAndUpdate() {
   }
 }
 
+function handleEmitSelected(
+  selectedFilter: IFakeStoreCategories | ICuisineType | string
+) {
+  emittedFilter.value =
+    typeof selectedFilter === 'string' ? '' : getCategoryName(selectedFilter);
+  filteredData.value.data = null;
+}
+
 function handleMealCardClick(item: ISingleMeal | IProduct) {
   setModalProps(item);
   openModal('productModal');
 }
-
-watch(emittedFilter, fetchDataAndUpdate);
 
 const renderType = computed(() => {
   if (filteredData.value.data) {
@@ -68,13 +72,7 @@ const renderType = computed(() => {
   return null;
 });
 
-function handleEmitSelected(
-  selectedFilter: IFakeStoreCategories | ICuisineType | string
-) {
-  emittedFilter.value =
-    typeof selectedFilter === 'string' ? '' : getCategoryName(selectedFilter);
-  filteredData.value.data = null;
-}
+watch(emittedFilter, fetchDataAndUpdate);
 
 onBeforeRouteLeave((to, from, next) => {
   emittedFilter.value = '';
