@@ -12,6 +12,7 @@ export default defineNuxtConfig({
       apiAutoconfig: process.env.NUXT_PUBLIC_API_AUTOCOMPLETE,
       apiReverse: process.env.NUXT_PUBLIC_API_REVERSE,
       apiEdamam: process.env.NUXT_PUBLIC_API_EDAMAM,
+      apiEdamamAppId: process.env.NUXT_PUBLIC_EDAMAM_APP_ID,
       apiRestCountries: process.env.NUXT_PUBLIC_API_COUNTRIES,
       fakeStoreBase: process.env.NUXT_FAKESTORE_BASE,
       firebaseApiKey: process.env.FIREBASE_API_KEY,
