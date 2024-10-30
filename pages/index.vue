@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import Modal from '@/components/modals/Modal/Modal.vue';
 import type {
+  IProduct,
+  ISingleMeal,
   ILocationsData,
   ILocationAdress,
   ICountriesData,
@@ -31,8 +33,8 @@ const { locationEndpoint, indexMealDataEndpoint, restCountriesEndpoint } = useEn
 );
 
 const { convertToDropdownOptions } = useConvertToDropdownOptions<ILocationsData>();
-const { currentModalProps, handleCardClick } = useDialogProps(productDialog);
-const { closeModal } = useModal();
+const { currentModalProps, setModalProps } = useDialogProps();
+const { openModal, closeModal } = useModal();
 
 const { data: locationData } = await useFetch<ILocationsData[]>(
   () => `${locationEndpoint.value}`
@@ -69,6 +71,11 @@ function checkLocationOutput() {
     : emittedOption.value.text;
 }
 
+function handleMealCardClick(item: ISingleMeal | IProduct) {
+  setModalProps(item);
+  openModal('productModal');
+}
+
 watch(
   () => locationData.value,
   (newValue: ILocationsData[] | null) => {
@@ -88,7 +95,7 @@ watch(
 
 <template>
   <!-- Product Modal -->
-  <Modal modalName="productIndexPage"
+  <Modal modalName="productModal"
     ><ProductModalOverlay
       :productModalProps="currentModalProps"
       :price="+generateRandomPrice()"
@@ -159,7 +166,7 @@ watch(
           :category="meal.recipe.cuisineType[0]"
           :label="meal.recipe.label"
           :img="meal.recipe.image"
-          @click="handleCardClick(meal)"
+          @click="handleMealCardClick(meal)"
         />
       </div>
     </section>
