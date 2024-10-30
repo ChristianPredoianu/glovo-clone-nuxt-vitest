@@ -1,4 +1,3 @@
-import Modal from '@/components/modals/Modal/Modal.vue';
 import { useIsMealData } from '@/composables/useIsMealData';
 import type {
   IProduct,
@@ -8,9 +7,7 @@ import type {
   ModalProps,
 } from '@/interfaces/interfaces.interface';
 
-interface IModalRef extends Ref<InstanceType<typeof Modal> | null> {}
-
-export function useDialogProps(dialogRef: IModalRef) {
+export function useDialogProps() {
   const mealModalProps = useState<IMealModalProps | null>('mealModalProps', () => null);
   const productModalProps = useState<IProductModalProps | null>(
     'productModalProps',
@@ -27,7 +24,7 @@ export function useDialogProps(dialogRef: IModalRef) {
     return uri.substring(index + prefix.length);
   }
 
-  function handleCardClick(item: ISingleMeal | IProduct) {
+  function setModalProps(item: ISingleMeal | IProduct) {
     if (isSingleMealData(item)) {
       mealModalProps.value = {
         id: extractRecipeId(item.recipe.uri),
@@ -44,13 +41,11 @@ export function useDialogProps(dialogRef: IModalRef) {
       };
       mealModalProps.value = null;
     }
-    openModal('productCategoryPage');
-    console.log(12);
   }
 
   const currentModalProps = computed<ModalProps | null>(() => {
     return mealModalProps.value || productModalProps.value || null;
   });
 
-  return { currentModalProps, handleCardClick } as const;
+  return { currentModalProps, setModalProps } as const;
 }
