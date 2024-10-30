@@ -5,7 +5,6 @@ const currentModal = ref<string | null>(null);
 export function useModal() {
   function openModal(modalName: string) {
     currentModal.value = modalName;
-    console.log('dsadsa');
   }
 
   function closeModal() {
