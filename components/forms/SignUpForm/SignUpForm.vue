@@ -3,7 +3,7 @@ const userEmail = ref('');
 const userPassword = ref('');
 const repeatedUserPassword = ref('');
 
-const { signUp } = useAuth();
+const { signUp, successMessage, user, authErrorMessage } = useAuth();
 const {
   emailError,
   passwordError,
@@ -12,16 +12,17 @@ const {
   validatePassword,
   validateRepeatedPassword,
 } = useAuthValidation();
+const { closeModal } = useModal();
 
-function signUserUp(e: Event) {
+async function signUserUp(e: Event) {
   e.preventDefault();
-
-  signUp(userEmail.value, userPassword.value, repeatedUserPassword.value);
-
-  //If sign in successfull clear the inputs
-  /* userEmail.value = '';
-  userPassword.value = '';
-  repeatedUserPassword.value = ''; */
+  await signUp(userEmail.value, userPassword.value, repeatedUserPassword.value).then(
+    () => {
+      if (user.value !== null) {
+        closeModal();
+      }
+    }
+  );
 }
 </script>
 
@@ -98,6 +99,12 @@ function signUserUp(e: Event) {
       >
         Sign Up
       </button>
+      <p
+        class="mt-2 text-sm font-semibold"
+        :class="authErrorMessage ? 'text-red-500' : 'text-green-500'"
+      >
+        {{ authErrorMessage ? authErrorMessage : successMessage }}
+      </p>
     </div>
   </form>
 </template>
