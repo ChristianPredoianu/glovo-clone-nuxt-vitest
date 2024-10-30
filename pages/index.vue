@@ -18,8 +18,6 @@ const emittedOption = useState<IDropdownOptions>('emittedOption', () => {
   return { id: 0, text: '' };
 });
 
-const productDialog = ref<InstanceType<typeof Modal> | null>(null);
-
 const emittedLocation = useState<ILocationAdress>('emittedLocation', () => {
   return { address: { road: '', postcode: '', town: '', country: '' } };
 });
