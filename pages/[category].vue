@@ -6,6 +6,7 @@ import { generateRandomPrice } from '@/helpers/randomPrice';
 import { useIsMealData } from '@/composables/useIsMealData';
 import type {
   IMeals,
+  ISingleMeal,
   ICuisineType,
   IProduct,
   IFakeStoreCategories,
@@ -27,7 +28,7 @@ const route = useRoute();
 const { isFakeStoreIndex, getCategoryName } = useFilter();
 const { screenWidth } = useScreenWidth();
 const { isMealData } = useIsMealData();
-const { currentModalProps, handleCardClick } = useDialogProps(productDialog);
+const { currentModalProps, setModalProps } = useDialogProps();
 const { openModal, closeModal } = useModal();
 const { initialFetchEndpoint, selectedApiEndpoint } = useEndpoints(
   route.params.category,
@@ -48,6 +49,11 @@ async function fetchDataAndUpdate() {
   } else {
     filteredData.value.data = null;
   }
+}
+
+function handleMealCardClick(item: ISingleMeal | IProduct) {
+  setModalProps(item);
+  openModal('productModal');
 }
 
 watch(emittedFilter, fetchDataAndUpdate);
@@ -82,7 +88,7 @@ onBeforeRouteLeave((to, from, next) => {
     <FilterModalOverlay @emitSelected="handleEmitSelected" @closeModal="closeModal" />
   </Modal>
 
-  <Modal modalName="productCategoryPage">
+  <Modal modalName="productModal">
     <ProductModalOverlay
       :productModalProps="currentModalProps"
       :price="+generateRandomPrice()"
@@ -140,7 +146,7 @@ onBeforeRouteLeave((to, from, next) => {
               :category="meal.recipe.cuisineType[0]"
               :label="meal.recipe.label"
               :img="meal.recipe.image"
-              @click="handleCardClick(meal)"
+              @click="handleMealCardClick(meal)"
             />
           </template>
 
@@ -149,7 +155,7 @@ onBeforeRouteLeave((to, from, next) => {
               v-for="product in (renderType === 'products' ? (data as IProduct[]) : (filteredData.data as IProduct[]))"
               :key="product.id"
               :product="product"
-              @click="handleCardClick(product)"
+              @click="handleMealCardClick(product)"
             />
           </template>
         </div>
