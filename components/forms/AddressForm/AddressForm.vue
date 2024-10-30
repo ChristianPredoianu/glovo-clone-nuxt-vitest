@@ -49,7 +49,7 @@ function handleClearInput() {
 }
 
 function handleEmmitedOption(option: number) {
-  emits('emitOption', option);
+  if (option) emits('emitOption', option);
 }
 
 function handleOnChange() {
