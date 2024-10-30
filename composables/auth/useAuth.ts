@@ -1,3 +1,5 @@
+const DELAY = 2000;
+
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -5,7 +7,8 @@ import {
   onAuthStateChanged,
 } from 'firebase/auth';
 import type { User, Auth } from 'firebase/auth';
-import { FirebaseError } from 'firebase/app'; // Import the FirebaseError type
+import { FirebaseError } from 'firebase/app';
+import { delay } from '@/helpers/delay';
 
 declare module '#app' {
   interface NuxtApp {
@@ -14,10 +17,12 @@ declare module '#app' {
 }
 
 export function useAuth() {
-  const { $auth } = useNuxtApp(); // Use the injected $auth instance
+  const { $auth } = useNuxtApp();
 
-  const authErrorMessage = ref('');
+  const successMessage = ref<string | null>(null);
+  const authErrorMessage = ref<string | null>(null);
   const user = ref<User | null>(null);
+
   const router = useRouter();
 
   const {
@@ -25,59 +30,93 @@ export function useAuth() {
     validatePassword,
     validateRepeatedPassword,
     emailError,
-    passwordError,
     repeatedPasswordError,
   } = useAuthValidation();
 
-  function signUp(email: string, password: string, repeatedPassword: string) {
-    authErrorMessage.value = '';
+  function validateCredentials(email: string, password: string): boolean {
     const isEmailValid = validateEmail(email);
     const isPasswordValid = validatePassword(password);
-    const isRepeatedPasswordValid = validateRepeatedPassword(password, repeatedPassword);
 
-    if (isEmailValid && isPasswordValid && isRepeatedPasswordValid) {
-      createUserWithEmailAndPassword($auth, email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          console.log(user);
-        })
-        .catch((error) => {
-          authErrorMessage.value = error.message;
-        });
-    } else {
-      console.log('Sign up failed');
+    if (!isEmailValid) {
+      throw new Error('Invalid email format');
+    }
+
+    if (!isPasswordValid) {
+      throw new Error('Invalid password');
+    }
+
+    return true;
+  }
+
+  function setSuccessMessageWithTimeout(message: string, duration: number) {
+    successMessage.value = message;
+
+    setTimeout(() => {
+      successMessage.value = null;
+    }, duration);
+  }
+
+  async function signUp(email: string, password: string, repeatedPassword: string) {
+    successMessage.value = null;
+    authErrorMessage.value = null;
+
+    try {
+      // Validate email and password
+      validateCredentials(email, password);
+
+      // Validate repeated password
+      if (!validateRepeatedPassword(password, repeatedPassword)) {
+        throw new Error('Password and repeated password do not match');
+      }
+
+      // If all validations pass, create the user
+      const userCredential = await createUserWithEmailAndPassword($auth, email, password);
+      const user = userCredential.user;
+      console.log('User signed up:', user);
+      setSuccessMessageWithTimeout('Successfully signed up!', DELAY);
+
+      await delay(DELAY);
+
+      await router.push('/dashboard');
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
+          authErrorMessage.value =
+            'This email is already in use. Please sign in instead.';
+        }
+      }
+      console.log('Sign up failed:', authErrorMessage.value);
     }
   }
 
   async function signIn(email: string, password: string): Promise<void> {
-    authErrorMessage.value = '';
+    successMessage.value = null;
+    authErrorMessage.value = null;
 
-    const isEmailValid = validateEmail(email);
-    const isPasswordValid = validatePassword(password);
+    try {
+      validateCredentials(email, password);
 
-    if (isEmailValid && isPasswordValid) {
-      try {
-        const userCredential = await signInWithEmailAndPassword($auth, email, password);
-        const user = userCredential.user;
-        console.log(user);
-        await router.push('/dashboard');
-      } catch (error: unknown) {
-        // Specify that error is of type unknown
-        if (error instanceof FirebaseError) {
-          authErrorMessage.value = error.message; // Handle Firebase error
-        } else {
-          authErrorMessage.value = 'An unexpected error occurred'; // Generic error message
+      const userCredential = await signInWithEmailAndPassword($auth, email, password);
+      const user = userCredential.user;
+      console.log(user);
+      setSuccessMessageWithTimeout('Successfully signed in!', DELAY);
+
+      await delay(DELAY);
+
+      await router.push('/dashboard');
+    } catch (error: unknown) {
+      if (error instanceof FirebaseError) {
+        if (error.message === 'Firebase: Error (auth/invalid-credential).') {
+          authErrorMessage.value =
+            'Invalid login credentials. Please check your email and password and try again.';
         }
-        throw error; // Propagate the error to the caller
       }
-    } else {
-      console.log('Sign in failed', emailError.value, passwordError.value);
-      throw new Error('Invalid email or password'); // Return a rejected Promise
+      throw error;
     }
   }
 
   function signUserOut() {
-    authErrorMessage.value = '';
+    authErrorMessage.value = null;
     signOut($auth)
       .then(() => {
         console.log('User signed out successfully.');
@@ -108,6 +147,7 @@ export function useAuth() {
     signUp,
     signUserOut,
     user,
+    successMessage,
     authErrorMessage,
   } as const;
 }
