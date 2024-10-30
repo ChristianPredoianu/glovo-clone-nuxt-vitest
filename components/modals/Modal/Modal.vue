@@ -11,7 +11,7 @@ const isOpen = computed(() => isModalOpen(props.modalName));
   <Teleport to="body" v-if="isOpen">
     <Backdrop :isBackdropOpen="isOpen" @closeElement="closeModal" />
     <article
-      class="fixed inset-0 mx-auto my-auto z-50 bg-white rounded-lg shadow-lg w-11/12 max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-2xl p-6 md:p-8 lg:p-10 overflow-y-auto max-h-[80vh] transition-all"
+      class="fixed inset-0 mx-auto my-auto z-50 bg-white rounded-lg shadow-lg w-11/12 max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-2xl p-6 md:p-8 lg:p-10 overflow-y-auto max-h-[90vh] transition-all"
     >
       <div class="flex justify-end">
         <button
