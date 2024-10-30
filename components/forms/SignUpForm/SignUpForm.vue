@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { handleKeyDown } from '@/helpers/keyDown';
+
 const userEmail = ref('');
 const userPassword = ref('');
 const repeatedUserPassword = ref('');
@@ -14,7 +16,7 @@ const {
 } = useAuthValidation();
 const { closeModal } = useModal();
 
-async function signUserUp(e: Event) {
+async function handleSignUserUp(e: Event) {
   e.preventDefault();
   await signUp(userEmail.value, userPassword.value, repeatedUserPassword.value).then(
     () => {
@@ -24,10 +26,18 @@ async function signUserUp(e: Event) {
     }
   );
 }
+
+function onKeyDown(e: KeyboardEvent) {
+  handleKeyDown(e, handleSignUserUp);
+}
 </script>
 
 <template>
-  <form class="flex flex-col gap-7 p-4">
+  <form
+    @submit.prevent="handleSignUserUp"
+    @keydown="onKeyDown"
+    class="flex flex-col gap-7 p-4"
+  >
     <!-- Email -->
     <div class="flex flex-col">
       <label for="email" class="text-sm font-medium text-gray-700">Email</label>
@@ -95,7 +105,7 @@ async function signUserUp(e: Event) {
       <button
         type="submit"
         class="w-full bg-green-600 text-gray-100 py-2 px-4 rounded-md hover:bg-green-700 transition-colors duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-50"
-        @click="signUserUp"
+        @click="handleSignUserUp"
       >
         Sign Up
       </button>
