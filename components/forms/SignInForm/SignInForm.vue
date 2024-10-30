@@ -4,15 +4,16 @@ const userPassword = ref('');
 
 const emits = defineEmits(['emitSelected']);
 
-const { signIn, user, authErrorMessage } = useAuth();
+const { signIn, user, successMessage, authErrorMessage } = useAuth();
 const { emailError, passwordError, validateEmail, validatePassword } =
   useAuthValidation();
+const { closeModal } = useModal();
 
 function handleSignIn(e: Event) {
   e.preventDefault();
   signIn(userEmail.value, userPassword.value).then(() => {
-    // User is signed in, check if the user is set
     if (user.value !== null) {
+      closeModal();
     }
   });
 }
@@ -61,7 +62,7 @@ function handleSignIn(e: Event) {
       >
         Sign In
       </button>
-      <p>{{ authErrorMessage }}</p>
+      <p class="mt-2">{{ authErrorMessage ? authErrorMessage : successMessage }}</p>
     </div>
   </form>
 </template>
