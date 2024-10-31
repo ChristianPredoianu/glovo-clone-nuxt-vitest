@@ -1,9 +1,7 @@
 <script setup lang="ts">
 const props = defineProps<{
   currentPage: number;
-
   totalItems: number;
-
   itemsPerPage: number;
 }>();
 
