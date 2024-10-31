@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IDropdownOptions } from '@/interfaces/interfaces.interface';
 import type { ILocationAdress } from '@/interfaces/interfaces.interface';
+import SearchDropdown from '~/components/ui/Dropdown/SearchLocationDropdown.vue';
 
 const props = defineProps<{
   options: IDropdownOptions[];
@@ -102,7 +103,7 @@ watch(
       >Use current location</span
     >
   </div>
-  <Dropdown
+  <SearchLocationDropdown
     v-if="props.options"
     :options="props.options"
     textKey="text"
