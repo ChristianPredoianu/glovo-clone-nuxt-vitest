@@ -5,7 +5,7 @@ const userEmail = computed(() => user.value?.email ?? ''); // Fallback to an emp
 </script>
 
 <template>
-  <div class="inline-flex items-center justify-end gap-x-10 w-auto">
+  <div class="inline-flex flex-col items-center justify-end md:flex-row gap-x-10 w-auto">
     <div class="flex flex-col gap-y-1">
       <p class="font-semibold text-sm">{{ userEmail }}</p>
       <p class="text-xs">Admin</p>
