@@ -1,17 +1,20 @@
 <script setup lang="ts">
-const props = defineProps({
-  options: {
-    type: Array as () => string[],
-    required: true,
-  },
-  defaultOptionText: {
-    type: String as () => string,
-    default: 'Select an option',
-  },
-});
+interface DropdownOption<T> {
+  options: T[];
+  displayKey: keyof T;
+  defaultOptionText?: string;
+}
+
+const props = defineProps<DropdownOption<Record<string, any>>>();
 
 const selectedOption = ref<string | null>(null);
 const isOpen = ref(false);
+
+const selectDropdownRef = ref<HTMLElement | null>(null);
+
+useClickOutside(selectDropdownRef, () => {
+  isOpen.value = false;
+});
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
@@ -21,19 +24,19 @@ const closeDropdown = () => {
   isOpen.value = false;
 };
 
-const selectOption = (option: string) => {
-  selectedOption.value = option;
+const selectOption = (option: Record<string, any>) => {
+  selectedOption.value = option[props.displayKey as keyof typeof option];
   closeDropdown();
 };
 </script>
 
 <template>
-  <div class="relative inline-block text-left">
+  <div class="relative inline-block text-left" ref="selectDropdownRef">
     <button
       @click="toggleDropdown"
       class="inline-flex justify-between w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
     >
-      {{ selectedOption || 'Select an option' }}
+      {{ selectedOption || props.defaultOptionText || 'Select an option' }}
       <svg
         class="-mr-1 ml-2 h-5 w-5"
         xmlns="http://www.w3.org/2000/svg"
@@ -54,19 +57,19 @@ const selectOption = (option: string) => {
       @click="closeDropdown"
     >
       <div
-        class="py-1"
+        class="py-1 max-h-60 overflow-y-auto"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="options-menu"
       >
-        <template v-for="option in options" :key="option">
+        <template v-for="option in props.options" :key="option[props.displayKey]">
           <a
             href="#"
             @click.prevent="selectOption(option)"
             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
             role="menuitem"
           >
-            {{ option }}
+            {{ option[props.displayKey] }}
           </a>
         </template>
       </div>
