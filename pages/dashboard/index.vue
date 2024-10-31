@@ -20,21 +20,6 @@ const items = ref([
 
 const { currentPage, itemsPerPage, totalItems, displayedItems, handlePageChange } =
   usePagination(items, 5);
-
-/* const currentPage = ref(1);
-const itemsPerPage = 5;
-const totalItems = items.value.length; */
-
-// Computed property to get displayed items for the current page
-/* const displayedItems = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return items.value.slice(start, end);
-}); */
-
-/* function handlePageChange(newPage: number) {
-  currentPage.value = newPage;
-} */
 </script>
 
 <template>
