@@ -28,7 +28,7 @@ function goToPage(page: number) {
     <button
       @click="goToPage(currentPage - 1)"
       :disabled="currentPage === 1"
-      class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50"
+      class="px-2 py-1 md:px-4 md:py-2 text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50"
     >
       <font-awesome-icon :icon="['fa', 'fa-chevron-left']" />
     </button>
@@ -37,7 +37,7 @@ function goToPage(page: number) {
       <button
         @click="goToPage(page)"
         :class="[
-          'px-4 py-2 border rounded',
+          'px-2 py-1 md:px-4 md:py-2 border rounded',
           {
             'bg-green-600 text-white': page === currentPage,
             'bg-white text-green-600 border-green-600 hover:bg-green-100':
@@ -52,7 +52,7 @@ function goToPage(page: number) {
     <button
       @click="goToPage(currentPage + 1)"
       :disabled="currentPage === totalPages"
-      class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50"
+      class="px-2 py-1 md:px-4 md:py-2 text-white bg-green-600 rounded hover:bg-green-700 disabled:opacity-50"
     >
       <font-awesome-icon :icon="['fa', 'fa-chevron-right']" />
     </button>
