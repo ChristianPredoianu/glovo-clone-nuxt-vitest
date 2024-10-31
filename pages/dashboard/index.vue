@@ -44,7 +44,7 @@ const { currentPage, itemsPerPage, totalItems, displayedItems, handlePageChange 
     </section>
     <section class="p-4 mt-4">
       <h1 class="font-semibold text-lg">Your favorites</h1>
-      <div class="flex flex-col items-center mt-4">
+      <div class="flex flex-col items-center md:flex-row md:justify-between mt-4">
         <SelectDropdown
           :options="mergedCategories"
           displayKey="category"
