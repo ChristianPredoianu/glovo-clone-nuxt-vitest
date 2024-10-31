@@ -53,7 +53,7 @@ const selectOption = (option: Record<string, any>) => {
     </button>
     <div
       v-if="isOpen"
-      class="absolute right-0 z-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+      class="absolute -right-18 z-10 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
       @click="closeDropdown"
     >
       <div
