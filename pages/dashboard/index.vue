@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import SelectDropdown from '@/components/ui/Dropdown/SelectDropdown.vue';
+import { capitalizeFirstLetter } from '@/helpers/capitalizeFirstLetter';
+import { cuisineTypes } from '@/data/productCategoriesData';
+import { fakeStoreCategories } from '@/data/productCategoriesData';
 const items = ref([
   { id: 1, name: 'Item 1' },
   { id: 2, name: 'Item 2' },
@@ -18,6 +21,15 @@ const items = ref([
   { id: 15, name: 'Item 15' },
 ]);
 
+const mergedCategories = [
+  ...cuisineTypes.map(({ cuisineType }) => ({
+    category: capitalizeFirstLetter(cuisineType),
+  })),
+  ...fakeStoreCategories.map(({ category }) => ({
+    category: capitalizeFirstLetter(category),
+  })),
+];
+
 const { currentPage, itemsPerPage, totalItems, displayedItems, handlePageChange } =
   usePagination(items, 5);
 </script>
@@ -33,14 +45,26 @@ const { currentPage, itemsPerPage, totalItems, displayedItems, handlePageChange 
     <section class="p-4 mt-4">
       <h1 class="font-semibold text-lg">Your favorites</h1>
       <div class="flex flex-col items-center mt-4">
-        <SelectDropdown defaultOptionText="All Categories" />
+        <SelectDropdown
+          :options="mergedCategories"
+          displayKey="category"
+          defaultOptionText="All Categories"
+        />
         <Pagination
-          :current-page="currentPage"
-          :total-items="totalItems"
-          :items-per-page="itemsPerPage"
-          @page-changed="handlePageChange"
+          :currentPage="currentPage"
+          :totalItems="totalItems"
+          :itemsPerPage="itemsPerPage"
+          @pageChanged="handlePageChange"
         />
       </div>
+
+      <ul class="mt-4 space-y-2">
+        <!-- Loop through displayed items and render them -->
+        <li v-for="item in displayedItems" :key="item.id" class="p-2 border rounded">
+          {{ item.name }}
+          <!-- Display the name of the item -->
+        </li>
+      </ul>
     </section>
   </div>
 </template>
