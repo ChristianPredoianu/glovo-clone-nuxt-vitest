@@ -1,8 +1,11 @@
 <script setup lang="ts">
+const { user } = useAuth();
+const { openModal } = useModal();
+
 const isFavorite = ref<boolean>(false);
 
 function toggleFavorite() {
-  isFavorite.value = !isFavorite.value;
+  !user.value ? openModal('signin') : (isFavorite.value = !isFavorite.value);
 }
 </script>
 
