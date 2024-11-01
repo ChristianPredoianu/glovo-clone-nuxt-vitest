@@ -4,8 +4,14 @@ import { replaceRecipeText } from '@/helpers/replaceRecipeText';
 const props = defineProps<{
   category: string;
   label: string;
-  img?: string;
+  img: string;
 }>();
+
+const mealItem = {
+  category: props.category,
+  label: props.label,
+  img: props.img,
+};
 </script>
 
 <template>
@@ -36,7 +42,7 @@ const props = defineProps<{
           <p class="text-xs font-semibold">Free</p>
         </div>
         <div class="absolute right-0 z-50">
-          <HeartBtn />
+          <HeartBtn :mealItem="mealItem" />
         </div>
       </div>
     </div>
