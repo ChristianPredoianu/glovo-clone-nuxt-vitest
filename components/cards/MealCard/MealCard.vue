@@ -9,9 +9,9 @@ const props = defineProps<{
 </script>
 
 <template>
-  <article class="flex shadow-lg p-4 flex-col relative cursor-pointer rounded-md">
+  <article class="flex shadow-lg p-6 flex-col relative cursor-pointer rounded-md">
     <div class="relative">
-      <div class="relative overflow-hidden w-full max-w-[500px] aspect-[16/9]">
+      <div class="relative overflow-hidden w-full max-w-[500px]">
         <img
           :src="props.img"
           :alt="props.label"
@@ -30,10 +30,13 @@ const props = defineProps<{
         {{ replaceRecipeText(label) }}
       </h3>
 
-      <div class="flex flex-wrap">
-        <div class="flex items-center gap-2 mt-2 py-1 px-4 bg-amber-400 p-1 rounded-md">
-          <font-awesome-icon :icon="['fas', 'fa-truck']" />
-          <p>Free</p>
+      <div class="relative flex justify-between items-center mt-4">
+        <div class="flex items-center gap-2 py-1 px-3 bg-amber-400 rounded-md">
+          <font-awesome-icon :icon="['fas', 'fa-truck']" class="text-xs" />
+          <p class="text-xs font-semibold">Free</p>
+        </div>
+        <div class="absolute right-0 z-50">
+          <HeartBtn />
         </div>
       </div>
     </div>
