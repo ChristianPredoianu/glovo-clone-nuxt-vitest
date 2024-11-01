@@ -156,7 +156,7 @@ watch(
       </div>
       <div
         v-if="mealData"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-8 gap-x-8 mt-8"
+        class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-y-8 gap-x-8 mt-8"
       >
         <MealCard
           v-for="meal in mealData.hits"
