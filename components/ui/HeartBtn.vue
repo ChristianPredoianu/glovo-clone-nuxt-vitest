@@ -1,11 +1,24 @@
 <script setup lang="ts">
+import type { IItem } from '@/interfaces/interfaces.interface';
+
+const props = defineProps<{
+  mealItem: IItem;
+}>();
+
 const { user } = useAuth();
+const { writeFavoriteUserItemData } = useFirebaseActions();
 const { openModal } = useModal();
 
 const isFavorite = ref<boolean>(false);
 
 function toggleFavorite() {
-  !user.value ? openModal('signin') : (isFavorite.value = !isFavorite.value);
+  if (!user.value) {
+    openModal('signIn');
+  } else {
+    isFavorite.value = !isFavorite.value;
+    console.log(props.mealItem);
+    writeFavoriteUserItemData(props.mealItem);
+  }
 }
 </script>
 
