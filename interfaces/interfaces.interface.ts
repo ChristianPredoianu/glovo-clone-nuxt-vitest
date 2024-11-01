@@ -112,3 +112,9 @@ export interface ICartProduct {
   price: number;
   quantity?: number;
 }
+
+export interface IItem {
+  category: string;
+  label: string;
+  img: string;
+}
