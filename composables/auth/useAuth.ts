@@ -72,7 +72,7 @@ export function useAuth() {
       // If all validations pass, create the user
       const userCredential = await createUserWithEmailAndPassword($auth, email, password);
       const user = userCredential.user;
-      console.log('User signed up:', user);
+
       setSuccessMessageWithTimeout('Successfully signed up!', DELAY);
 
       await delay(DELAY);
