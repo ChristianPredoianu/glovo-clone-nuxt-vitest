@@ -5,7 +5,6 @@ export function useAuthValidation() {
   const passwordError = ref<string | null>(null);
   const repeatedPasswordError = ref<string | null>(null);
 
-  // Validate email
   function validateEmail(email: string): boolean {
     if (!email || email === '') {
       emailError.value = 'Email is required';
@@ -20,7 +19,6 @@ export function useAuthValidation() {
     return true;
   }
 
-  // Validate password
   function validatePassword(password: string): boolean {
     if (!password || password === '') {
       passwordError.value = 'Password is required';
@@ -34,7 +32,6 @@ export function useAuthValidation() {
     return true;
   }
 
-  // Validate repeated password
   function validateRepeatedPassword(password: string, repeatedPassword: string): boolean {
     if (password !== repeatedPassword) {
       repeatedPasswordError.value = 'Password and repeated password do not match';
